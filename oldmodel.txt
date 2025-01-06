@@ -1,0 +1,219 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model appointment_table {
+  appointment_id     String              @id @db.Uuid
+  date               DateTime            @db.Date
+  time               DateTime            @db.Time(6)
+  status             String              @db.VarChar(10)
+  follow_up_date     DateTime?           @db.Date
+  created_at         DateTime            @db.Timestamptz(6)
+  updated_at         DateTime            @db.Timestamptz(6)
+  doctor_id_id       String              @db.Uuid
+  patient_id_id      String              @db.Uuid
+  treatment_id_id    String              @db.Uuid
+  core_doctor        core_doctor         @relation(fields: [doctor_id_id], references: [doctor_id_id], onDelete: NoAction, onUpdate: NoAction, map: "appointment_table_doctor_id_id_389f77e1_fk_core_doct")
+  core_patient       core_patient        @relation(fields: [patient_id_id], references: [patientID], onDelete: NoAction, onUpdate: NoAction, map: "appointment_table_patient_id_id_71420513_fk_core_pati")
+  treatment_table    treatment_table     @relation(fields: [treatment_id_id], references: [treatment_id], onDelete: NoAction, onUpdate: NoAction, map: "appointment_table_treatment_id_id_041c2ea6_fk_treatment")
+  prescription_table prescription_table?
+
+  @@index([doctor_id_id], map: "appointment_table_doctor_id_id_389f77e1")
+  @@index([patient_id_id], map: "appointment_table_patient_id_id_71420513")
+  @@index([treatment_id_id], map: "appointment_table_treatment_id_id_041c2ea6")
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model batch_table {
+  inventory_batch_id String            @id @db.Uuid
+  invoice_of_batch   String            @db.VarChar(200)
+  batch_no           String            @db.VarChar(100)
+  created_at         DateTime          @db.Timestamptz(6)
+  clinic_id          String            @db.Uuid
+  inventory_clinic   inventory_clinic  @relation(fields: [clinic_id], references: [clinic_id], onDelete: NoAction, onUpdate: NoAction, map: "batch_table_clinic_id_77df7998_fk_inventory_clinic_clinic_id")
+  inventory_table    inventory_table[]
+
+  @@index([clinic_id], map: "batch_table_clinic_id_77df7998")
+}
+
+model core_address {
+  address_id    String       @id @db.Uuid
+  address_line1 String       @db.VarChar(255)
+  address_line2 String       @db.VarChar(255)
+  postal_code   String       @db.VarChar(6)
+  state         String       @db.VarChar(50)
+  city          String       @db.VarChar(50)
+  landmark      String       @db.VarChar(255)
+  core_clinic   core_clinic?
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model core_clinic {
+  clinic_id                     String                          @id @db.Uuid
+  clinic_registration_id        String                          @db.Uuid
+  clinic_name                   String                          @db.VarChar(255)
+  speciality_tags               String                          @db.VarChar(255)
+  clinic_desc                   String
+  consultation_validation       Boolean
+  address_id_id                 String                          @unique @db.Uuid
+  core_address                  core_address                    @relation(fields: [address_id_id], references: [address_id], onDelete: NoAction, onUpdate: NoAction, map: "core_clinic_address_id_id_d1dcc165_fk_core_address_address_id")
+  core_transition_doctor_clinic core_transition_doctor_clinic[]
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model core_doctor {
+  doctor_id_id                  String                          @id @db.Uuid
+  specialization                String                          @db.VarChar(255)
+  name                          String                          @db.VarChar(255)
+  medical_liscenese             Boolean
+  rating                        Decimal                         @db.Decimal(3, 2)
+  start_date                    DateTime                        @db.Date
+  end_date                      DateTime                        @db.Date
+  appointment_table             appointment_table[]
+  user_table                    user_table                      @relation(fields: [doctor_id_id], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "core_doctor_doctor_id_id_ffada734_fk_user_table_userID")
+  core_transition_doctor_clinic core_transition_doctor_clinic[]
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model core_doctor_availability {
+  id                            BigInt                        @id @default(autoincrement())
+  available_date                DateTime                      @db.Date
+  start_time                    DateTime                      @db.Time(6)
+  end_time                      DateTime                      @db.Time(6)
+  clinic_doctor_id              BigInt
+  core_transition_doctor_clinic core_transition_doctor_clinic @relation(fields: [clinic_doctor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "core_doctor_availabi_clinic_doctor_id_dec89670_fk_core_tran")
+
+  @@unique([clinic_doctor_id, available_date, start_time], map: "core_doctor_availability_clinic_doctor_id_availab_1f77d201_uniq")
+  @@index([clinic_doctor_id], map: "core_doctor_availability_clinic_doctor_id_dec89670")
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model core_patient {
+  patientID         String              @id @db.Uuid
+  dob               DateTime            @db.Date
+  gender            String              @db.VarChar(1)
+  blood_group       String              @db.VarChar(3)
+  contact_number    String              @db.VarChar(10)
+  email             String              @db.VarChar(254)
+  name              String              @db.VarChar(255)
+  id_id             String              @unique @db.Uuid
+  appointment_table appointment_table[]
+  user_table        user_table          @relation(fields: [id_id], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "core_patient_id_id_c0985d4e_fk_user_table_userID")
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model core_transition_doctor_clinic {
+  id                       BigInt                     @id @default(autoincrement())
+  clinic_id_id             String                     @db.Uuid
+  doctor_id_id             String                     @db.Uuid
+  core_doctor_availability core_doctor_availability[]
+  core_clinic              core_clinic                @relation(fields: [clinic_id_id], references: [clinic_id], onDelete: NoAction, onUpdate: NoAction, map: "core_transition_doct_clinic_id_id_ab5c2860_fk_core_clin")
+  core_doctor              core_doctor                @relation(fields: [doctor_id_id], references: [doctor_id_id], onDelete: NoAction, onUpdate: NoAction, map: "core_transition_doct_doctor_id_id_ccd0803d_fk_core_doct")
+
+  @@index([clinic_id_id], map: "core_transition_doctor_clinic_clinic_id_id_ab5c2860")
+  @@index([doctor_id_id], map: "core_transition_doctor_clinic_doctor_id_id_ccd0803d")
+}
+
+model inventory_clinic {
+  clinic_id   String        @id @db.Uuid
+  batch_table batch_table[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model inventory_item_transactions {
+  transaction_id                      String                                @id @db.Uuid
+  amount                              Decimal                               @db.Decimal(10, 2)
+  created_at                          DateTime                              @db.Timestamptz(6)
+  quantity                            Int
+  discount                            Float
+  type_of_transaction                 String                                @db.VarChar(2)
+  inventory_item_transactions_item_id inventory_item_transactions_item_id[]
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model inventory_item_transactions_item_id {
+  id                          BigInt                      @id @default(autoincrement())
+  item_transactions_id        String                      @db.Uuid
+  item_id                     String                      @db.Uuid
+  inventory_table             inventory_table             @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction, map: "inventory_item_trans_item_id_b41f3bf4_fk_inventory")
+  inventory_item_transactions inventory_item_transactions @relation(fields: [item_transactions_id], references: [transaction_id], onDelete: NoAction, onUpdate: NoAction, map: "inventory_item_trans_item_transactions_id_6f579537_fk_inventory")
+
+  @@unique([item_transactions_id, item_id], map: "inventory_item_transacti_item_transactions_id_ite_7a47fa4c_uniq")
+  @@index([item_transactions_id], map: "inventory_item_transaction_item_transactions_id_6f579537")
+  @@index([item_id], map: "inventory_item_transactions_item_id_item_id_b41f3bf4")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model inventory_table {
+  item_id                             String                                @id @db.Uuid
+  item_name                           String                                @db.VarChar(200)
+  quantity                            Int
+  price_per_unit                      Decimal                               @db.Decimal(10, 2)
+  manufacturer_name                   String?                               @db.VarChar(200)
+  vendor_name                         String?                               @db.VarChar(200)
+  rack_number                         String?                               @db.VarChar(200)
+  reorder_number                      Int
+  description                         String                                @db.VarChar(100)
+  expiration_date                     DateTime                              @db.Date
+  num_box                             Int
+  num_items_per_box                   Int?
+  sub_items_per_item                  Int?
+  salt_of_tablet                      String?                               @db.VarChar(100)
+  inventory_batch_id_id               String                                @db.Uuid
+  inventory_item_transactions_item_id inventory_item_transactions_item_id[]
+  batch_table                         batch_table                           @relation(fields: [inventory_batch_id_id], references: [inventory_batch_id], onDelete: NoAction, onUpdate: NoAction, map: "inventory_table_inventory_batch_id_i_50e23b15_fk_batch_tab")
+  prescription_table                  prescription_table[]
+  treatment_table                     treatment_table[]
+
+  @@index([inventory_batch_id_id], map: "inventory_table_inventory_batch_id_id_50e23b15")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model prescription_table {
+  prescription_id   String            @id @db.Uuid
+  quantity          Int
+  date              DateTime          @db.Date
+  created_at        DateTime          @db.Timestamptz(6)
+  appointment_id    String            @unique @db.Uuid
+  item_id           String            @db.Uuid
+  appointment_table appointment_table @relation(fields: [appointment_id], references: [appointment_id], onDelete: NoAction, onUpdate: NoAction, map: "prescription_table_appointment_id_fb71e54b_fk_appointme")
+  inventory_table   inventory_table   @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction, map: "prescription_table_item_id_90c09a08_fk_inventory_table_item_id")
+
+  @@index([item_id], map: "prescription_table_item_id_90c09a08")
+}
+
+/// This model has constraints using non-default deferring rules and requires additional setup for migrations. Visit https://pris.ly/d/constraint-deferring for more info.
+model treatment_table {
+  treatment_id      String              @id @db.Uuid
+  treatment_name    String              @db.VarChar(255)
+  created_at        DateTime            @db.Timestamptz(6)
+  updated_at        DateTime            @db.Timestamptz(6)
+  item_id           String              @db.Uuid
+  appointment_table appointment_table[]
+  inventory_table   inventory_table     @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction, map: "treatment_table_item_id_b69417d9_fk_inventory_table_item_id")
+
+  @@index([item_id], map: "treatment_table_item_id_b69417d9")
+}
+
+model user_table {
+  userID       String        @id @db.Uuid
+  username     String        @unique @db.VarChar(255)
+  role         String        @db.VarChar(1)
+  phone_number String        @db.VarChar(10)
+  email        String        @db.VarChar(254)
+  password     String        @db.VarChar(255)
+  created_at   DateTime      @db.Timestamptz(6)
+  updated_at   DateTime      @db.Timestamptz(6)
+  core_doctor  core_doctor?
+  core_patient core_patient?
+
+  @@index([username], map: "user_table_username_8cd07de8_like")
+}
