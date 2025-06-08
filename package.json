@@ -1,19 +1,28 @@
 {
   "name": "clinic-expert-backend",
   "version": "1.0.0",
-  "main": "src/app.js",
+  "description": "",
+  "homepage": "https://github.com/duxop/clinic-expert-backend#readme",
+  "bugs": {
+    "url": "https://github.com/duxop/clinic-expert-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duxop/clinic-expert-backend.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon src/app.js",
+    "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "nodemon": "^3.1.9",
-    "prisma": "^6.1.0"
-  },
   "dependencies": {
-    "@prisma/client": "^6.1.0"
+    "@prisma/client": "^6.9.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.9.0"
   }
 }
