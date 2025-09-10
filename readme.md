@@ -12,3 +12,11 @@
 
 ### to start the server 
     npm run dev
+
+# Extra commands
+
+### reseting database
+    npx prisma migrate reset
+
+### if you delete migrations files or any other error in db server then run
+    npx prisma db push   

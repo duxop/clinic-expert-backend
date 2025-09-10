@@ -17,20 +17,146 @@ model Clinic {
   name               String
   address            String?
   phone              String?
+  workHours          String? // E.g., "9:30 AM - 6:00 PM"
+  logo               String? // URL or file path of the logo image
   subscriptionPlanId Int?
   subscriptionPlan   SubscriptionPlan?  @relation(fields: [subscriptionPlanId], references: [id])
-  Users              User[]
+  User               User[]
+  Patient            Patient[]
+  Appointment        Appointment[]
+  Doctor             Doctor[]
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String?  @unique
-  password  String
-  role      Role    @default(RECEPTIONIST)
-  clinicId  Int
-  Clinic    Clinic  @relation(fields: [clinicId], references: [id])
+  id                   Int       @id @default(autoincrement())
+  firstName            String
+  lastName             String?
+  email                String    @unique
+  password             String
+  role                 Role      @default(RECEPTIONIST)
+  JWT                  String?
+  clinicId             Int
+  Clinic               Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Doctor               Doctor?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime? 
+  lastLoginAt          DateTime? 
+  AppointmentCreated   Appointment[]
+
+  @@index([clinicId])
+}
+
+model Patient {
+  id               Int       @id @default(autoincrement())
+  firstName        String
+  lastName         String?
+  email            String?    
+  phone            String   
+  emergencyContact String? 
+  gender           Gender
+  dob              DateTime
+  bloodGroup       BloodGroup?
+  clinicId         Int
+  Clinic           Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  Appointment      Appointment[]
+  PatientDoctor    PatientDoctor[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([clinicId])
+  @@index([email, phone])
+}
+
+model Appointment {
+  id               Int                @id @default(autoincrement())
+  scheduledTime    DateTime           
+  duration         Int                @default(15)   //it is in minutes
+  status           AppointmentStatus  @default(PENDING)
+  notes            String?
+  isWalkIn         Boolean            @default(false)
+  patientId        Int                
+  Patient          Patient            @relation(fields: [patientId], references: [id])
+  doctorId         Int?               
+  Doctor           Doctor?             @relation(fields: [doctorId], references: [id])
+  clinicId         Int                
+  Clinic           Clinic             @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  Invoice          Invoice[]
+  Prescription     Prescription?
+  EPrescription    EPrescription?
+  createdAt        DateTime           @default(now())
+  createdById      Int
+  createdBy        User               @relation(fields: [createdById], references: [id])
+  updatedAt        DateTime           @updatedAt
+
+  @@index([clinicId, patientId])
+  @@index([clinicId, doctorId])
+}
+
+model Invoice {
+  id             Int              @id @default(autoincrement())
+  items          String[]         // Array of item names
+  prices         Float[]          // Corresponding prices
+  paymentStatus  PaymentStatus    @default(PAID)
+  modeOfPayment  String           // E.g., Cash, Card, UPI, etc.
+  appointmentId  Int              @unique 
+  Appointment    Appointment      @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([appointmentId])
+}
+
+model Prescription {
+  id             Int              @id @default(autoincrement())
+  screenshots    String[]         // URLs or file paths of the images
+  appointmentId  Int              @unique
+  Appointment    Appointment      @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([appointmentId])
+}
+
+model EPrescription {
+  id             Int              @id @default(autoincrement())
+  diagnosis      String
+  prescriptions  String           // E.g., Medicine and dosage
+  advice         String
+  appointmentId  Int              @unique
+  Appointment    Appointment      @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([appointmentId])
+}
+
+model Doctor {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String?
+  profilePicture String?
+  degree         String?
+  specialization String?
+  experience     Int?      // in years
+  Appointment    Appointment[]
+  userId         Int?       @unique
+  User           User?      @relation(fields: [userId], references: [id])
+  clinicId       Int
+  Clinic         Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  PatientDoctor  PatientDoctor[]
+  isDeleted      Boolean   @default(false)
+}
+
+model PatientDoctor {
+  patientId Int
+  doctorId  Int
+
+  Patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  Doctor    Doctor  @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@id([patientId, doctorId]) // Composite primary key
 }
 
 model SubscriptionPlan {
@@ -43,10 +169,16 @@ model SubscriptionPlan {
 }
 
 model VerificationOTP {
-  id        Int      @id @default(autoincrement())
-  email     String
-  otp       String   @unique
-  expiresAt DateTime
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String?
+  email       String  @unique
+  password    String
+  clinicName  String?
+  otp         String
+  expiresAt   DateTime
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
 }
 
 enum Role {
@@ -55,9 +187,40 @@ enum Role {
   RECEPTIONIST
 }
 
+enum PaymentStatus {
+  PAID
+  REFUNDED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  NA
+}
+
 enum SubscriptionStatus {
   ACTIVE
   TRIAL
   EXPIRED
   CANCELED
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  ACTIVE
+  COMPLETED
+  CANCELLED  
+}
+
+enum BloodGroup {
+  A_POS     // A+
+  A_NEG     // A-
+  B_POS     // B+
+  B_NEG     // B-
+  AB_POS    // AB+
+  AB_NEG    // AB-
+  O_POS     // O+
+  O_NEG     // O-
 }
