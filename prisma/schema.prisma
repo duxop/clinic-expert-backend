@@ -96,7 +96,7 @@ model Appointment {
 
 model Invoice {
   id             Int              @id @default(autoincrement())
-  items          Json              // Array of item names ["consultion", "blood test"]        // Corresponding prices [500.0, 200.0]
+  items          Json              // [{ procedureName: String, amount: Float }]
   paymentStatus  PaymentStatus    @default(PAID)
   modeOfPayment  String           // E.g., Cash, Card, UPI, etc.
   appointmentId  Int              @unique 
