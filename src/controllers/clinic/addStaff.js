@@ -52,16 +52,11 @@ const addStaff = async (req, res) => {
         },
       },
       include: {
-        Doctor: { 
-          select: {
-            id: true,
-          },
-        },
+        Doctor: true,
       },
-      
     });
-      const { doctorPassword, ...withoutPassword } = doctor;
-      withoutPassword.doctorId = withoutPassword.Doctor.id;
+    const { doctorPassword, ...withoutPassword } = doctor;
+    withoutPassword.doctorId = withoutPassword.Doctor.id;
 
     return res
       .status(201)
