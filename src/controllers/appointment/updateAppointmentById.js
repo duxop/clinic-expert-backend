@@ -4,7 +4,7 @@ const updateAppointment = async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
-    const clinicId = req.user.clinicId;
+    const clinicId = req.userData.clinicId;
 
     // Verify the appointment exists and belongs to the clinic
     const existingAppointment = await prisma.Appointment.findFirst({
