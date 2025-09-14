@@ -66,7 +66,7 @@ const updateAppointment = async (req, res) => {
           await prisma.Invoice.create({
             data: {
               items: updateData.invoice.items,
-              paymentStatus: updateData.invoice.paymentStatus || "PAID",
+              paymentStatus: updateData.invoice.paymentStatus,
               modeOfPayment: updateData.invoice.modeOfPayment,
               appointmentId: parseInt(id),
               createdAt: new Date(),
