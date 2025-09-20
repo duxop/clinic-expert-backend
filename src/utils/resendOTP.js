@@ -1,9 +1,10 @@
 const { prisma } = require("../config/database");
 const generateOTP = require("./generateOTP");
+const sendEmail = require("./sendOtpMail");
 
 const resendOtpUtil = async (user) => {
   try {
-    const { otpId, oldExpiresAt } = user;
+    const { otpId, oldExpiresAt, email } = user;
     const canSendAfter = new Date(oldExpiresAt - 1000 * 180); // can resend after 2 minutes
 
     const currentTime = new Date();
@@ -16,10 +17,14 @@ const resendOtpUtil = async (user) => {
         },
       };
     }
+    const OTP = generateOTP();
+
+    await sendEmail(email, OTP);
+    
     const updatedOTP = await prisma.VerificationOTP.update({
       where: { id: otpId },
       data: {
-        otp: generateOTP(),
+        otp: OTP,
         expiresAt: new Date(Date.now() + 5 * 60000), // 5 minutes
       },
     });

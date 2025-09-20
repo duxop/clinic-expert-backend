@@ -1,5 +1,6 @@
 const { prisma } = require("../config/database");
 const generateOTP = require("./generateOTP");
+const sendEmail = require("./sendOtpMail");
 
 const sendOTP = async (user) => {
   try {
@@ -9,12 +10,14 @@ const sendOTP = async (user) => {
     const checkEmail = await prisma.VerificationOTP.findUnique({
       where: { email },
     });
-
+    const OTP = generateOTP()
     if (checkEmail) {
       const currentTime = new Date();
       if (checkEmail.expiresAt > currentTime) {
-        return { OTPid: checkEmail.id };
+        return { message: "OTP already sent, please check your email.", OTPid: checkEmail.id };
       }
+
+      await sendEmail(email, OTP);
       const otpDetails = await prisma.VerificationOTP.update({
         where: { email },
         data: {
@@ -23,7 +26,7 @@ const sendOTP = async (user) => {
           lastName,
           clinicName: clinicName || null,
           password: password || hashPassword,
-          otp: generateOTP(),
+          otp: OTP,
           expiresAt: new Date(Date.now() + 5 * 60000),
         },
       });
@@ -31,6 +34,7 @@ const sendOTP = async (user) => {
       return { OTPid: otpDetails.id };
     }
 
+    await sendEmail(email, OTP);
     const otpDetails = await prisma.VerificationOTP.create({
       data: {
         email,
@@ -38,7 +42,7 @@ const sendOTP = async (user) => {
         lastName,
         clinicName: clinicName || null,
         password: password || hashPassword,
-        otp: generateOTP(),
+        otp: OTP,
         expiresAt: new Date(Date.now() + 5 * 60000),
       },
     });

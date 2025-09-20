@@ -31,11 +31,11 @@ app.use(
   })
 );
 
-app.use("/api/auth", authRoute);
-app.use("/api/clinic", clinicRoute);
-app.use("/api/patient", patientRoute);
-app.use("/api/user", userRoute);
-app.use("/api/appointment", appointmentRoute);
+app.use("/auth", authRoute);
+app.use("/clinic", clinicRoute);
+app.use("/patient", patientRoute);
+app.use("/user", userRoute);
+app.use("/appointment", appointmentRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });

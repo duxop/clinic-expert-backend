@@ -28,6 +28,7 @@ const resendOTP = async (req, res) => {
 
     const { OTPid, data, errorOTP = null } = await resendOtpUtil({
       otpId,
+      email: existingOTP.email,
       oldExpiresAt: existingOTP.expiresAt,
     });
 
