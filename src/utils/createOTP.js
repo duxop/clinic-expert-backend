@@ -18,7 +18,6 @@ const sendOTP = async (user) => {
       }
 
       await sendEmail(email, OTP);
-
       const otpDetails = await prisma.VerificationOTP.update({
         where: { email },
         data: {
@@ -36,7 +35,6 @@ const sendOTP = async (user) => {
     }
 
     await sendEmail(email, OTP);
-
     const otpDetails = await prisma.VerificationOTP.create({
       data: {
         email,
@@ -48,8 +46,6 @@ const sendOTP = async (user) => {
         expiresAt: new Date(Date.now() + 5 * 60000),
       },
     });
-
-    await sendEmail(email, otpDetails.otp);
 
     console.log("OTP Details", otpDetails);
     return { OTPid: otpDetails.id };
