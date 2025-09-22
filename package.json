@@ -16,7 +16,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prisma-dev": "npx prisma dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.891.0",
