@@ -19,7 +19,7 @@ const resendOtpUtil = async (user) => {
     }
     const OTP = generateOTP();
 
-    // await sendEmail(email, OTP);
+    await sendEmail(email, OTP);
     
     const updatedOTP = await prisma.VerificationOTP.update({
       where: { id: otpId },

@@ -17,7 +17,7 @@ const sendOTP = async (user) => {
         return { message: "OTP already sent, please check your email.", OTPid: checkEmail.id };
       }
 
-      // await sendEmail(email, OTP);
+      await sendEmail(email, OTP);
       const otpDetails = await prisma.VerificationOTP.update({
         where: { email },
         data: {
@@ -34,7 +34,7 @@ const sendOTP = async (user) => {
       return { OTPid: otpDetails.id };
     }
 
-    // await sendEmail(email, OTP);
+    await sendEmail(email, OTP);
     const otpDetails = await prisma.VerificationOTP.create({
       data: {
         email,
