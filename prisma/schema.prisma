@@ -11,16 +11,14 @@ datasource db {
 model Clinic {
   id                 Int               @id @default(autoincrement())
   email              String            @unique
-  subscriptionStatus SubscriptionStatus @default(TRIAL)
-  subscriptionEndsOn DateTime
   createdOn          DateTime          @default(now())
   name               String
   address            String?
   phone              String?
   workHours          String? // E.g., "9:30 AM - 6:00 PM"
   logo               String? // URL or file path of the logo image
-  subscriptionPlanId Int?
-  subscriptionPlan   SubscriptionPlan?  @relation(fields: [subscriptionPlanId], references: [id])
+  
+  Subscription       Subscription[]  
   User               User[]
   Patient            Patient[]
   Appointment        Appointment[]
@@ -159,13 +157,53 @@ model PatientDoctor {
 }
 
 model SubscriptionPlan {
-  id           Int      @id @default(autoincrement())
-  name         String   @unique
-  features     String[] // Array of features as a list of strings
-  priceMonthly Float
-  priceYearly  Float
-  Clinics      Clinic[] // One-to-many relation with Clinic
+  id                                Int      @id @default(autoincrement())
+  name                              String   @unique          // Basic, Premium, Super Premium
+  features                          String[]                  // Array of features
+  isActive                          Boolean  @default(true)
+  priceMonthly                      Float
+  razorPaySubscriptionPlanMonthlyId String? @unique
+  priceYearly                       Float
+  razorPaySubscriptionPlanYearlyId  String? @unique
+
+  Subscription Subscription[]
 }
+
+model Subscription {
+  id                Int      @id @default(autoincrement())
+  clinicId          Int
+  planId            Int
+  startDate         DateTime @default(now())
+  endDate           DateTime
+  status            SubscriptionStatus @default(ACTIVE) // ACTIVE, EXPIRED, CANCELED
+  isTrial           Boolean  @default(true)
+  isMonthly         Boolean  @default(true) // true for monthly, false for yearly
+  autoRenew         Boolean  @default(true)
+  subscriptionId    String?  @unique // Razorpay Subscription ID
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  clinic            Clinic           @relation(fields: [clinicId], references: [id])
+  SubscriptionPlan  SubscriptionPlan @relation(fields: [planId], references: [id])
+  Payment           Payment[]
+}
+
+model Payment {
+  id                      Int      @id @default(autoincrement())
+  subscriptionId          Int
+  amount                  Float
+  currency                String        @default("INR")
+  status                  SubscriptionPaymentStatus @default(PENDING) // PENDING, SUCCESS, FAILED, REFUNDED
+  order_id                String   @unique
+  subscription_payment_id String? @unique
+  payment_id     String?  @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  refundedAt     DateTime?
+  paidAt         DateTime @default(now())
+
+  Subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+}
+
 
 model VerificationOTP {
   id          Int      @id @default(autoincrement())
@@ -184,6 +222,13 @@ enum Role {
   ADMIN
   DOCTOR
   RECEPTIONIST
+}
+
+enum SubscriptionPaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
 }
 
 enum PaymentStatus {

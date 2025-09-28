@@ -24,26 +24,37 @@ const auth = async (req, res, next) => {
         include: {
           Clinic: {
             select: {
-              subscriptionEndsOn: true,
               name: true,
+              Subscription: {
+                where: {
+                  status: "ACTIVE",
+                  endDate: { gte: new Date() },
+                },
+                include: {
+                  SubscriptionPlan: {
+                    select: {
+                      id: true,
+                      name: true,
+                      features: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
       });
 
+
+
       if (!userData || token !== userData.JWT) {
         return res.status(401).json({ error: "Invalid token" });
       }
-      const currentTime = new Date();
-      console.log(currentTime);
-      console.log(userData.Clinic.subscriptionEndsOn);
-      // userData.Clinic.subscriptionEndsOn;
-      // if (userData.Clinic.subscriptionEndsOn <= currentTime)
-      //   return res.status(401).json({ error: "Subscription Expired" });
+
       req.userData = userData;
       console.log("userData:", userData);
-      // Attach user info to the request object
-      next(); // Proceed to the next middleware or route handler
+      next();
+
     });
   } catch (error) {
     console.error("Error in auth middleware:", error);

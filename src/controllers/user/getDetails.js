@@ -10,9 +10,10 @@ const getDetails = async (req, res) => {
       });
       userWithoutPassword.doctor = doctor;
     }
+    
     return res.status(200).json({
       message: "User details retrieved successfully.",
-      user: userWithoutPassword,
+      user: userWithoutPassword
     });
   } catch (error) {
     // Log detailed error for debugging

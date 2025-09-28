@@ -42,16 +42,17 @@ const login = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // HTTPS only in prod
-        sameSite: "None", // allow sending cookie across site navigations
-        domain: ".clinicxpert.in", // works for both clinicxpert.in and www.clinicxpert.in
-        path: "/", // available everywhere
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        domain:
+          process.env.NODE_ENV === "production" ? ".clinicxpert.in" : undefined,
+        path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       .status(200)
       .json({
         message: "Sign in successful.",
-        user: { id: user.id, email: user.email, role: user.role },
+        user: { id: user.id, email: user.email, role: user.role, clinicId: user.clinicId },
       });
   } catch (error) {
     console.error("Error during sign in:", error.message);
