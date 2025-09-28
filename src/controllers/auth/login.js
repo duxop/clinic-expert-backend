@@ -39,18 +39,18 @@ const login = async (req, res) => {
       },
     });
 
-    // Send response with secure cookie
     res
       .cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "Strict",
+        secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+        sameSite: "None", // allow sending cookie across site navigations
+        domain: ".clinicxpert.in", // works for both clinicxpert.in and www.clinicxpert.in
+        path: "/", // available everywhere
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       .status(200)
       .json({
         message: "Sign in successful.",
-        token,
         user: { id: user.id, email: user.email, role: user.role },
       });
   } catch (error) {

@@ -4,7 +4,6 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const { connection } = require("./config/database");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
 const authRoute = require("./routes/authRoute");
 const clinicRoute = require("./routes/clinicRoute");
@@ -16,26 +15,28 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
-// parse application/x-www-form-urlencoded, basically can only parse incoming Request Object if strings or arrays
 app.use(express.urlencoded({ extended: false }));
-// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use(express.urlencoded({ extended: true }));
 
+// ✅ Allow frontend (local + production)
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your frontend URL
+    origin: [
+      "http://localhost:3000", // local dev
+      "https://clinicxpert.in", // prod root domain
+      "https://www.clinicxpert.in", // prod www domain
+    ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow cookies and authorization headers
   })
 );
 
-app.use("/api/auth", authRoute);
-app.use("/api/clinic", clinicRoute);
-app.use("/api/patient", patientRoute);
-app.use("/api/user", userRoute);
-app.use("/api/appointment", appointmentRoute);
+app.use("/auth", authRoute);
+app.use("/clinic", clinicRoute);
+app.use("/patient", patientRoute);
+app.use("/user", userRoute);
+app.use("/appointment", appointmentRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });

@@ -4,7 +4,7 @@ const createOTP = require("../../utils/createOTP");
 
 const signup = async (req, res) => {
   try {
-    console.log(req);
+    // console.log(req);
     const { firstName, lastName, clinicName, email, hashPassword, err } =
       await verifySignUp(req.body);
 
@@ -20,15 +20,16 @@ const signup = async (req, res) => {
       return res.status(409).json({ error: "Email already exists" });
     }
 
-    const { OTPid, errorOTP = null } = await createOTP({
+    const { OTPid, message, errorOTP = null } = await createOTP({
       email,
       firstName,
       lastName,
       clinicName,
       hashPassword,
     });
-    
-    console.log(errorOTP);
+
+    if (message) return res.status(202).json({ message, OTPid });
+
     if (errorOTP !== null)
       return res.status(errorOTP.code).json({ error: errorOTP.message });
 
