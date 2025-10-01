@@ -10,6 +10,6 @@ const access = (roleAllowed) => (req, res, next) => {
     console.error("Error during access control middleware:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
-};
+}
 
 module.exports = access;

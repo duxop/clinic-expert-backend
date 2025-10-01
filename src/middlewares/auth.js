@@ -24,6 +24,7 @@ const auth = async (req, res, next) => {
         include: {
           Clinic: {
             select: {
+              id: true,
               name: true,
               Subscription: {
                 where: {
