@@ -4,14 +4,16 @@ const {
 
 const razorpayWebhook = async (req, res) => {
   const webhookSignature = req.headers["x-razorpay-signature"];
+  console.log("webhook", req.body);
   try {
     const isWebhookvalid = validateWebhookSignature(
       JSON.stringify(req.body),
       webhookSignature,
       process.env.WEBHOOK_SECRET
     );
-    if (isWebhookvalid) console.log("webhook", req.body);
-    
+
+    // if (isWebhookvalid)
+
     return res.status(200).json({ message: "Webhook verified" });
   } catch (error) {
     console.error("Error during getting all patients:", error);
