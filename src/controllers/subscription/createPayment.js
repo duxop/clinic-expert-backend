@@ -14,8 +14,8 @@ const createPayment = async (req, res) => {
   if (!plan) {
     return res.status(404).json({ error: "Plan not found" });
   }
-  
-  const amount = monthly ? plan.priceMonthly : plan.priceYearly;
+
+  const amount = plan.priceMonthly * (monthly ? 1 : 10);
   console.log(amount);
 
   try {
@@ -27,16 +27,17 @@ const createPayment = async (req, res) => {
         notes: {
           clinicId: userData.Clinic.id,
           name: userData.Clinic.name,
+          planId: plan.id,
+          planName: plan.name,
+          monthly,
         },
       });
-      console.log(order);
-      return res
-        .status(200)
-        .json({
-          type: "order",
-          details: order,
-          key_id: process.env.RAZOZRPAY_KEY_ID,
-        });
+      console.log(order.notes.plan);
+      return res.status(200).json({
+        type: "order",
+        details: order,
+        key_id: process.env.RAZOZRPAY_KEY_ID,
+      });
     }
 
     const subscriptionPlan = monthly
@@ -49,16 +50,17 @@ const createPayment = async (req, res) => {
       notes: {
         clinicId: userData.Clinic.id,
         name: userData.Clinic.name,
+        planId: plan.id,
+        planName: plan.name,
+        monthly
       },
     });
 
-    return res
-      .status(200)
-      .json({
-        type: "subscription",
-        details: subscription,
-        key_id: process.env.RAZOZRPAY_KEY_ID,
-      });
+    return res.status(200).json({
+      type: "subscription",
+      details: subscription,
+      key_id: process.env.RAZOZRPAY_KEY_ID,
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Internal server error" });

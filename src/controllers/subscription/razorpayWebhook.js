@@ -1,18 +1,67 @@
 const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
+const { equals } = require("validator");
 
 const razorpayWebhook = async (req, res) => {
   const webhookSignature = req.headers["x-razorpay-signature"];
-  console.log("webhook", req.body);
+  const { body } = req;
+  console.log(body);
   try {
     const isWebhookvalid = validateWebhookSignature(
-      JSON.stringify(req.body),
+      JSON.stringify(body),
       webhookSignature,
       process.env.WEBHOOK_SECRET
     );
 
-    // if (isWebhookvalid)
+    if (isWebhookvalid)
+      return res.status(401).json({ message: "Invalid signature" });
+
+    const { notes } = body.payload.payment;
+    const currentSubscription = await prisma.Subscription.findUnique({
+      where: {
+        clinicId: notes.clinicId,
+        status: "ACTIVE",
+        endDate: { gte: new Date() },
+      },
+      include: {
+        SubscriptionPlan: true,
+      },
+    });
+    if (body.event === "payment.captured") {
+      if (!currentSubscription) {
+        const planPayedFor = await SubscriptionPlan.findUnique({
+          where: {
+            id: notes.planId,
+            isActive: true,
+          },
+        });
+        if (!planPayedFor)
+          return res.status(404).json({ error: "Plan not found" });
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 30 * (notes.monthly ? 1 : 12));
+        console.log("endDate", endDate);
+        const subscription = await prisma.Subscription.create({
+          data: {
+            clinicId,
+            planId: notes.planId,
+            status: "ACTIVE",
+            endDate,
+            isTrial: false,
+            isMonthly: notes.monthly,
+            Payment: {
+              create: {
+                amount: body.payload.payment.amount,
+                currency: body.payload.payment.currency,
+                status: body.payload.payment.status,
+                paymentId: body.payload.payment.id,
+              },
+            },
+          },
+        });
+        console.log("subscription", subscription);
+      }
+    }
 
     return res.status(200).json({ message: "Webhook verified" });
   } catch (error) {

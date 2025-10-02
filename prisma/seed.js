@@ -7,22 +7,22 @@ async function main() {
       {
         name: "Basic",
         features: ["Appointments", "Patient Records"],
-        priceMonthly: 1179,
+        oneTimePrice: 1179,
+        subscriptionPrice: 999,
         razorPaySubscriptionPlanMonthlyId: "plan_RN2l9PbarOshXT",
-        priceYearly: 11790,
         razorPaySubscriptionPlanYearlyId: "plan_RN3Nsao2qJCyRG",
       },
       {
         name: "Premium",
         features: ["Everything in Basic", "Doctor Schedules", "Prescriptions"],
-        priceMonthly: 2359,
-        priceYearly: 23590,
+        oneTimePrice: 2359,
+        subscriptionPrice: 1999,
       },
       {
         name: "Business",
         features: ["Everything in Premium", "Analytics", "Multi-Clinic"],
-        priceMonthly: 3539,
-        priceYearly: 35390,
+        oneTimePrice: 3539,
+        subscriptionPrice: 2999,
       },
     ],
     skipDuplicates: true, // avoids duplicate inserts

@@ -157,13 +157,14 @@ model PatientDoctor {
 }
 
 model SubscriptionPlan {
+  
   id                                Int      @id @default(autoincrement())
   name                              String   @unique          // Basic, Premium, Super Premium
   features                          String[]                  // Array of features
   isActive                          Boolean  @default(true)
-  priceMonthly                      Float
+  oneTimePrice                      Float
+  subscriptionPrice                 Float
   razorPaySubscriptionPlanMonthlyId String? @unique
-  priceYearly                       Float
   razorPaySubscriptionPlanYearlyId  String? @unique
 
   Subscription Subscription[]
