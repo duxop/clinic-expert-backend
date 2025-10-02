@@ -18,7 +18,7 @@ const razorpayWebhook = async (req, res) => {
     if (!isWebhookvalid)
       return res.status(401).json({ message: "Invalid signature" });
 
-    const { notes } = body.payload.payment;
+    const { notes } = body.payload.payment.entity;
     console.log("notes", notes);
     const currentSubscription = await prisma.Subscription.findUnique({
       where: {
