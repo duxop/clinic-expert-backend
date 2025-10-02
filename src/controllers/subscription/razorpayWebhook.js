@@ -67,7 +67,8 @@ const razorpayWebhook = async (req, res) => {
       }
     }
 
-    const endDate = currentSubscription[0].endDate + 30 * (notes.monthly ? 1 : 12);
+    const endDate = new Date(currentSubscription[0].endDate);
+    endDate.setMonth(endDate.getMonth() + (notes.monthly ? 1 : 12));
 
     console.log("endDate", endDate);
     const subscription = await prisma.Subscription.update({
