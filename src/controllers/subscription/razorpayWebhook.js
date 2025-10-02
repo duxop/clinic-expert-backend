@@ -88,18 +88,20 @@ const razorpayWebhook = async (req, res) => {
         endDate,
         isTrial: false,
         isMonthly: notes.monthly,
-        Payment: {
-          create: {
-            amount,
-            currency,
-            status: "SUCCESS",
-            payment_id: id,
-            order_id,
-          },
-        },
       },
     });
-    console.log("subscription existing", subscription);
+    const payment = await prisma.Payment.create({
+      data: {
+        amount,
+        currency,
+        status,
+        payment_id: id,
+        order_id,
+        subscriptionId: subscription.id,
+      },
+    });
+    console.log("subscription", subscription);
+    console.log("payment", payment);
 
     return res.status(200).json({ message: "Webhook verified" });
   } catch (error) {
