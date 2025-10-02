@@ -28,14 +28,15 @@ const razorpayWebhook = async (req, res) => {
         SubscriptionPlan: true,
       },
     });
+    console.log("currentSubscription", currentSubscription);
+    const planPayedFor = await SubscriptionPlan.findUnique({
+      where: {
+        id: notes.planId,
+        isActive: true,
+      },
+    });
     if (body.event === "payment.captured") {
       if (!currentSubscription) {
-        const planPayedFor = await SubscriptionPlan.findUnique({
-          where: {
-            id: notes.planId,
-            isActive: true,
-          },
-        });
         if (!planPayedFor)
           return res.status(404).json({ error: "Plan not found" });
         const endDate = new Date();
@@ -60,8 +61,34 @@ const razorpayWebhook = async (req, res) => {
           },
         });
         console.log("subscription", subscription);
+        return res.status(200).json({ message: "Webhook verified" });
       }
     }
+
+    const endDate = currentSubscription.endDate + 30 * (notes.monthly ? 1 : 12);
+
+    console.log("endDate", endDate);
+    const subscription = await prisma.Subscription.update({
+      where: {
+        id: currentSubscription.id,
+      },
+      data: {
+        planId: notes.planId,
+        status: "ACTIVE",
+        endDate,
+        isTrial: false,
+        isMonthly: notes.monthly,
+        Payment: {
+          create: {
+            amount: body.payload.payment.amount,
+            currency: body.payload.payment.currency,
+            status: body.payload.payment.status,
+            paymentId: body.payload.payment.id,
+          },
+        },
+      },
+    });
+    console.log("subscription existing", subscription);
 
     return res.status(200).json({ message: "Webhook verified" });
   } catch (error) {
