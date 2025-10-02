@@ -55,11 +55,13 @@ const razorpayWebhook = async (req, res) => {
             isTrial: false,
             isMonthly: notes.monthly,
             Payment: {
-              create: amount,
-              currency,
-              status,
-              paymentId: id,
-              order_id,
+              create: {
+                amount,
+                currency,
+                status,
+                paymentId: id,
+                order_id,
+              },
             },
           },
         });
@@ -83,11 +85,13 @@ const razorpayWebhook = async (req, res) => {
         isTrial: false,
         isMonthly: notes.monthly,
         Payment: {
-          create: amount,
-          currency,
-          status,
-          paymentId: id,
-          order_id,
+          create: {
+            amount,
+            currency,
+            status,
+            paymentId: id,
+            order_id,
+          },
         },
       },
     });
