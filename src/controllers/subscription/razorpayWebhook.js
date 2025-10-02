@@ -61,7 +61,7 @@ const razorpayWebhook = async (req, res) => {
           data: {
             amount,
             currency,
-            status,
+            status: "SUCCESS",
             payment_id: id,
             order_id,
             subscriptionId: subscription.id,
@@ -94,7 +94,7 @@ const razorpayWebhook = async (req, res) => {
       data: {
         amount,
         currency,
-        status,
+        status: "SUCCESS",
         payment_id: id,
         order_id,
         subscriptionId: subscription.id,
