@@ -7,7 +7,7 @@ const { prisma } = require("../../config/database");
 const razorpayWebhook = async (req, res) => {
   const webhookSignature = req.headers["x-razorpay-signature"];
   const { body } = req;
-  console.log(body);
+  console.log("Webhook received:", JSON.stringify(req.body, null, 2));
   try {
     const isWebhookvalid = validateWebhookSignature(
       JSON.stringify(body),
