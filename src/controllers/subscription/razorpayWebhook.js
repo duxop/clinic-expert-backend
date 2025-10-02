@@ -2,6 +2,8 @@ const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
 const { equals } = require("validator");
+const { prisma } = require("../../config/database");
+
 
 const razorpayWebhook = async (req, res) => {
   const webhookSignature = req.headers["x-razorpay-signature"];
