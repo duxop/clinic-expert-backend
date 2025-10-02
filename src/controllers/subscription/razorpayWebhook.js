@@ -4,7 +4,6 @@ const {
 const { equals } = require("validator");
 const { prisma } = require("../../config/database");
 
-
 const razorpayWebhook = async (req, res) => {
   const webhookSignature = req.headers["x-razorpay-signature"];
   const { body } = req;
@@ -20,6 +19,7 @@ const razorpayWebhook = async (req, res) => {
       return res.status(401).json({ message: "Invalid signature" });
 
     const { notes } = body.payload.payment;
+    console.log("notes", notes);
     const currentSubscription = await prisma.Subscription.findUnique({
       where: {
         clinicId: notes.clinicId,
