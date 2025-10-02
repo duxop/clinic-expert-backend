@@ -31,7 +31,7 @@ const razorpayWebhook = async (req, res) => {
       },
     });
     console.log("currentSubscription", currentSubscription[0]);
-    const planPayedFor = await SubscriptionPlan.findUnique({
+    const planPayedFor = await prisma.SubscriptionPlan.findUnique({
       where: {
         id: notes.planId,
         isActive: true,
