@@ -20,7 +20,7 @@ const razorpayWebhook = async (req, res) => {
 
     const { notes } = body.payload.payment.entity;
     console.log("notes", notes);
-    const currentSubscription = await prisma.Subscription.findUnique({
+    const currentSubscription = await prisma.Subscription.findMany({
       where: {
         clinicId: notes.clinicId,
         status: "ACTIVE",
@@ -30,7 +30,7 @@ const razorpayWebhook = async (req, res) => {
         SubscriptionPlan: true,
       },
     });
-    console.log("currentSubscription", currentSubscription);
+    console.log("currentSubscription", currentSubscription[0]);
     const planPayedFor = await SubscriptionPlan.findUnique({
       where: {
         id: notes.planId,
@@ -67,12 +67,12 @@ const razorpayWebhook = async (req, res) => {
       }
     }
 
-    const endDate = currentSubscription.endDate + 30 * (notes.monthly ? 1 : 12);
+    const endDate = currentSubscription[0].endDate + 30 * (notes.monthly ? 1 : 12);
 
     console.log("endDate", endDate);
     const subscription = await prisma.Subscription.update({
       where: {
-        id: currentSubscription.id,
+        id: currentSubscription[0].id,
       },
       data: {
         planId: notes.planId,
