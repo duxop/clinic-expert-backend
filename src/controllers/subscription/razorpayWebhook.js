@@ -14,7 +14,7 @@ const razorpayWebhook = async (req, res) => {
       process.env.WEBHOOK_SECRET
     );
 
-    if (isWebhookvalid)
+    if (!isWebhookvalid)
       return res.status(401).json({ message: "Invalid signature" });
 
     const { notes } = body.payload.payment;
