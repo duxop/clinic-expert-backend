@@ -72,36 +72,35 @@ const razorpayWebhook = async (req, res) => {
 
         return res.status(200).json({ message: "Webhook verified" });
       }
+      const endDate = new Date(currentSubscription[0].endDate);
+      endDate.setMonth(endDate.getMonth() + (notes.monthly ? 1 : 12));
+
+      console.log("endDate", endDate);
+      const subscription = await prisma.Subscription.update({
+        where: {
+          id: currentSubscription[0].id,
+        },
+        data: {
+          planId: notes.planId,
+          status: "ACTIVE",
+          endDate,
+          isTrial: false,
+          isMonthly: notes.monthly,
+        },
+      });
+      const payment = await prisma.Payment.create({
+        data: {
+          amount,
+          currency,
+          status: "SUCCESS",
+          payment_id: id,
+          order_id,
+          subscriptionId: subscription.id,
+        },
+      });
+      console.log("subscription", subscription);
+      console.log("payment", payment);
     }
-
-    const endDate = new Date(currentSubscription[0].endDate);
-    endDate.setMonth(endDate.getMonth() + (notes.monthly ? 1 : 12));
-
-    console.log("endDate", endDate);
-    const subscription = await prisma.Subscription.update({
-      where: {
-        id: currentSubscription[0].id,
-      },
-      data: {
-        planId: notes.planId,
-        status: "ACTIVE",
-        endDate,
-        isTrial: false,
-        isMonthly: notes.monthly,
-      },
-    });
-    const payment = await prisma.Payment.create({
-      data: {
-        amount,
-        currency,
-        status: "SUCCESS",
-        payment_id: id,
-        order_id,
-        subscriptionId: subscription.id,
-      },
-    });
-    console.log("subscription", subscription);
-    console.log("payment", payment);
 
     return res.status(200).json({ message: "Webhook verified" });
   } catch (error) {
