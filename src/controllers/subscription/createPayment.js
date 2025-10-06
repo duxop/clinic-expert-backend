@@ -32,10 +32,10 @@ const createPayment = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ error: "Database error" });
   }
-
+  
   if (
     currentSubscription &&
-    currentSubscription.autopay &&
+    currentSubscription.autoRenew &&
     currentSubscription.paymentRemaining > 0
   ) {
     return res.status(401).json({
@@ -70,7 +70,6 @@ const createPayment = async (req, res) => {
       ? plan.razorPaySubscriptionPlanMonthlyId
       : plan.razorPaySubscriptionPlanYearlyId;
 
-      
     const daysBeforeExpiry = 7;
     const startAt =
       currentSubscription && currentSubscription.endDate
