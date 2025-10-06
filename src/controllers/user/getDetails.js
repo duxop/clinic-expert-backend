@@ -1,19 +1,14 @@
-const bcrypt = require("bcrypt");
 const { prisma } = require("../../config/database");
+const getUserData = require("../../utils/getUserData");
 
 const getDetails = async (req, res) => {
   try {
-    const { password, ...userWithoutPassword } = req.userData;
-    if (userWithoutPassword.role === "DOCTOR") {
-      const doctor = await prisma.doctor.findUnique({
-        where: { userId: userWithoutPassword.id },
-      });
-      userWithoutPassword.doctor = doctor;
-    }
-    
+    // console.log(req.userData)
+    const userWithoutPassword = await getUserData(req.userData);
+    console.log(userWithoutPassword);
     return res.status(200).json({
       message: "User details retrieved successfully.",
-      user: userWithoutPassword
+      user: userWithoutPassword,
     });
   } catch (error) {
     // Log detailed error for debugging

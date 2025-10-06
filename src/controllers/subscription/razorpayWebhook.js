@@ -1,7 +1,6 @@
 const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
-const { equals } = require("validator");
 const { prisma } = require("../../config/database");
 
 const razorpayWebhook = async (req, res) => {
@@ -9,8 +8,7 @@ const razorpayWebhook = async (req, res) => {
     const webhookSignature = req.headers["x-razorpay-signature"];
     const { body } = req;
     console.log("Webhook received:", JSON.stringify(req.body, null, 2));
-    return res.status(200).json({ message: "Webhook verified" });  //delete later
-    
+
     const isWebhookvalid = validateWebhookSignature(
       JSON.stringify(body),
       webhookSignature,
@@ -22,10 +20,11 @@ const razorpayWebhook = async (req, res) => {
 
     const { notes, amount, currency, order_id, id } =
       body.payload.payment.entity;
+    const { clinicId, planId, monthly } = notes;
 
-    const currentSubscription = await prisma.Subscription.findMany({
+    const currentSubscription = await prisma.Subscription.findFirst({
       where: {
-        clinicId: notes.clinicId,
+        clinicId,
         status: "ACTIVE",
         endDate: { gte: new Date() },
       },
@@ -35,17 +34,18 @@ const razorpayWebhook = async (req, res) => {
       },
     });
 
-    const planPayedFor = await prisma.SubscriptionPlan.findUnique({
+    const planPayedFor = await prisma.SubscriptionPlan.findFirst({
       where: {
-        id: notes.planId,
+        id: planId,
         isActive: true,
       },
     });
 
-    const endDate = new Date(
-      currentSubscription() ? currentSubscription[0].endDate : ""
-    );
-    endDate.setDate(endDate.getDate() + 30 * (notes.monthly ? 1 : 12));
+    const baseDate = currentSubscription
+      ? new Date(currentSubscription.endDate)
+      : new Date();
+    baseDate.setDate(baseDate.getDate() + 30 * (monthly ? 1 : 12));
+    const endDate = baseDate;
 
     console.log("endDate", endDate);
 
@@ -57,11 +57,11 @@ const razorpayWebhook = async (req, res) => {
         const subscription = await prisma.Subscription.create({
           data: {
             clinicId,
-            planId: notes.planId,
+            planId,
             status: "ACTIVE",
             endDate,
             isTrial: false,
-            isMonthly: notes.monthly,
+            isMonthly: monthly,
           },
         });
         console.log("subscription", subscription);
@@ -71,14 +71,14 @@ const razorpayWebhook = async (req, res) => {
 
       const subscription = await prisma.Subscription.update({
         where: {
-          id: currentSubscription[0].id,
+          id: currentSubscription.id,
         },
         data: {
-          planId: notes.planId,
+          planId,
           status: "ACTIVE",
           endDate,
           isTrial: false,
-          isMonthly: notes.monthly,
+          isMonthly: monthly,
         },
       });
       const payment = await prisma.Payment.create({
@@ -93,11 +93,31 @@ const razorpayWebhook = async (req, res) => {
       });
       console.log("subscription", subscription);
       console.log("payment", payment);
+      return res.status(200).json({ message: "Webhook verified" });
     }
 
+    if (body.event === "subscription.charged") {
+      const {
+        id: subscriptionId,
+        total_count,
+        paid_count,
+      } = body.payload.subscription.entity;
+      const subscription = await prisma.Subscription.update({
+        where: {
+          id: currentSubscription.id,
+        },
+        data: {
+          autoRenew: true,
+          subscriptionId: subscriptionId,
+          paymentRemaining: total_count - paid_count,
+        },
+      });
+      console.log("subscription", subscription);
+      return res.status(200).json({ message: "Webhook verified" });
+    }
     return res.status(200).json({ message: "Webhook verified" });
   } catch (error) {
-    console.error("Error during getting all patients:", error);
+    console.error("Error in razorpayWebhook:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
