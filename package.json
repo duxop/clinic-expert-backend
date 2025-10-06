@@ -16,7 +16,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "prisma-dev": "npx prisma dev",
+    "prisma-dev": "npx prisma dev clinicxpert-db",
     "prisma-studio": "npx prisma studio",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js"

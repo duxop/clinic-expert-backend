@@ -81,7 +81,6 @@ const createPayment = async (req, res) => {
     const subscription = await razorpayInstance.subscriptions.create({
       plan_id: subscriptionPlan,
       customer_notify: 1,
-      receipt: `invoice_${Date.now()}`,
       total_count: 24,
       start_at: startAt,
       notes: {
