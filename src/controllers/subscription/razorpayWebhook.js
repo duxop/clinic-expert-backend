@@ -18,38 +18,38 @@ const razorpayWebhook = async (req, res) => {
     if (!isWebhookvalid)
       return res.status(401).json({ message: "Invalid signature" });
 
-    const { notes, amount, currency, order_id, id } =
-      body.payload.payment.entity;
-    const { clinicId, planId, monthly } = notes;
-
-    const currentSubscription = await prisma.Subscription.findFirst({
-      where: {
-        clinicId,
-        status: "ACTIVE",
-        endDate: { gte: new Date() },
-      },
-      include: {
-        SubscriptionPlan: true,
-        Payment: true,
-      },
-    });
-
-    const planPayedFor = await prisma.SubscriptionPlan.findFirst({
-      where: {
-        id: planId,
-        isActive: true,
-      },
-    });
-
-    const baseDate = currentSubscription
-      ? new Date(currentSubscription.endDate)
-      : new Date();
-    baseDate.setDate(baseDate.getDate() + 30 * (monthly ? 1 : 12));
-    const endDate = baseDate;
-
-    console.log("endDate", endDate);
-
     if (body.event === "payment.captured") {
+      const { notes, amount, currency, order_id, id } =
+        body.payload.payment.entity;
+      const { clinicId, planId, monthly } = notes;
+
+      const currentSubscription = await prisma.Subscription.findFirst({
+        where: {
+          clinicId,
+          status: "ACTIVE",
+          endDate: { gte: new Date() },
+        },
+        include: {
+          SubscriptionPlan: true,
+          Payment: true,
+        },
+      });
+
+      const planPayedFor = await prisma.SubscriptionPlan.findFirst({
+        where: {
+          id: planId,
+          isActive: true,
+        },
+      });
+
+      const baseDate = currentSubscription
+        ? new Date(currentSubscription.endDate)
+        : new Date();
+      baseDate.setDate(baseDate.getDate() + 30 * (monthly ? 1 : 12));
+      const endDate = baseDate;
+
+      console.log("endDate", endDate);
+
       if (!currentSubscription) {
         if (!planPayedFor)
           return res.status(404).json({ error: "Plan not found" });
@@ -96,7 +96,7 @@ const razorpayWebhook = async (req, res) => {
       return res.status(200).json({ message: "Webhook verified" });
     }
 
-    if (body.event === "subscription.charged") {
+    if (body.event === "subscription.authenticated") {
       const {
         id: subscriptionId,
         total_count,
@@ -115,7 +115,9 @@ const razorpayWebhook = async (req, res) => {
       console.log("subscription", subscription);
       return res.status(200).json({ message: "Webhook verified" });
     }
+
     return res.status(200).json({ message: "Webhook verified" });
+    
   } catch (error) {
     console.error("Error in razorpayWebhook:", error);
     return res.status(500).json({ error: "Internal server error" });
