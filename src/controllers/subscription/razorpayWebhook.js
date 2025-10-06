@@ -25,7 +25,7 @@ const razorpayWebhook = async (req, res) => {
 
       const currentSubscription = await prisma.Subscription.findFirst({
         where: {
-          clinicId,
+          clinicId: parseInt(clinicId),
           status: "ACTIVE",
           endDate: { gte: new Date() },
         },
@@ -109,7 +109,7 @@ const razorpayWebhook = async (req, res) => {
 
       const currentSubscription = await prisma.Subscription.findFirst({
         where: {
-          clinicId,
+          clinicId: parseInt(clinicId),
           status: "ACTIVE",
           endDate: { gte: new Date() },
         },
