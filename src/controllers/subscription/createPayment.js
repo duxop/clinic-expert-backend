@@ -70,7 +70,7 @@ const createPayment = async (req, res) => {
       ? plan.razorPaySubscriptionPlanMonthlyId
       : plan.razorPaySubscriptionPlanYearlyId;
 
-    // Use currentSubscription.endDate if available, else start now
+      
     const daysBeforeExpiry = 7;
     const startAt =
       currentSubscription && currentSubscription.endDate

@@ -102,6 +102,37 @@ const razorpayWebhook = async (req, res) => {
         total_count,
         paid_count,
       } = body.payload.subscription.entity;
+
+      const currentSubscription = await prisma.Subscription.findFirst({
+        where: {
+          clinicId,
+          status: "ACTIVE",
+          endDate: { gte: new Date() },
+        },
+        include: {
+          SubscriptionPlan: true,
+          Payment: true,
+        },
+      });
+      
+      if (!currentSubscription) {
+        const subscription = await prisma.Subscription.create({
+          data: {
+            clinicId,
+            planId,
+            status: "ACTIVE",
+            endDate,
+            autoRenew: true,
+            subscriptionId,
+            paymentRemaining: total_count - paid_count,
+            isTrial: false,
+            isMonthly: monthly,
+          },
+        });
+        console.log("subscription", subscription);
+        return res.status(200).json({ message: "Webhook verified" });
+      }
+
       const subscription = await prisma.Subscription.update({
         where: {
           id: currentSubscription.id,
@@ -117,7 +148,6 @@ const razorpayWebhook = async (req, res) => {
     }
 
     return res.status(200).json({ message: "Webhook verified" });
-    
   } catch (error) {
     console.error("Error in razorpayWebhook:", error);
     return res.status(500).json({ error: "Internal server error" });
