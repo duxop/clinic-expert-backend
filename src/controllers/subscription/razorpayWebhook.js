@@ -99,9 +99,13 @@ const razorpayWebhook = async (req, res) => {
     if (body.event === "subscription.authenticated") {
       const {
         id: subscriptionId,
+        start_at,
         total_count,
         paid_count,
+        notes,
       } = body.payload.subscription.entity;
+
+      const { clinicId, planId, monthly } = notes;
 
       const currentSubscription = await prisma.Subscription.findFirst({
         where: {
@@ -114,13 +118,18 @@ const razorpayWebhook = async (req, res) => {
           Payment: true,
         },
       });
-      
+
       if (!currentSubscription) {
+        const startDate = new Date(start_at * 1000);
+        const endDate = new Date(
+          startDate.getTime() + (monthly ? 30 : 365) * 24 * 60 * 60 * 1000
+        );
         const subscription = await prisma.Subscription.create({
           data: {
             clinicId,
             planId,
             status: "ACTIVE",
+            startDate,
             endDate,
             autoRenew: true,
             subscriptionId,
@@ -143,6 +152,7 @@ const razorpayWebhook = async (req, res) => {
           paymentRemaining: total_count - paid_count,
         },
       });
+
       console.log("subscription", subscription);
       return res.status(200).json({ message: "Webhook verified" });
     }
