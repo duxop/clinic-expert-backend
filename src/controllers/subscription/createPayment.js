@@ -81,7 +81,7 @@ const createPayment = async (req, res) => {
     const subscription = await razorpayInstance.subscriptions.create({
       plan_id: subscriptionPlan,
       customer_notify: 1,
-      total_count: 24,
+      total_count: monthly ? 24 : 5,
       start_at: startAt,
       notes: {
         clinicId: userData.Clinic.id,
