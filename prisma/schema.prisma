@@ -179,7 +179,7 @@ model Subscription {
   status            SubscriptionStatus @default(ACTIVE) // ACTIVE, EXPIRED, CANCELED
   isTrial           Boolean            @default(true)
   isMonthly         Boolean            @default(true) // true for monthly, false for yearly
-  autoRenew         Boolean            @default(false)
+  autoPay           Boolean            @default(false)
   subscriptionId    String?            @unique // Razorpay Subscription ID
   paymentRemaining  Int?               // Number of payments remaining for subscription
   createdAt         DateTime           @default(now())

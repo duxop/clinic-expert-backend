@@ -131,7 +131,7 @@ const razorpayWebhook = async (req, res) => {
             status: "ACTIVE",
             startDate,
             endDate,
-            autoRenew: true,
+            autoPay: true,
             subscriptionId,
             paymentRemaining: total_count - paid_count,
             isTrial: false,
@@ -147,7 +147,7 @@ const razorpayWebhook = async (req, res) => {
           id: currentSubscription.id,
         },
         data: {
-          autoRenew: true,
+          autoPay: true,
           subscriptionId: subscriptionId,
           paymentRemaining: total_count - paid_count,
         },

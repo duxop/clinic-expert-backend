@@ -32,10 +32,10 @@ const createPayment = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ error: "Database error" });
   }
-  
+
   if (
     currentSubscription &&
-    currentSubscription.autoRenew &&
+    currentSubscription.autoPay &&
     currentSubscription.paymentRemaining > 0
   ) {
     return res.status(401).json({

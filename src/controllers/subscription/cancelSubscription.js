@@ -3,15 +3,23 @@ const razorpayInstance = require("../../config/razorpay");
 const getUserData = require("../../utils/getUserData");
 
 const cancelSubscription = async (req, res) => {
-  const userData = req.userData;
-  const currentSubscription = await prisma.Subscription.findMany({
-    where: {
-      clinicId: userData.Clinic.id,
-      status: "ACTIVE",
-      endDate: { gte: new Date() },
-    },
-  });
-  if (currentSubscription && currentSubscription.autopay) {
+  const { id } = req.userData.Clinic;
+  let currentSubscription;
+  try {
+    currentSubscription = await prisma.Subscription.findFirst({
+      where: {
+        clinicId: parseInt(id),
+        status: "ACTIVE",
+        endDate: { gte: new Date() },
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Database error" });
+  }
+
+  console.log(currentSubscription);
+  if (currentSubscription && currentSubscription.autoPay) {
     try {
       const subscriptionId = currentSubscription.subscriptionId;
       const subscription = razorpayInstance.subscriptions.cancel(
@@ -32,7 +40,12 @@ const cancelSubscription = async (req, res) => {
           },
         });
       }
-      const userWithoutPassword = getUserData(req.userData);
+      const {userWithoutPassword, err} = await getUserData(req.userData);
+
+      if(err){
+        console.log(err);
+        return res.status(500).json({ error: "Internal server error" });
+      }
 
       return res
         .status(200)
@@ -42,6 +55,7 @@ const cancelSubscription = async (req, res) => {
       return res.status(500).json({ error: "Internal server error" });
     }
   }
+  return res.status(400).json({ error: "Invalid request" });
 };
 
 module.exports = cancelSubscription;

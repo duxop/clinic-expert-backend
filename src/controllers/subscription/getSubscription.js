@@ -1,8 +1,10 @@
+const { prisma } = require("../../config/database");
+
 const getSubscription = async (req, res) => {
   try {
     const { clinicId } = req.userData.Clinic.id;
 
-    const Subscription = await prisma.Subscription.findUnique({
+    const Subscription = await prisma.Subscription.findFirst({
       where: {
         clinicId: clinicId,
         status: "ACTIVE",
