@@ -148,6 +148,7 @@ const razorpayWebhook = async (req, res) => {
         },
         data: {
           autoPay: true,
+          isTrial: false,
           subscriptionId: subscriptionId,
           paymentRemaining: total_count - paid_count,
         },
