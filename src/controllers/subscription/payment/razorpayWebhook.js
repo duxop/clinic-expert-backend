@@ -1,7 +1,7 @@
 const {
   validateWebhookSignature,
 } = require("razorpay/dist/utils/razorpay-utils");
-const { prisma } = require("../../config/database");
+const { prisma } = require("../../../config/database");
 
 const razorpayWebhook = async (req, res) => {
   try {
