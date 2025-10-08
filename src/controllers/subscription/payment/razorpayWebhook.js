@@ -122,21 +122,25 @@ const razorpayWebhook = async (req, res) => {
           console.log("payment", payment);
         })
         .then(() => {
-          res.status(200).json({ message: "Webhook verified" });
+          if (body.event === "payment.captured")
+            res.status(200).json({ message: "Webhook verified" });
         })
         .catch((err) => {
           console.error(err);
           if (err.message === "Payment already captured") {
-            res.status(200).json({ message: err.message });
+            return res.status(200).json({ message: err.message });
           } else if (err.message === "Plan not found") {
-            res.status(404).json({ error: err.message });
+            return res.status(404).json({ error: err.message });
           } else {
-            res.status(500).json({ error: "Internal server error" });
+            return res.status(500).json({ error: "Internal server error" });
           }
         });
     }
 
-    if (body.event === "subscription.authenticated") {
+    if (
+      body.event === "subscription.authenticated" ||
+      body.event === "subscription.charged"
+    ) {
       const {
         id: subscriptionId,
         start_at,
