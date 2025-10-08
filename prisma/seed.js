@@ -15,8 +15,8 @@ async function main() {
       ],
       oneTimePrice: 1179,
       subscriptionPrice: 999,
-      razorPaySubscriptionPlanMonthlyId: "plan_RN2l9PbarOshXT",
-      razorPaySubscriptionPlanYearlyId: "plan_RN3Nsao2qJCyRG",
+      razorPaySubscriptionPlanMonthlyId: "plan_RR1NjkwOJrJgTL",
+      razorPaySubscriptionPlanYearlyId: "plan_RR1O2xBsBOQl9j",
     },
     {
       id: 2,

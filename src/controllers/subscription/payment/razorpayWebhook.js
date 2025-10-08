@@ -24,7 +24,7 @@ const razorpayWebhook = async (req, res) => {
     ) {
       if (
         body.event === "payment.captured" &&
-        body.payload.payment.entity.notes.lenght === 0
+        body.payload.payment.entity.notes.length === 0
       )
         res.status(200).json({ message: "Webhook verified" });
 
