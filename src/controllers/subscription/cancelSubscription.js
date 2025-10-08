@@ -22,7 +22,7 @@ const cancelSubscription = async (req, res) => {
   if (currentSubscription && currentSubscription.autoPay) {
     try {
       const subscriptionId = currentSubscription.subscriptionId;
-      const subscription = razorpayInstance.subscriptions.cancel(
+      const subscription = await razorpayInstance.subscriptions.cancel(
         subscriptionId,
         {
           cancel_at_cycle_end: true,
