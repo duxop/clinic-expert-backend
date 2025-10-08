@@ -174,7 +174,7 @@ const razorpayWebhook = async (req, res) => {
     return res.status(200).json({ message: "Webhook verified" });
   } catch (error) {
     console.error("Error in razorpayWebhook:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(202).json({ error: "Internal server error" });
   }
 };
 
