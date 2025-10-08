@@ -18,9 +18,22 @@ const razorpayWebhook = async (req, res) => {
     if (!isWebhookvalid)
       return res.status(401).json({ message: "Invalid signature" });
 
-    if (body.event === "payment.captured") {
-      const { notes, amount, currency, order_id, id } =
-        body.payload.payment.entity;
+    if (
+      body.event === "payment.captured" ||
+      body.event === "subscription.charged"
+    ) {
+      if (
+        body.event === "payment.captured" &&
+        body.payload.payment.entity.notes.lenght === 0
+      )
+        res.status(200).json({ message: "Webhook verified" });
+
+      const { notes } =
+        body.event === "payment.captured"
+          ? body.payload.payment.entity
+          : body.payload.subscription.entity;
+      const { amount, currency, order_id, id } = body.payload.payment.entity;
+
       const { clinicId, planId, monthly } = notes;
 
       const currentSubscription = await prisma.Subscription.findFirst({
