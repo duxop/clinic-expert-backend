@@ -34,7 +34,7 @@ const razorpayWebhook = async (req, res) => {
           : body.payload.subscription.entity;
       const { amount, currency, order_id, id } = body.payload.payment.entity;
 
-      const { clinicId, planId, monthly } = notes;
+      let { clinicId, planId, monthly } = notes;
 
       clinicId = parseInt(clinicId);
       planId = parseInt(planId);
