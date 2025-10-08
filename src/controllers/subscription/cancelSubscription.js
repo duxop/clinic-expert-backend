@@ -35,7 +35,7 @@ const cancelSubscription = async (req, res) => {
             id: currentSubscription.id,
           },
           data: {
-            autopay: false,
+            autoPay: false,
             subscriptionId: null,
             paymentRemaining: 0,
           },
