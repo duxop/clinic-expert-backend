@@ -18,7 +18,7 @@ const cancelSubscription = async (req, res) => {
     return res.status(500).json({ error: "Database error" });
   }
 
-  console.log(currentSubscription);
+  console.log("currentSubscription", currentSubscription);
   if (currentSubscription && currentSubscription.autoPay) {
     try {
       const subscriptionId = currentSubscription.subscriptionId;
@@ -28,6 +28,7 @@ const cancelSubscription = async (req, res) => {
           cancel_at_cycle_end: true,
         }
       );
+      console.log("subscription", subscription);
       if (subscription?.id) {
         await prisma.Subscription.update({
           where: {
@@ -40,9 +41,9 @@ const cancelSubscription = async (req, res) => {
           },
         });
       }
-      const {userWithoutPassword, err} = await getUserData(req.userData);
+      const { userWithoutPassword, err } = await getUserData(req.userData);
 
-      if(err){
+      if (err) {
         console.log(err);
         return res.status(500).json({ error: "Internal server error" });
       }
