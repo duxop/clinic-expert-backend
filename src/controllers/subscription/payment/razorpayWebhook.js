@@ -36,9 +36,13 @@ const razorpayWebhook = async (req, res) => {
 
       const { clinicId, planId, monthly } = notes;
 
+      clinicId = parseInt(clinicId);
+      planId = parseInt(planId);
+      monthly = monthly === "1";
+
       const currentSubscription = await prisma.Subscription.findFirst({
         where: {
-          clinicId: parseInt(clinicId),
+          clinicId,
           status: "ACTIVE",
           endDate: { gte: new Date() },
         },
@@ -118,11 +122,15 @@ const razorpayWebhook = async (req, res) => {
         notes,
       } = body.payload.subscription.entity;
 
-      const { clinicId, planId, monthly } = notes;
+      let { clinicId, planId, monthly } = notes;
+
+      clinicId = parseInt(clinicId);
+      planId = parseInt(planId);
+      monthly = monthly === "1";
 
       const currentSubscription = await prisma.Subscription.findFirst({
         where: {
-          clinicId: parseInt(clinicId),
+          clinicId: clinicId,
           status: "ACTIVE",
           endDate: { gte: new Date() },
         },
