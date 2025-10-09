@@ -31,9 +31,7 @@ const cancelSubscription = async (req, res) => {
         subscription.start_at * 1000 > Date.now()
       ) {
         // Use pause to prevent it from ever starting
-        await razorpayInstance.subscriptions.pause(subscriptionId, {
-          pause_at: "now",
-        });
+        await razorpayInstance.subscriptions.pause(subscriptionId);
       } else {
         // Regular cancel for active ones
         await razorpayInstance.subscriptions.cancel(subscriptionId, false);
