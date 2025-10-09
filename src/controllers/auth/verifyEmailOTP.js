@@ -49,16 +49,28 @@ const verifyEmailOTP = async (req, res) => {
     let user;
 
     // ✅ Wrap in a single transaction
+      const plan = await prisma.SubscriptionPlan.findUnique({
+        where: {
+          name: "Basic",
+          isActive: true,
+        },
+      });
     await prisma.$transaction(async (tx) => {
       // Create Clinic
       const clinic = await tx.Clinic.create({
         data: {
           email,
           name: clinicName,
-          subscriptionStatus: "TRIAL",
-          subscriptionEndsOn: new Date(
-            new Date().setDate(new Date().getDate() + 30)
-          ),
+          updatedAt: new Date(),
+          Subscription: {
+            create: {
+              planId: plan.id,
+              status: "ACTIVE",
+              startDate: new Date(),
+              endDate: new Date(new Date().setDate(new Date().getDate() + 30)),
+              updatedAt: new Date(),
+            },
+          },
         },
       });
 

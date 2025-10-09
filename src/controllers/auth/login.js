@@ -13,8 +13,9 @@ const login = async (req, res) => {
 
     // Find user by email
     const user = await prisma.User.findUnique({ where: { email } });
+
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password." });
+      return res.status(401).json({ error: "You are not registered. Please sign up." });
     }
 
     // Check if the password matches
@@ -52,7 +53,7 @@ const login = async (req, res) => {
       .status(200)
       .json({
         message: "Sign in successful.",
-        user: { id: user.id, email: user.email, role: user.role },
+        user: { id: user.id, email: user.email, role: user.role, clinicId: user.clinicId },
       });
   } catch (error) {
     console.error("Error during sign in:", error.message);

@@ -7,8 +7,8 @@ const auth = async (req, res, next) => {
       req.cookies?.token || req.headers.authorization?.split(" ")[1];
     // const { token } = cookies;
     //  || ;
-    console.log("auth", req.cookies?.token);
-    console.log(req.headers.authorization?.split(" ")[1]);
+    // console.log("auth", req.cookies?.token);
+    // console.log(req.headers.authorization?.split(" ")[1]);
 
     if (!token) {
       return res.status(401).json({ error: "Please sign-in first" });
@@ -24,8 +24,25 @@ const auth = async (req, res, next) => {
         include: {
           Clinic: {
             select: {
-              subscriptionEndsOn: true,
+              id: true,
               name: true,
+              Subscription: {
+                where: {
+                  status: "ACTIVE",
+                  endDate: { gte: new Date() },
+                },
+                include: {
+                  SubscriptionPlan: {
+                    select: {
+                      id: true,
+                      name: true,
+                      features: true,
+                      oneTimePrice: true,
+                      subscriptionPrice: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -34,16 +51,10 @@ const auth = async (req, res, next) => {
       if (!userData || token !== userData.JWT) {
         return res.status(401).json({ error: "Invalid token" });
       }
-      const currentTime = new Date();
-      console.log(currentTime);
-      console.log(userData.Clinic.subscriptionEndsOn);
-      // userData.Clinic.subscriptionEndsOn;
-      // if (userData.Clinic.subscriptionEndsOn <= currentTime)
-      //   return res.status(401).json({ error: "Subscription Expired" });
+
       req.userData = userData;
-      console.log("userData:", userData);
-      // Attach user info to the request object
-      next(); // Proceed to the next middleware or route handler
+      // console.log("userData:", userData);
+      next();
     });
   } catch (error) {
     console.error("Error in auth middleware:", error);
