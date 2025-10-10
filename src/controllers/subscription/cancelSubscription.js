@@ -22,12 +22,21 @@ const cancelSubscription = async (req, res) => {
   if (currentSubscription && currentSubscription.autoPay) {
     try {
       const subscriptionId = currentSubscription.subscriptionId;
-      const subscription = await razorpayInstance.subscriptions.cancel(
-        subscriptionId,
-        {
-          cancel_at_cycle_end: true,
-        }
+      const subscription = await razorpayInstance.subscriptions.fetch(
+        subscriptionId
       );
+
+      if (
+        subscription.status === "authenticated" &&
+        subscription.start_at * 1000 > Date.now()
+      ) {
+        // Use pause to prevent it from ever starting
+        await razorpayInstance.subscriptions.pause(subscriptionId);
+      } else {
+        // Regular cancel for active ones
+        await razorpayInstance.subscriptions.cancel(subscriptionId, false);
+      }
+
       console.log("subscription", subscription);
       if (subscription?.id) {
         await prisma.Subscription.update({
