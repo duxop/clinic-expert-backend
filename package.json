@@ -15,7 +15,7 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/app.js",
+    "dev": "node ./prisma/seed.js && nodemon src/app.js",
     "prisma-dev": "npx prisma dev clinicxpert-db",
     "seed-db": "node ./prisma/seed.js",
     "prisma-studio": "npx prisma studio",
