@@ -20,7 +20,7 @@
     "seed-db": "node ./prisma/seed.js",
     "prisma-studio": "npx prisma studio",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.js"
+    "start": "node ./prisma/seed.js && node src/app.js"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.891.0",
