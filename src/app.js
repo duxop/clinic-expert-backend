@@ -11,7 +11,7 @@ const patientRoute = require("./routes/patientRoute");
 const userRoute = require("./routes/userRoute");
 const appointmentRoute = require("./routes/appointmentRoute");
 const subscriptionRoute = require("./routes/subscriptionRoute");
-
+const invoicePrefillsRoute = require("./routes/invoicePrefills");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -40,7 +40,7 @@ app.use("/patient", patientRoute);
 app.use("/user", userRoute);
 app.use("/appointment", appointmentRoute);
 app.use("/subscription", subscriptionRoute);
-
+app.use("/invoicePrefills", invoicePrefillsRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });

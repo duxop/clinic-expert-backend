@@ -27,8 +27,6 @@ const addAppointment = async (req, res) => {
 
     if (!doctor) return res.status(404).json({ err: "Doctor not found" });
 
-    const patientName =
-      patient.firstName + " " + (patient.lastName ? patient.lastName : "");
     const appointment = await prisma.Appointment.create({
       data: {
         scheduledTime,
@@ -38,6 +36,9 @@ const addAppointment = async (req, res) => {
         doctorId,
         clinicId,
         createdById,
+        Invoice: {
+          create: { lastUpdatedById: createdById },
+        },
       },
       include: {
         Patient: true,

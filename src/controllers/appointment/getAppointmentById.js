@@ -6,29 +6,24 @@ const getAppointmentById = async (req, res) => {
 
     const clinicId = req.userData.clinicId;
 
-    const appointments = await prisma.Appointment.findUnique({
+    const appointment = await prisma.Appointment.findUnique({
       where: {
         id: parseInt(id),
       },
       include: {
-        Patient: {
-          select: {
-            firstName: true,
-            lastName: true,
+        Patient: true,
+        Doctor: true,
+        Invoice: {
+          include: {
+            InvoiceItems: true, // Include all invoice items for each invoice
           },
         },
-        Doctor: {
-          select: {
-            name: true,
-          },
-        },
-        Invoice: true, // Correct relation name for Invoice[]
         Prescription: true, // Correct relation name for Prescription?
-        EPrescription: true
+        EPrescription: true,
       },
     });
-    console.log(appointments);
-    return res.status(200).json({ appointments });
+    console.log(appointment);
+    return res.status(200).json({ appointment });
   } catch (error) {
     console.error("Error during getting all staff:", error);
     return res.status(500).json({ error: "Internal server error" });

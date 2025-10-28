@@ -23,6 +23,7 @@ model Clinic {
   Patient            Patient[]
   Appointment        Appointment[]
   Doctor             Doctor[]
+  InvoicePrefills    InvoicePrefills[]
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
 }
@@ -40,8 +41,9 @@ model User {
   Doctor               Doctor?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime? 
-  lastLoginAt          DateTime? 
+  lastLoginAt          DateTime?
   AppointmentCreated   Appointment[]
+  InvoiceUpdated       Invoice[]
 
   @@index([clinicId])
 }
@@ -68,19 +70,19 @@ model Patient {
 }
 
 model Appointment {
-  id               Int                @id @default(autoincrement())
+  id               Int                 @id @default(autoincrement())
   scheduledTime    DateTime           
-  duration         Int                @default(15)   //it is in minutes
-  status           AppointmentStatus  @default(PENDING)
+  duration         Int                 @default(15)   //it is in minutes
+  status           AppointmentStatus   @default(PENDING)
   notes            String?
-  isWalkIn         Boolean            @default(false)
+  isWalkIn         Boolean             @default(false)
   patientId        Int                
-  Patient          Patient            @relation(fields: [patientId], references: [id])
+  Patient          Patient             @relation(fields: [patientId], references: [id])
   doctorId         Int?               
   Doctor           Doctor?             @relation(fields: [doctorId], references: [id])
   clinicId         Int                
-  Clinic           Clinic             @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-  Invoice          Invoice[]
+  Clinic           Clinic              @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  Invoice          Invoice?
   Prescription     Prescription?
   EPrescription    EPrescription?
   createdAt        DateTime           @default(now())
@@ -92,16 +94,38 @@ model Appointment {
   @@index([clinicId, doctorId])
 }
 
-model Invoice {
-  id             Int              @id @default(autoincrement())
-  items          Json              // Array of item names ["consultion", "blood test"]        // Corresponding prices [500.0, 200.0]
-  paymentStatus  PaymentStatus    @default(PAID)
-  modeOfPayment  String           // E.g., Cash, Card, UPI, etc.
-  appointmentId  Int              @unique 
-  Appointment    Appointment      @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+model InvoiceItems {
+  id            Int     @id @default(autoincrement())
+  name          String
+  quantity      Int
+  amount        Float
+  invoiceId     Int
+  Invoice       Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 
+  @@index([invoiceId])
+}
+
+model InvoicePrefills {
+  id            Int     @id @default(autoincrement())
+  name          String  @unique
+  amount        Float
+  clinicId      Int                
+  Clinic        Clinic  @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+
+  @@index([clinicId])
+}
+
+model Invoice {
+  id               Int              @id @default(autoincrement())
+  InvoiceItems     InvoiceItems[]
+  modeOfPayment    ModeOfPayment?   // E.g., Cash, Card, UPI, etc.
+  amountPaid       Float            @default(0)
+  appointmentId    Int              @unique 
+  Appointment      Appointment      @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  lastUpdatedById  Int              // User ID of the last person who updated the invoice
+  lastUpdatedBy    User             @relation(fields: [lastUpdatedById], references: [id], onDelete: Cascade)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
   @@index([appointmentId])
 }
 
@@ -227,6 +251,13 @@ enum Role {
   RECEPTIONIST
 }
 
+enum ModeOfPayment {
+  CASH
+  CARD
+  UPI
+  ONLINE
+}
+
 enum SubscriptionPaymentStatus {
   PENDING
   SUCCESS
@@ -235,6 +266,7 @@ enum SubscriptionPaymentStatus {
 }
 
 enum PaymentStatus {
+  PENDING
   PAID
   REFUNDED
 }
