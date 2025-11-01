@@ -8,12 +8,14 @@ const getAllAppointments = require("../controllers/appointment/getAllAppointment
 const getAppointmentById = require("../controllers/appointment/getAppointmentById");
 const invoice = require("../controllers/appointment/invoice");
 const invoicePayment = require("../controllers/appointment/payment");
+const deleteAppointment = require("../controllers/appointment/deleteAppointment");
 
 const router = express.Router();
 
 router.post("/add", auth, access("DOCTOR"), addAppointment);
 router.get("/", auth, access("RECEPTIONIST"), getAllAppointments);
 router.get("/:id", auth, access("RECEPTIONIST"), getAppointmentById);
+router.delete("/:id", auth, access("RECEPTIONIST"), deleteAppointment);
 
 router.post("/invoice", auth, access("RECEPTIONIST"), invoice);
 router.post("/payment", auth, access("RECEPTIONIST"), invoicePayment);

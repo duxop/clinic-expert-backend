@@ -34,8 +34,29 @@ const invoicePayment = async (req, res) => {
     },
   });
 
+  const appointment = await prisma.Appointment.update({
+    where: {
+      id: parseInt(appointmentId),
+      clinicId,
+    },
+    data: {
+      status: "CONFIRMED",
+    },
+    include: {
+      Patient: true,
+      Doctor: true,
+      Invoice: {
+        include: {
+          InvoiceItems: true, // Include all invoice items for each invoice
+        },
+      },
+      Prescription: true, // Correct relation name for Prescription?
+      EPrescription: true,
+    },
+  });
+
   console.log(postPayemnt);
-  return res.status(201).json({ Invoice: postPayemnt });
+  return res.status(201).json({ Invoice: postPayemnt, appointment });
 };
 
 module.exports = invoicePayment;

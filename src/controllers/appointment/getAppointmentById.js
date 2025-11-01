@@ -9,6 +9,7 @@ const getAppointmentById = async (req, res) => {
     const appointment = await prisma.Appointment.findUnique({
       where: {
         id: parseInt(id),
+        clinicId,
       },
       include: {
         Patient: true,
@@ -19,7 +20,7 @@ const getAppointmentById = async (req, res) => {
           },
         },
         Prescription: true, // Correct relation name for Prescription?
-        EPrescription: true,
+        EPrescription: true, 
       },
     });
     console.log(appointment);
