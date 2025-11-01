@@ -26,7 +26,10 @@ const invoice = async (req, res) => {
     },
   });
 
-  const data = InvoiceItems.map((item) => {
+  const data = InvoiceItems.filter((item) => {
+    const { name, amount } = item;
+    return name && amount;
+  }).map((item) => {
     const { name, quantity, amount } = item;
     return {
       invoiceId: id,

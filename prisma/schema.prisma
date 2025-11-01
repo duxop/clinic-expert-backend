@@ -72,6 +72,8 @@ model Patient {
 model Appointment {
   id               Int                 @id @default(autoincrement())
   scheduledTime    DateTime           
+  actualStartTime  DateTime?           
+  actualEndTime    DateTime?          
   duration         Int                 @default(15)   //it is in minutes
   status           AppointmentStatus   @default(PENDING)
   notes            String?
