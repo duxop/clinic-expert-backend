@@ -16,8 +16,9 @@ const invoicePrefillsRoute = require("./routes/invoicePrefills");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// Increase body size limit to handle large base64 images (50MB)
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(cookieParser());
 
 // ✅ Allow frontend (local + production)
@@ -41,6 +42,16 @@ app.use("/user", userRoute);
 app.use("/appointment", appointmentRoute);
 app.use("/subscription", subscriptionRoute);
 app.use("/invoicePrefills", invoicePrefillsRoute);
+
+// Handle payload too large errors
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json({ 
+      error: 'Payload too large. Please reduce the image size or use a smaller image.' 
+    });
+  }
+  next(err);
+});
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
