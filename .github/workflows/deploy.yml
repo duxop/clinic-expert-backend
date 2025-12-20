@@ -26,7 +26,7 @@ jobs:
             set -e
             echo "🚀 Deploy started"
 
-            cd clinicXpert/clinic-expert-backend
+            cd /home/ubuntu/clinicXpert/clinic-expert-backend
             git pull origin main
 
             echo "📦 Backend"
@@ -35,10 +35,10 @@ jobs:
             pm2 reload backend
 
             echo "🌐 Frontend"
-            cd cd ../clinicxpert-frontend/
+            cd ../clinicxpert-frontend/
             npm install
             npm run build
-            pm2 reload frontend
+            pm2 reload next-app
 
             pm2 save
             echo "✅ Deploy finished"
