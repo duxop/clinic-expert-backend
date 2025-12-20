@@ -26,6 +26,13 @@ jobs:
             set -e
             echo "🚀 Deploy started"
 
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use --lts
+
+            echo "Node: $(node -v)"
+            echo "NPM: $(npm -v)"
+
             cd /home/ubuntu/clinicXpert/clinic-expert-backend
             git pull origin main
 
