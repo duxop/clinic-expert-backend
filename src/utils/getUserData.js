@@ -4,7 +4,7 @@ const getUserData = async (userData) => {
   try {
     const { password, ...userWithoutPassword } = userData;
     if (userWithoutPassword.role !== "RECEPTIONIST") {
-      const doctor = await prisma.doctor.findUnique({
+      const doctor = await prisma.Doctor.findUnique({
         where: { userId: userWithoutPassword.id },
       });
       userWithoutPassword.doctor = doctor;
