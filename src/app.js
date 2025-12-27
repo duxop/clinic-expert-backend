@@ -60,8 +60,8 @@ app.use((req, res, next) => {
 connection()
   .then(() => {
     console.log("Database connected successfully");
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+    app.listen(PORT, "127.0.0.1", () => {
+      console.log(`Server is running on http://127.0.0.1:${PORT}`);
     });
   })
   .catch((error) => {
