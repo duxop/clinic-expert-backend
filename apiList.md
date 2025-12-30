@@ -26,6 +26,7 @@
 
     GET     /api/clinic/all           ✅
     POST    /api/clinic/              ✅   //add staff - doctor and patient
+    GET     /api/clinic/:id/qr-code   ✅   //generate QR code for patient registration
     GET     /api/clinic/:id
     PUT     /api/clinic/:id
     DELETE  /api/clinic/:id
@@ -35,6 +36,7 @@
 
     GET    /api/patient/all           ✅
     POST   /api/patient/             ✅
+    POST   /api/patient/register/:clinicId  ✅  //public patient registration via QR code (no auth)
     GET    /api/patient/:id
     PUT    /api/patient/:id
     DELETE /api/patient/:id
