@@ -5,11 +5,14 @@ const access = require("../middlewares/access");
 
 const getAllPatients = require('../controllers/patient/getAllPatients')
 const addPatient = require("../controllers/patient/addPatient");
+const registerPatientPublic = require("../controllers/patient/registerPatientPublic");
 
 
 const router = express.Router();
 
 router.get("/", auth, access("RECEPTIONIST"), getAllPatients);
 router.post("/", auth, access("RECEPTIONIST"), addPatient);
+// Public route for QR code registration (no auth required)
+router.post("/register/:clinicId", registerPatientPublic);
 
 module.exports = router;

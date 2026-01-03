@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.891.0",
+    "@prisma/client": "^6.14.0",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
@@ -32,10 +33,10 @@
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.1",
     "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.14.0",
+    "qrcode": "^1.5.4",
     "razorpay": "^2.9.6",
-    "validator": "^13.15.15",
-    "@prisma/client": "^6.14.0",
-    "prisma": "^6.14.0"
+    "validator": "^13.15.15"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
