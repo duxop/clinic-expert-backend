@@ -20,14 +20,19 @@
 # user route /api/user
 
         PUT     /api/user/reset-password    ✅
+        
+# receptionist route /api/receptionist
+
+        GET     /api/receptionist           ✅   //get receptionist profile (firstName, lastName, phone, email, Address, Age)
+        PUT     /api/receptionist           ✅   //update receptionist profile (firstName, lastName, phone, email, Address, Age)
 
 
 # clinic route
 
     GET     /api/clinic/all           ✅
     POST    /api/clinic/              ✅   //add staff - doctor and patient
-    GET     /api/clinic/:id
-    PUT     /api/clinic/:id
+    GET     /api/clinic               ✅   //get clinic details (email, name, address, phone, workHours, logo)
+    PUT     /api/clinic               ✅   //update clinic details (email, name, address, phone, workHours, logo)
     DELETE  /api/clinic/:id
     DELETE  /api/clinic/:clinicId
 

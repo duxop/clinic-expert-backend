@@ -10,6 +10,8 @@ const updateDoctor = require("../controllers/clinic/updateDoctor");
 const deleteStaff = require("../controllers/clinic/deleteStaff");
 const updateProfileAdmin = require("../controllers/auth/updateName");
 const updateStaffPassword = require("../controllers/clinic/updateStaff");
+const getClinicDetails = require("../controllers/clinic/getClinicDetails");
+const updateClinicDetails = require("../controllers/clinic/updateClinicDetails");
 
 const router = express.Router();
 
@@ -18,6 +20,8 @@ router.post("/update", auth, updateProfileAdmin);
 router.post("/", auth, access("ADMIN"), addStaff);
 router.get("/doctor", auth, getDoctor);
 router.post("/doctor/update", auth, updateDoctor);
+router.get("/", auth, getClinicDetails); // All authenticated users can view their clinic details
+router.put("/", auth, access("ADMIN"), updateClinicDetails); // Only ADMIN can update clinic details
 router.delete("/:id", auth, access("ADMIN"), deleteStaff); //this should return doctor id from doctor table also.
 router.post("/:id", auth, access("ADMIN"), updateStaffPassword);
 

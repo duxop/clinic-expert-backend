@@ -16,7 +16,8 @@ const getAllStaff = async (req, res) => {
           select: {
             id: true,
             profilePicture: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             email: true,
             degree: true,
             specialization: true,

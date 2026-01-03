@@ -21,24 +21,46 @@ const addStaff = async (req, res) => {
 
     const hashPassword = await bcrypt.hash(password, 10);
     if (staffRole === "RECEPTIONIST") {
+      const nameParts = name.split(' ');
+      const firstName = nameParts[0] || name;
+      const lastName = nameParts.slice(1).join(' ') || null;
+
       const staff = await prisma.User.create({
         data: {
-          firstName: name,
+          firstName,
+          lastName,
           role: staffRole,
           email: username,
           password: hashPassword,
           clinicId,
           updatedAt: new Date(),
+          Receptionist: {
+            create: {
+              firstName,
+              lastName,
+              clinicId,
+            },
+          },
+        },
+        include: {
+          Receptionist: true,
         },
       });
 
+      const { password: staffPassword, ...withoutPassword } = staff;
       return res
         .status(201)
-        .json({ message: "User created successfully", data: staff });
+        .json({ message: "User created successfully", data: withoutPassword });
     }
-    const doctor = await prisma.user.create({
+
+    const nameParts = name.split(' ');
+    const firstName = nameParts[0] || name;
+    const lastName = nameParts.slice(1).join(' ') || null;
+
+    const doctor = await prisma.User.create({
       data: {
-        firstName: name,
+        firstName,
+        lastName,
         role: staffRole,
         email: username,
         password: hashPassword,
@@ -46,7 +68,8 @@ const addStaff = async (req, res) => {
         updatedAt: new Date(),
         Doctor: {
           create: {
-            name,
+            firstName,
+            lastName,
             clinicId, // must match the clinicId used in Doctor model
           },
         },
