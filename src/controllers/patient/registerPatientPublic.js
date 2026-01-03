@@ -34,21 +34,42 @@ const registerPatientPublic = async (req, res) => {
       return res.status(400).json({ error: "Valid date of birth is required" });
     }
 
-    // Check for duplicate patient in the same clinic
-    const existingPatient = await prisma.Patient.findFirst({
+    // Check for duplicate patient: email and phone should not both match an existing patient
+    // If email is already registered, phone must be different. If phone is already registered, email must be different.
+    if (email) {
+      // Check if a patient with the same email exists
+      const existingPatientByEmail = await prisma.Patient.findFirst({
+        where: {
+          clinicId: parseInt(clinicId),
+          email: email,
+        },
+      });
+
+      // If email exists, phone must be different
+      if (existingPatientByEmail && existingPatientByEmail.phone === phone) {
+        return res.status(409).json({
+          error: "A patient with this email and phone number already exists in this clinic. Please use a different email or phone number.",
+        });
+      }
+    }
+
+    // Check if a patient with the same phone exists
+    const existingPatientByPhone = await prisma.Patient.findFirst({
       where: {
         clinicId: parseInt(clinicId),
-        OR: [
-          ...(email ? [{ email }] : []),
-          { phone: phone },
-        ],
+        phone: phone,
       },
     });
 
-    if (existingPatient) {
-      return res.status(409).json({
-        error: "Patient with this email or phone number already exists in this clinic",
-      });
+    // If phone exists, email must be different (or not provided)
+    if (existingPatientByPhone) {
+      // If both email and phone are provided and match, reject
+      if (email && existingPatientByPhone.email === email) {
+        return res.status(409).json({
+          error: "A patient with this email and phone number already exists in this clinic. Please use a different email or phone number.",
+        });
+      }
+      // If phone matches but email is different or not provided, allow (email will be different)
     }
 
     // Create patient
@@ -91,4 +112,3 @@ const registerPatientPublic = async (req, res) => {
 };
 
 module.exports = registerPatientPublic;
-
