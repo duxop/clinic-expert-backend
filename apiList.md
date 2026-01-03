@@ -20,6 +20,11 @@
 # user route /api/user
 
         PUT     /api/user/reset-password    ✅
+        
+# receptionist route /api/receptionist
+
+        GET     /api/receptionist           ✅   //get receptionist profile (firstName, lastName, phone, email, Address, Age)
+        PUT     /api/receptionist           ✅   //update receptionist profile (firstName, lastName, phone, email, Address, Age)
 
 
 # clinic route
@@ -29,6 +34,8 @@
     GET     /api/clinic/:id/qr-code   ✅   //generate QR code for patient registration
     GET     /api/clinic/:id
     PUT     /api/clinic/:id
+    GET     /api/clinic               ✅   //get clinic details (email, name, address, phone, workHours, logo)
+    PUT     /api/clinic               ✅   //update clinic details (email, name, address, phone, workHours, logo)
     DELETE  /api/clinic/:id
     DELETE  /api/clinic/:clinicId
 
