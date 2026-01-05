@@ -86,7 +86,8 @@ const verifyEmailOTP = async (req, res) => {
           updatedAt: new Date(),
           Doctor: {
             create: {
-              name: `${firstName} ${lastName || ""}`.trim(),
+              firstName,
+              lastName,
               clinicId: clinic.id,
             },
           },
