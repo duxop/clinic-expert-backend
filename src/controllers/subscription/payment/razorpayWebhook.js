@@ -72,7 +72,7 @@ const razorpayWebhook = async (req, res) => {
           const baseDate = currentSubscription
             ? new Date(currentSubscription.endDate)
             : new Date();
-          baseDate.setDate(baseDate.getDate() + 30 * (monthly ? 1 : 12));
+          baseDate.setMonth(baseDate.getMonth() + (planId === 1 ? 120 : (monthly ? 1 : 12)));
           const endDate = baseDate;
 
           let subscription;

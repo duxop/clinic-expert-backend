@@ -13,7 +13,7 @@ async function main() {
         "Billing",
         "Data Security",
       ],
-      oneTimePrice: 1179,
+      oneTimePrice: 9990,
       subscriptionPrice: 999,
       razorPaySubscriptionPlanMonthlyId: "plan_RR1NjkwOJrJgTL",
       razorPaySubscriptionPlanYearlyId: "plan_RR1O2xBsBOQl9j",
@@ -64,6 +64,24 @@ async function main() {
       await prisma.subscriptionPlan.create({ data: plan });
       console.log(`🆕 Created plan (ID: ${plan.id}, Name: ${plan.name})`);
     }
+  }
+
+  // Mark any plans in the database that are not in the plans array as inactive
+  const planIds = plans.map((plan) => plan.id);
+  const allPlansInDb = await prisma.subscriptionPlan.findMany({
+    select: { id: true },
+  });
+  
+  const plansToDeactivate = allPlansInDb.filter(
+    (dbPlan) => !planIds.includes(dbPlan.id)
+  );
+
+  for (const planToDeactivate of plansToDeactivate) {
+    await prisma.subscriptionPlan.update({
+      where: { id: planToDeactivate.id },
+      data: { isActive: false },
+    });
+    console.log(`🚫 Deactivated plan (ID: ${planToDeactivate.id})`);
   }
 
   console.log("\n✅ Plans seeded/updated successfully!");
