@@ -46,7 +46,7 @@ const addStaff = async (req, res) => {
         updatedAt: new Date(),
         Doctor: {
           create: {
-            name,
+            firstName: name,
             clinicId, // must match the clinicId used in Doctor model
           },
         },
