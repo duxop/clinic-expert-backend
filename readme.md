@@ -28,3 +28,11 @@ reset db -
 npx prisma migrate reset
 
 npx prisma db push --force-reset
+
+
+npx prisma db push --force-reset
+
+
+ec2 
+
+source ~/.bashrc

@@ -3,11 +3,11 @@ const { prisma } = require("../../config/database");
 const updateDoctor = async (req, res) => {
   try {
     const { clinicId, id: userId, role } = req.userData;
-    const { name, email, profilePicture, degree, specialization, experience } = req.body;
+    const { firstName, lastName, email, profilePicture, degree, specialization, experience } = req.body;
 
     // Validate required fields
-    if (!name) {
-      return res.status(400).json({ error: "Name is required" });
+    if (!firstName) {
+      return res.status(400).json({ error: "First Name is required" });
     }
 
     // Find the doctor record
@@ -55,9 +55,9 @@ const updateDoctor = async (req, res) => {
 
     // Prepare update data (only include fields that are provided)
     const updateData = {
-      name,
+      firstName,
     };
-
+    if (lastName !== undefined) updateData.lastName = lastName || null;
     if (email !== undefined) updateData.email = email || null;
     if (profilePicture !== undefined) {
       // Validate profile picture size (base64 images can be large)
