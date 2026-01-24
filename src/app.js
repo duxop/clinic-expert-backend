@@ -13,6 +13,7 @@ const appointmentRoute = require("./routes/appointmentRoute");
 const subscriptionRoute = require("./routes/subscriptionRoute");
 const invoicePrefillsRoute = require("./routes/invoicePrefills");
 const receptionistRoute = require("./routes/receptionistRoute");
+const { initSubscriptionCron } = require("./cron/subscription");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -65,6 +66,7 @@ connection()
     app.listen(PORT, "127.0.0.1", () => {
       console.log(`Server is running on http://127.0.0.1:${PORT}`);
     });
+    initSubscriptionCron();
   })
   .catch((error) => {
     console.error("Database connection failed:", error);

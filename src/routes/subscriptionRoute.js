@@ -9,6 +9,7 @@ const razorpayWebhook = require("../controllers/subscription/payment/razorpayWeb
 const getSubscription = require("../controllers/subscription/getSubscription");
 const cancelSubscription = require("../controllers/subscription/cancelSubscription");
 const getAllPlans = require("../controllers/subscription/getAllPlans");
+const checkSubscription = require("../middlewares/subscription");
 
 const router = express.Router();
 
@@ -16,7 +17,12 @@ router.get("/", auth, getSubscription);
 router.post("/payment/create", auth, access("ADMIN"), createPayment);
 // router.get("/payment/confirm", auth, access("ADMIN"), confirmPayment);
 router.post("/payment/webhook", razorpayWebhook);
-router.post("/cancel", auth, access("ADMIN"), cancelSubscription);
+router.post(
+  "/cancel",
+  auth,
+  access("ADMIN"),
+  cancelSubscription,
+);
 router.get("/plans", getAllPlans);
 
 module.exports = router;
