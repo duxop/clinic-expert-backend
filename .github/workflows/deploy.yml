@@ -26,9 +26,7 @@ jobs:
             set -e
             echo "🚀 Deploy started"
 
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use --lts
+            source ~/.bashrc
 
             echo "Node: $(node -v)"
             echo "NPM: $(npm -v)"
@@ -39,13 +37,12 @@ jobs:
             echo "📦 Backend"
             npm install
             npx prisma generate || true
-            pm2 reload backend
 
             echo "🌐 Frontend"
             cd ../clinicxpert-frontend/
+            git pull origin main
             npm install
             npm run build
-            pm2 reload next-app
 
             pm2 save
             echo "✅ Deploy finished"
