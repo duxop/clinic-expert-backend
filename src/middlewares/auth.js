@@ -9,7 +9,6 @@ const auth = async (req, res, next) => {
     //  || ;
     // console.log("auth", req.cookies?.token);
     // console.log(req.headers.authorization?.split(" ")[1]);
-
     if (!token) {
       return res.status(401).json({ error: "Please sign-in first" });
     }
@@ -23,9 +22,7 @@ const auth = async (req, res, next) => {
         where: { id: decoded.userId },
         include: {
           Clinic: {
-            select: {
-              id: true,
-              name: true,
+            include: {
               Subscription: {
                 where: {
                   status: "ACTIVE",
@@ -48,10 +45,17 @@ const auth = async (req, res, next) => {
         },
       });
 
+      if (userData.role !== "RECEPTIONIST") {
+        const doctor = await prisma.Doctor.findUnique({
+          where: { userId: userData.id },
+        });
+        userData.doctor = doctor;
+      }
+
       if (!userData || token !== userData.JWT) {
         return res.status(401).json({ error: "Invalid token" });
       }
-
+      
       req.userData = userData;
       // console.log("userData:", userData);
       next();

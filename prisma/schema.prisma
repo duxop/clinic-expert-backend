@@ -17,6 +17,7 @@ model Clinic {
   phone              String?
   workHours          String? // E.g., "9:30 AM - 6:00 PM"
   logo               String? // URL or file path of the logo image
+  brandColor         String? @default("#2B3E8F")
   
   Subscription       Subscription[]  
   User               User[]
@@ -148,6 +149,8 @@ model Invoice {
   InvoiceItems     InvoiceItems[]
   modeOfPayment    ModeOfPayment?   // E.g., Cash, Card, UPI, etc.
   amountPaid       Float            @default(0)
+  discountType     String?          @default("AMOUNT")
+  discountValue    Float?           @default(0)
   appointmentId    Int              @unique 
   Appointment      Appointment      @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
   lastUpdatedById  Int              // User ID of the last person who updated the invoice

@@ -3,7 +3,7 @@ const { prisma } = require("../../config/database");
 const updateClinicDetails = async (req, res) => {
   try {
     const clinicId = req.userData.clinicId;
-    const { email, name, address, phone, workHours, logo } = req.body;
+    const { email, name, address, phone, workHours, brandColor } = req.body;
 
     // Build update data object with only provided fields
     const updateData = {};
@@ -12,7 +12,7 @@ const updateClinicDetails = async (req, res) => {
     if (address !== undefined) updateData.address = address;
     if (phone !== undefined) updateData.phone = phone;
     if (workHours !== undefined) updateData.workHours = workHours;
-    if (logo !== undefined) updateData.logo = logo;
+    if (brandColor !== undefined) updateData.brandColor = brandColor;
 
     // Check if clinic exists
     const existingClinic = await prisma.Clinic.findUnique({
@@ -44,7 +44,7 @@ const updateClinicDetails = async (req, res) => {
         address: true,
         phone: true,
         workHours: true,
-        logo: true,
+        brandColor: true,
       },
     });
 
@@ -54,15 +54,14 @@ const updateClinicDetails = async (req, res) => {
     });
   } catch (error) {
     console.error("Error during updating clinic details:", error);
-    
+
     // Handle Prisma unique constraint violation
     if (error.code === "P2002") {
       return res.status(409).json({ error: "Email already exists" });
     }
-    
+
     return res.status(500).json({ error: "Internal server error" });
   }
 };
 
 module.exports = updateClinicDetails;
-

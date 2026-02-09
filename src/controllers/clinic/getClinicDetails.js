@@ -13,6 +13,7 @@ const getClinicDetails = async (req, res) => {
         phone: true,
         workHours: true,
         logo: true,
+        brandColor: true,
       },
     });
 
@@ -28,4 +29,3 @@ const getClinicDetails = async (req, res) => {
 };
 
 module.exports = getClinicDetails;
-

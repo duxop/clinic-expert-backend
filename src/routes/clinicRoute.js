@@ -14,6 +14,8 @@ const generateQRCode = require("../controllers/clinic/generateQRCode");
 const getClinicDetails = require("../controllers/clinic/getClinicDetails");
 const updateClinicDetails = require("../controllers/clinic/updateClinicDetails");
 const checkSubscription = require("../middlewares/subscription");
+const updateLogo = require("../controllers/clinic/updateClinicLogo");
+const uploadLogo         = require("../controllers/clinic/uploadClinicLogo");
 
 const router = express.Router();
 
@@ -26,12 +28,16 @@ router.get("/:id/qr-code", auth, checkSubscription, generateQRCode); // Generate
 router.get("/", auth, checkSubscription, getClinicDetails); // All authenticated users can view their clinic details
 router.put("/", auth, access("ADMIN"), checkSubscription, updateClinicDetails); // Only ADMIN can update clinic details
 router.delete("/:id", auth, access("ADMIN"), checkSubscription, deleteStaff); //this should return doctor id from doctor table also.
+
+router.post("/uploadLogo", auth, access("ADMIN"), uploadLogo);
+router.post("/updateLogo", auth, access("ADMIN"), updateLogo);
+
 router.post(
   "/:id",
   auth,
   access("ADMIN"),
   checkSubscription,
-  updateStaffPassword,
+  updateStaffPassword
 );
 
 module.exports = router;

@@ -14,6 +14,7 @@ const getAppointmentById = async (req, res) => {
       include: {
         Patient: true,
         Doctor: true,
+        Clinic: true,
         Invoice: {
           include: {
             InvoiceItems: true, // Include all invoice items for each invoice

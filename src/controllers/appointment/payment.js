@@ -1,62 +1,82 @@
-const { AppointmentStatus } = require("@prisma/client");
 const { prisma } = require("../../config/database");
 
 const invoicePayment = async (req, res) => {
-  const { clinicId, id: lastUpdatedById } = req.userData;
+  try {
+    const { clinicId } = req.userData;
 
-  const { id, appointmentId, amountPaid, modeOfPayment } = req.body;
-  const checkInvoice = await prisma.Invoice.findUnique({
-    where: {
+    const {
       id,
       appointmentId,
-      Appointment: {
-        clinicId,
-      },
-    },
-    include: {
-      InvoiceItems: true,
-    },
-  });
-  if (!checkInvoice) return res.status(401).json({ err: "Invalid request" });
-
-  const postPayemnt = await prisma.Invoice.update({
-    where: {
-      id,
-    },
-    data: {
-      amountPaid: {
-        increment: amountPaid, // adds on top of current amountPaid
-      },
+      amountPaid,
       modeOfPayment,
-    },
-    include: {
-      InvoiceItems: true,
-    },
-  });
+      discountType,
+      discountValue,
+    } = req.body;
 
-  const appointment = await prisma.Appointment.update({
-    where: {
-      id: parseInt(appointmentId),
-      clinicId,
-    },
-    data: {
-      status: "CONFIRMED",
-    },
-    include: {
-      Patient: true,
-      Doctor: true,
-      Invoice: {
-        include: {
-          InvoiceItems: true, // Include all invoice items for each invoice
+    // 1) Validate invoice belongs to this clinic
+    const checkInvoice = await prisma.invoice.findFirst({
+      where: {
+        id,
+        appointmentId,
+        Appointment: {
+          clinicId,
         },
       },
-      Prescription: true, // Correct relation name for Prescription?
-      EPrescription: true,
-    },
-  });
+      include: {
+        InvoiceItems: true,
+      },
+    });
 
-  console.log(postPayemnt);
-  return res.status(201).json({ Invoice: postPayemnt, appointment });
+    if (!checkInvoice) {
+      return res.status(401).json({ err: "Invalid request" });
+    }
+
+    // 2) Update payment + discount
+    const postPayment = await prisma.invoice.update({
+      where: { id },
+      data: {
+        amountPaid: {
+          increment: Number(amountPaid || 0),
+        },
+        modeOfPayment,
+        discountType: discountType || checkInvoice.discountType || "AMOUNT",
+        discountValue:
+          discountValue !== undefined && discountValue !== null
+            ? Number(discountValue)
+            : Number(checkInvoice.discountValue || 0),
+      },
+      include: {
+        InvoiceItems: true,
+      },
+    });
+
+    // 3) Update appointment status
+    const appointment = await prisma.appointment.update({
+      where: {
+        id: parseInt(appointmentId),
+        clinicId,
+      },
+      data: {
+        status: "CONFIRMED",
+      },
+      include: {
+        Patient: true,
+        Doctor: true,
+        Invoice: {
+          include: {
+            InvoiceItems: true,
+          },
+        },
+        Prescription: true,
+        EPrescription: true,
+      },
+    });
+
+    return res.status(201).json({ Invoice: postPayment, appointment });
+  } catch (err) {
+    console.error("Invoice payment error:", err);
+    return res.status(500).json({ err: "Server error" });
+  }
 };
 
 module.exports = invoicePayment;
