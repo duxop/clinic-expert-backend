@@ -19,7 +19,7 @@ const deleteAppointment = async (req, res) => {
             InvoiceItems: true, // Include all invoice items for each invoice
           },
         },
-        Prescription: true, // Correct relation name for Prescription?
+        AppointmentDocument: true, // Correct relation name for AppointmentDocument?
         EPrescription: true,
       },
     });

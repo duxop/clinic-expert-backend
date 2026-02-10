@@ -67,7 +67,7 @@ const invoicePayment = async (req, res) => {
             InvoiceItems: true,
           },
         },
-        Prescription: true,
+        AppointmentDocument: true,
         EPrescription: true,
       },
     });

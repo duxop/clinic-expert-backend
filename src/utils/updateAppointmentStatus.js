@@ -104,7 +104,7 @@ const updateAppointmentStatus = async (
           InvoiceItems: true,
         },
       },
-      Prescription: true,
+      AppointmentDocument: true,
       EPrescription: true,
     },
   });
