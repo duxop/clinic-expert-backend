@@ -5,7 +5,7 @@ const { prisma } = require("../config/database");
  */
 const canTransition = (currentStatus, newStatus) => {
   const allowedTransitions = {
-    PENDING: ["CONFIRMED", "CANCELLED"],
+    PENDING: ["STARTED", "CONFIRMED", "CANCELLED"],
     CONFIRMED: ["STARTED", "CANCELLED"],
     ACTIVE: ["STARTED", "COMPLETED", "CANCELLED"],
     STARTED: ["COMPLETED"],
