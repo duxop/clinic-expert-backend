@@ -12,6 +12,10 @@ const deleteAppointment = require("../controllers/appointment/deleteAppointment"
 const updateAppointmentStatus = require("../controllers/appointment/updateAppointmentStatus");
 const savePrescription = require("../controllers/appointment/savePrescription");
 const checkSubscription = require("../middlewares/subscription");
+const uploadDocumentUrl = require("../controllers/appointment/uploadDocumentUrl");
+const addDocument = require("../controllers/appointment/addDocument");
+const deleteDocument = require("../controllers/appointment/deleteDocument");
+const getDocuments = require("../controllers/appointment/getDocuments");
 
 const router = express.Router();
 
@@ -65,6 +69,25 @@ router.post(
   access("RECEPTIONIST"),
   checkSubscription,
   invoicePayment,
+);
+router.post(
+  "/:id/uploadDocumentUrl",
+  auth,
+  checkSubscription,
+  uploadDocumentUrl,
+);
+router.get("/:id/documents", auth, checkSubscription, getDocuments);
+router.post(
+  "/:id/addDocument",
+  auth,
+  checkSubscription,
+  addDocument,
+);
+router.delete(
+  "/documents/:docId",
+  auth,
+  checkSubscription,
+  deleteDocument,
 );
 
 module.exports = router;

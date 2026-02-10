@@ -36,7 +36,7 @@ jobs:
 
             echo "📦 Backend"
             npm install
-            npx prisma migrate dev --name discount-type-and-value
+            npx prisma migrate dev --name added-document-support
             npx prisma generate || true
 
             echo "🌐 Frontend"

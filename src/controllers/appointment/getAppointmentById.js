@@ -20,8 +20,8 @@ const getAppointmentById = async (req, res) => {
             InvoiceItems: true, // Include all invoice items for each invoice
           },
         },
-        Prescription: true, // Correct relation name for Prescription?
-        EPrescription: true, 
+        AppointmentDocument: true, // Correct relation name for Prescription?
+        EPrescription: true,
       },
     });
     

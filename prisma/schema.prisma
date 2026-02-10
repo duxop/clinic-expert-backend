@@ -112,7 +112,7 @@ model Appointment {
   clinicId         Int                
   Clinic           Clinic              @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   Invoice          Invoice?
-  Prescription     Prescription?
+  AppointmentDocument     AppointmentDocument[]
   EPrescription    EPrescription?
   createdAt        DateTime           @default(now())
   createdById      Int
@@ -157,19 +157,32 @@ model Invoice {
   lastUpdatedBy    User             @relation(fields: [lastUpdatedById], references: [id], onDelete: Cascade)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  @@index([appointmentId])
-}
-
-model Prescription {
-  id             Int              @id @default(autoincrement())
-  screenshots    String[]         // URLs or file paths of the images
-  appointmentId  Int              @unique
-  Appointment    Appointment      @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
 
   @@index([appointmentId])
 }
+
+model AppointmentDocument {
+  id            Int       @id @default(autoincrement())
+
+  appointmentId Int
+  clinicId      Int
+
+  name          String
+  url           String
+  key           String
+
+  mimeType      String?
+  size          Int?
+
+  createdAt     DateTime  @default(now())
+
+  Appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+
+  @@index([appointmentId])
+  @@index([clinicId])
+}
+
+
 
 model EPrescription {
   id             Int              @id @default(autoincrement())
@@ -201,6 +214,8 @@ model Doctor {
   Clinic         Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   PatientDoctor  PatientDoctor[]
   isDeleted      Boolean   @default(false)
+
+  @@index([clinicId])
 }
 
 model PatientDoctor {
@@ -244,6 +259,8 @@ model Subscription {
   clinic            Clinic             @relation(fields: [clinicId], references: [id])
   SubscriptionPlan  SubscriptionPlan   @relation(fields: [planId], references: [id])
   Payment           Payment[]
+
+  @@index([clinicId])
 }
 
 model Payment {
