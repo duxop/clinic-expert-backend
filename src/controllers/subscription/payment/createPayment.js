@@ -72,12 +72,33 @@ const createPayment = async (req, res) => {
       ? plan.razorPaySubscriptionPlanMonthlyId
       : plan.razorPaySubscriptionPlanYearlyId;
 
+    const now = Math.floor(Date.now() / 1000);
     const daysBeforeExpiry = 7;
-    const startAt =
-      currentSubscription && currentSubscription.endDate
-        ? Math.floor(new Date(currentSubscription.endDate).getTime() / 1000) -
-          daysBeforeExpiry * 24 * 60 * 60
-        : Math.floor(Date.now() / 1000);
+
+    let startAt = now;
+
+    if (currentSubscription?.endDate) {
+      const endAt = Math.floor(
+        new Date(currentSubscription.endDate).getTime() / 1000,
+      );
+
+      // start 7 days before expiry
+      const desiredStartAt = endAt - daysBeforeExpiry * 24 * 60 * 60;
+
+      // never allow start in the past
+      startAt = Math.max(desiredStartAt, now);
+    }
+
+    console.log("startAt", startAt);
+
+    const TEN_YEARS_SECONDS = 10 * 365 * 24 * 60 * 60;
+    
+    if (startAt > now + TEN_YEARS_SECONDS) {
+      return res.status(400).json({
+        error:
+          "Autopay cannot be enabled because your current plan is valid for more than 10 years.",
+      });
+    }
 
     const subscription = await razorpayInstance.subscriptions.create({
       plan_id: subscriptionPlan,

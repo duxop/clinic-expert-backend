@@ -42,7 +42,7 @@ const razorpayWebhook = async (req, res) => {
       planId = parseInt(planId);
       monthly = monthly === "1";
 
-      await prisma
+      return await prisma
         .$transaction(async (prisma) => {
           const currentSubscription = await prisma.Subscription.findFirst({
             where: {
@@ -123,7 +123,7 @@ const razorpayWebhook = async (req, res) => {
         })
         .then(() => {
           if (body.event === "payment.captured")
-            res.status(200).json({ message: "Webhook verified" });
+            return res.status(200).json({ message: "Webhook verified" });
         })
         .catch((err) => {
           console.error(err);
@@ -153,7 +153,12 @@ const razorpayWebhook = async (req, res) => {
 
       clinicId = parseInt(clinicId);
       planId = parseInt(planId);
-      monthly = monthly === "1";
+      monthly =
+        monthly === true ||
+        monthly === "true" ||
+        monthly === 1 ||
+        monthly === "1";
+
 
       const currentSubscription = await prisma.Subscription.findFirst({
         where: {

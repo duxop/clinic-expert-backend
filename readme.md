@@ -36,3 +36,8 @@ npx prisma db push --force-reset
 ec2 
 
 source ~/.bashrc
+
+
+for webhook
+
+ngrok http 4000
