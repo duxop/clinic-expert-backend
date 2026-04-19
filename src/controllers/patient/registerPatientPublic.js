@@ -23,15 +23,15 @@ const registerPatientPublic = async (req, res) => {
       phone,
       emergencyContact,
       gender,
-      dob,
+      age,
       err,
     } = verifyPatientData(req.body);
 
     if (err) return res.status(err.code).json({ err: err.message });
 
-    // Validate date of birth (required in schema)
-    if (!dob || isNaN(new Date(dob).getTime())) {
-      return res.status(400).json({ error: "Valid date of birth is required" });
+    // Validate age (required in schema)
+    if (!age || isNaN(age)) {
+      return res.status(400).json({ error: "Valid age is required" });
     }
 
     // Check for duplicate patient in the same clinic
@@ -60,7 +60,7 @@ const registerPatientPublic = async (req, res) => {
         phone,
         emergencyContact,
         gender,
-        dob: new Date(dob),
+        age,
         clinicId: parseInt(clinicId),
       },
     });

@@ -1,12 +1,12 @@
 // schema.prisma
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // Use an environment variable for the database connection
 }
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
 
 model Clinic {
   id                 Int               @id @default(autoincrement())
@@ -83,7 +83,7 @@ model Patient {
   phone            String   
   emergencyContact String? 
   gender           Gender
-  dob              DateTime
+  age              Int? 
   bloodGroup       BloodGroup?
   clinicId         Int
   Clinic           Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)

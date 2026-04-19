@@ -222,7 +222,7 @@ const verifyPatientData = (data) => {
   const phone = data.phone?.trim();
   const emergencyContact = data.emergencyContact?.trim() || null;
   const gender = data.gender?.trim().toUpperCase();
-  const dob = new Date(data.dob?.trim()) || null;
+  const age = data.age|| null
 
   // Check required fields
   const requiredFields = [
@@ -272,7 +272,7 @@ const verifyPatientData = (data) => {
       message: `Gender must be one of: ${allowedGenders.join(", ")}.`,
     },
     {
-      condition: dob && isNaN(dob.getTime()),
+      condition: age && isNaN(age),
       message: "Date of birth must be in the format YYYY-MM-DD.",
     },
     {
@@ -311,7 +311,7 @@ const verifyPatientData = (data) => {
     phone,
     emergencyContact,
     gender,
-    dob,
+    age,
   };
 };
 

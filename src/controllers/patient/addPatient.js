@@ -11,7 +11,7 @@ const addPatient = async (req, res) => {
       phone,
       emergencyContact,
       gender,
-      dob,
+      age,
       err,
     } = verifyPatientData(req.body);
 
@@ -25,7 +25,7 @@ const addPatient = async (req, res) => {
         phone,
         emergencyContact,
         gender,
-        dob,
+        age,
         clinicId,
       },
     });

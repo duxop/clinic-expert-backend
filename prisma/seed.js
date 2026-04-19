@@ -1,5 +1,13 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+require("dotenv/config");
+
+const { PrismaPg } = require("@prisma/adapter-pg");
+const { PrismaClient } = require("../src/generated/prisma/client");
+
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const plans = [
@@ -71,9 +79,9 @@ async function main() {
   const allPlansInDb = await prisma.subscriptionPlan.findMany({
     select: { id: true },
   });
-  
+
   const plansToDeactivate = allPlansInDb.filter(
-    (dbPlan) => !planIds.includes(dbPlan.id)
+    (dbPlan) => !planIds.includes(dbPlan.id),
   );
 
   for (const planToDeactivate of plansToDeactivate) {
