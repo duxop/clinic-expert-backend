@@ -181,6 +181,14 @@ export const BloodGroup: {
 
 export type BloodGroup = (typeof BloodGroup)[keyof typeof BloodGroup]
 
+
+export const AuthProvider: {
+  LOCAL: 'LOCAL',
+  GOOGLE: 'GOOGLE'
+};
+
+export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider]
+
 }
 
 export type Role = $Enums.Role
@@ -214,6 +222,10 @@ export const AppointmentStatus: typeof $Enums.AppointmentStatus
 export type BloodGroup = $Enums.BloodGroup
 
 export const BloodGroup: typeof $Enums.BloodGroup
+
+export type AuthProvider = $Enums.AuthProvider
+
+export const AuthProvider: typeof $Enums.AuthProvider
 
 /**
  * ##  Prisma Client ʲˢ
@@ -4063,6 +4075,8 @@ export namespace Prisma {
     lastName: string | null
     email: string | null
     password: string | null
+    googleId: string | null
+    authProvider: $Enums.AuthProvider | null
     role: $Enums.Role | null
     JWT: string | null
     clinicId: number | null
@@ -4077,6 +4091,8 @@ export namespace Prisma {
     lastName: string | null
     email: string | null
     password: string | null
+    googleId: string | null
+    authProvider: $Enums.AuthProvider | null
     role: $Enums.Role | null
     JWT: string | null
     clinicId: number | null
@@ -4091,6 +4107,8 @@ export namespace Prisma {
     lastName: number
     email: number
     password: number
+    googleId: number
+    authProvider: number
     role: number
     JWT: number
     clinicId: number
@@ -4117,6 +4135,8 @@ export namespace Prisma {
     lastName?: true
     email?: true
     password?: true
+    googleId?: true
+    authProvider?: true
     role?: true
     JWT?: true
     clinicId?: true
@@ -4131,6 +4151,8 @@ export namespace Prisma {
     lastName?: true
     email?: true
     password?: true
+    googleId?: true
+    authProvider?: true
     role?: true
     JWT?: true
     clinicId?: true
@@ -4145,6 +4167,8 @@ export namespace Prisma {
     lastName?: true
     email?: true
     password?: true
+    googleId?: true
+    authProvider?: true
     role?: true
     JWT?: true
     clinicId?: true
@@ -4245,7 +4269,9 @@ export namespace Prisma {
     firstName: string
     lastName: string | null
     email: string
-    password: string
+    password: string | null
+    googleId: string | null
+    authProvider: $Enums.AuthProvider
     role: $Enums.Role
     JWT: string | null
     clinicId: number
@@ -4279,6 +4305,8 @@ export namespace Prisma {
     lastName?: boolean
     email?: boolean
     password?: boolean
+    googleId?: boolean
+    authProvider?: boolean
     role?: boolean
     JWT?: boolean
     clinicId?: boolean
@@ -4299,6 +4327,8 @@ export namespace Prisma {
     lastName?: boolean
     email?: boolean
     password?: boolean
+    googleId?: boolean
+    authProvider?: boolean
     role?: boolean
     JWT?: boolean
     clinicId?: boolean
@@ -4314,6 +4344,8 @@ export namespace Prisma {
     lastName?: boolean
     email?: boolean
     password?: boolean
+    googleId?: boolean
+    authProvider?: boolean
     role?: boolean
     JWT?: boolean
     clinicId?: boolean
@@ -4329,6 +4361,8 @@ export namespace Prisma {
     lastName?: boolean
     email?: boolean
     password?: boolean
+    googleId?: boolean
+    authProvider?: boolean
     role?: boolean
     JWT?: boolean
     clinicId?: boolean
@@ -4337,7 +4371,7 @@ export namespace Prisma {
     lastLoginAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "role" | "JWT" | "clinicId" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "googleId" | "authProvider" | "role" | "JWT" | "clinicId" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
     Doctor?: boolean | User$DoctorArgs<ExtArgs>
@@ -4367,7 +4401,9 @@ export namespace Prisma {
       firstName: string
       lastName: string | null
       email: string
-      password: string
+      password: string | null
+      googleId: string | null
+      authProvider: $Enums.AuthProvider
       role: $Enums.Role
       JWT: string | null
       clinicId: number
@@ -4807,6 +4843,8 @@ export namespace Prisma {
     readonly lastName: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
+    readonly googleId: FieldRef<"User", 'String'>
+    readonly authProvider: FieldRef<"User", 'AuthProvider'>
     readonly role: FieldRef<"User", 'Role'>
     readonly JWT: FieldRef<"User", 'String'>
     readonly clinicId: FieldRef<"User", 'Int'>
@@ -21928,6 +21966,8 @@ export namespace Prisma {
     lastName: 'lastName',
     email: 'email',
     password: 'password',
+    googleId: 'googleId',
+    authProvider: 'authProvider',
     role: 'role',
     JWT: 'JWT',
     clinicId: 'clinicId',
@@ -22225,6 +22265,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AuthProvider'
+   */
+  export type EnumAuthProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthProvider'>
+    
+
+
+  /**
+   * Reference to a field of type 'AuthProvider[]'
+   */
+  export type ListEnumAuthProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthProvider[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -22459,7 +22513,9 @@ export namespace Prisma {
     firstName?: StringFilter<"User"> | string
     lastName?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
+    googleId?: StringNullableFilter<"User"> | string | null
+    authProvider?: EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
     role?: EnumRoleFilter<"User"> | $Enums.Role
     JWT?: StringNullableFilter<"User"> | string | null
     clinicId?: IntFilter<"User"> | number
@@ -22478,7 +22534,9 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrderInput | SortOrder
     email?: SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
+    googleId?: SortOrderInput | SortOrder
+    authProvider?: SortOrder
     role?: SortOrder
     JWT?: SortOrderInput | SortOrder
     clinicId?: SortOrder
@@ -22495,12 +22553,14 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     email?: string
+    googleId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     firstName?: StringFilter<"User"> | string
     lastName?: StringNullableFilter<"User"> | string | null
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
+    authProvider?: EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
     role?: EnumRoleFilter<"User"> | $Enums.Role
     JWT?: StringNullableFilter<"User"> | string | null
     clinicId?: IntFilter<"User"> | number
@@ -22512,14 +22572,16 @@ export namespace Prisma {
     Receptionist?: XOR<ReceptionistNullableScalarRelationFilter, ReceptionistWhereInput> | null
     AppointmentCreated?: AppointmentListRelationFilter
     InvoiceUpdated?: InvoiceListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "googleId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrderInput | SortOrder
     email?: SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
+    googleId?: SortOrderInput | SortOrder
+    authProvider?: SortOrder
     role?: SortOrder
     JWT?: SortOrderInput | SortOrder
     clinicId?: SortOrder
@@ -22541,7 +22603,9 @@ export namespace Prisma {
     firstName?: StringWithAggregatesFilter<"User"> | string
     lastName?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
+    googleId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    authProvider?: EnumAuthProviderWithAggregatesFilter<"User"> | $Enums.AuthProvider
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     JWT?: StringNullableWithAggregatesFilter<"User"> | string | null
     clinicId?: IntWithAggregatesFilter<"User"> | number
@@ -23824,7 +23888,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -23842,7 +23908,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     clinicId: number
@@ -23859,7 +23927,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23877,7 +23947,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -23895,7 +23967,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     clinicId: number
@@ -23908,7 +23982,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23921,7 +23997,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -25359,6 +25437,13 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type EnumAuthProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthProvider | EnumAuthProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthProviderFilter<$PrismaModel> | $Enums.AuthProvider
+  }
+
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -25408,6 +25493,8 @@ export namespace Prisma {
     lastName?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    googleId?: SortOrder
+    authProvider?: SortOrder
     role?: SortOrder
     JWT?: SortOrder
     clinicId?: SortOrder
@@ -25427,6 +25514,8 @@ export namespace Prisma {
     lastName?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    googleId?: SortOrder
+    authProvider?: SortOrder
     role?: SortOrder
     JWT?: SortOrder
     clinicId?: SortOrder
@@ -25441,6 +25530,8 @@ export namespace Prisma {
     lastName?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    googleId?: SortOrder
+    authProvider?: SortOrder
     role?: SortOrder
     JWT?: SortOrder
     clinicId?: SortOrder
@@ -25452,6 +25543,16 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
     clinicId?: SortOrder
+  }
+
+  export type EnumAuthProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthProvider | EnumAuthProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthProviderWithAggregatesFilter<$PrismaModel> | $Enums.AuthProvider
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuthProviderFilter<$PrismaModel>
+    _max?: NestedEnumAuthProviderFilter<$PrismaModel>
   }
 
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -26843,6 +26944,10 @@ export namespace Prisma {
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
+  export type EnumAuthProviderFieldUpdateOperationsInput = {
+    set?: $Enums.AuthProvider
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
@@ -27836,6 +27941,13 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumAuthProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthProvider | EnumAuthProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthProviderFilter<$PrismaModel> | $Enums.AuthProvider
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -27852,6 +27964,16 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumAuthProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthProvider | EnumAuthProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthProvider[] | ListEnumAuthProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthProviderWithAggregatesFilter<$PrismaModel> | $Enums.AuthProvider
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuthProviderFilter<$PrismaModel>
+    _max?: NestedEnumAuthProviderFilter<$PrismaModel>
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -28097,7 +28219,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -28114,7 +28238,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -28380,7 +28506,9 @@ export namespace Prisma {
     firstName?: StringFilter<"User"> | string
     lastName?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
+    googleId?: StringNullableFilter<"User"> | string | null
+    authProvider?: EnumAuthProviderFilter<"User"> | $Enums.AuthProvider
     role?: EnumRoleFilter<"User"> | $Enums.Role
     JWT?: StringNullableFilter<"User"> | string | null
     clinicId?: IntFilter<"User"> | number
@@ -28921,7 +29049,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -28938,7 +29068,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     clinicId: number
@@ -29014,7 +29146,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29031,7 +29165,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -29493,7 +29629,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -29510,7 +29648,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     clinicId: number
@@ -29769,7 +29909,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29786,7 +29928,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -30023,7 +30167,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -30040,7 +30186,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     clinicId: number
@@ -30147,7 +30295,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30164,7 +30314,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -30407,7 +30559,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -30424,7 +30578,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     clinicId: number
@@ -30534,7 +30690,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30551,7 +30709,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -31162,7 +31322,9 @@ export namespace Prisma {
     firstName: string
     lastName?: string | null
     email: string
-    password: string
+    password?: string | null
+    googleId?: string | null
+    authProvider?: $Enums.AuthProvider
     role?: $Enums.Role
     JWT?: string | null
     createdAt?: Date | string
@@ -31283,7 +31445,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31300,7 +31464,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31317,7 +31483,9 @@ export namespace Prisma {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
+    authProvider?: EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     JWT?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
