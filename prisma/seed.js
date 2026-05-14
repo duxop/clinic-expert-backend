@@ -9,6 +9,8 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
+const isProd = process.env.NODE_ENV === "production";
+
 async function main() {
   const plans = [
     {
@@ -23,8 +25,12 @@ async function main() {
       ],
       oneTimePrice: 9990,
       subscriptionPrice: 999,
-      razorPaySubscriptionPlanMonthlyId: "plan_RR1NjkwOJrJgTL",
-      razorPaySubscriptionPlanYearlyId: "plan_RR1O2xBsBOQl9j",
+      razorPaySubscriptionPlanMonthlyId: isProd
+        ? "plan_SpLDek2OxW8lFE"
+        : "plan_RR1NjkwOJrJgTL",
+      razorPaySubscriptionPlanYearlyId: isProd
+        ? "plan_SpLEOtAFdJ70Iq"
+        : "plan_RR1O2xBsBOQl9j",
     },
     {
       id: 2,
