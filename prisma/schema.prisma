@@ -133,7 +133,8 @@ model Consent {
   Treatment     String
   comments      String?
   Medication    String?
-  Remarks       String?
+  Remarks          String?
+  patientConfirmed Boolean @default(false)
   patientId     Int
   Patient       Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)      
   doctorId      Int

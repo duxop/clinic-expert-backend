@@ -5,8 +5,15 @@ const editConsent = async (req, res) => {
     const { clinicId } = req.userData;
     const { id : consentId } = req.params;
 
-    const { doctorId, dateTime, Treatment, comments, Medication, Remarks } =
-      req.body;
+    const {
+      doctorId,
+      dateTime,
+      Treatment,
+      comments,
+      Medication,
+      Remarks,
+      patientConfirmed,
+    } = req.body;
 
     // Validate consentId
     const consentIdNum = parseInt(consentId, 10);
@@ -81,6 +88,8 @@ const editConsent = async (req, res) => {
       updateData.Remarks = Remarks;
     }
 
+    if(patientConfirmed)
+        updateData.patientConfirmed = true;
     const updatedConsent = await prisma.consent.update({
       where: {
         id: consentIdNum,

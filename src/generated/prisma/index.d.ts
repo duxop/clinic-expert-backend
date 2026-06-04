@@ -9378,6 +9378,7 @@ export namespace Prisma {
     comments: string | null
     Medication: string | null
     Remarks: string | null
+    patientConfirmed: boolean | null
     patientId: number | null
     doctorId: number | null
     clinicId: number | null
@@ -9390,6 +9391,7 @@ export namespace Prisma {
     comments: string | null
     Medication: string | null
     Remarks: string | null
+    patientConfirmed: boolean | null
     patientId: number | null
     doctorId: number | null
     clinicId: number | null
@@ -9402,6 +9404,7 @@ export namespace Prisma {
     comments: number
     Medication: number
     Remarks: number
+    patientConfirmed: number
     patientId: number
     doctorId: number
     clinicId: number
@@ -9430,6 +9433,7 @@ export namespace Prisma {
     comments?: true
     Medication?: true
     Remarks?: true
+    patientConfirmed?: true
     patientId?: true
     doctorId?: true
     clinicId?: true
@@ -9442,6 +9446,7 @@ export namespace Prisma {
     comments?: true
     Medication?: true
     Remarks?: true
+    patientConfirmed?: true
     patientId?: true
     doctorId?: true
     clinicId?: true
@@ -9454,6 +9459,7 @@ export namespace Prisma {
     comments?: true
     Medication?: true
     Remarks?: true
+    patientConfirmed?: true
     patientId?: true
     doctorId?: true
     clinicId?: true
@@ -9553,6 +9559,7 @@ export namespace Prisma {
     comments: string | null
     Medication: string | null
     Remarks: string | null
+    patientConfirmed: boolean
     patientId: number
     doctorId: number
     clinicId: number
@@ -9584,6 +9591,7 @@ export namespace Prisma {
     comments?: boolean
     Medication?: boolean
     Remarks?: boolean
+    patientConfirmed?: boolean
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
@@ -9599,6 +9607,7 @@ export namespace Prisma {
     comments?: boolean
     Medication?: boolean
     Remarks?: boolean
+    patientConfirmed?: boolean
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
@@ -9614,6 +9623,7 @@ export namespace Prisma {
     comments?: boolean
     Medication?: boolean
     Remarks?: boolean
+    patientConfirmed?: boolean
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
@@ -9629,12 +9639,13 @@ export namespace Prisma {
     comments?: boolean
     Medication?: boolean
     Remarks?: boolean
+    patientConfirmed?: boolean
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
   }
 
-  export type ConsentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dateTime" | "Treatment" | "comments" | "Medication" | "Remarks" | "patientId" | "doctorId" | "clinicId", ExtArgs["result"]["consent"]>
+  export type ConsentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dateTime" | "Treatment" | "comments" | "Medication" | "Remarks" | "patientConfirmed" | "patientId" | "doctorId" | "clinicId", ExtArgs["result"]["consent"]>
   export type ConsentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Patient?: boolean | PatientDefaultArgs<ExtArgs>
     Doctor?: boolean | DoctorDefaultArgs<ExtArgs>
@@ -9665,6 +9676,7 @@ export namespace Prisma {
       comments: string | null
       Medication: string | null
       Remarks: string | null
+      patientConfirmed: boolean
       patientId: number
       doctorId: number
       clinicId: number
@@ -10100,6 +10112,7 @@ export namespace Prisma {
     readonly comments: FieldRef<"Consent", 'String'>
     readonly Medication: FieldRef<"Consent", 'String'>
     readonly Remarks: FieldRef<"Consent", 'String'>
+    readonly patientConfirmed: FieldRef<"Consent", 'Boolean'>
     readonly patientId: FieldRef<"Consent", 'Int'>
     readonly doctorId: FieldRef<"Consent", 'Int'>
     readonly clinicId: FieldRef<"Consent", 'Int'>
@@ -23421,6 +23434,7 @@ export namespace Prisma {
     comments: 'comments',
     Medication: 'Medication',
     Remarks: 'Remarks',
+    patientConfirmed: 'patientConfirmed',
     patientId: 'patientId',
     doctorId: 'doctorId',
     clinicId: 'clinicId'
@@ -24337,6 +24351,7 @@ export namespace Prisma {
     comments?: StringNullableFilter<"Consent"> | string | null
     Medication?: StringNullableFilter<"Consent"> | string | null
     Remarks?: StringNullableFilter<"Consent"> | string | null
+    patientConfirmed?: BoolFilter<"Consent"> | boolean
     patientId?: IntFilter<"Consent"> | number
     doctorId?: IntFilter<"Consent"> | number
     clinicId?: IntFilter<"Consent"> | number
@@ -24352,6 +24367,7 @@ export namespace Prisma {
     comments?: SortOrderInput | SortOrder
     Medication?: SortOrderInput | SortOrder
     Remarks?: SortOrderInput | SortOrder
+    patientConfirmed?: SortOrder
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
@@ -24370,6 +24386,7 @@ export namespace Prisma {
     comments?: StringNullableFilter<"Consent"> | string | null
     Medication?: StringNullableFilter<"Consent"> | string | null
     Remarks?: StringNullableFilter<"Consent"> | string | null
+    patientConfirmed?: BoolFilter<"Consent"> | boolean
     patientId?: IntFilter<"Consent"> | number
     doctorId?: IntFilter<"Consent"> | number
     clinicId?: IntFilter<"Consent"> | number
@@ -24385,6 +24402,7 @@ export namespace Prisma {
     comments?: SortOrderInput | SortOrder
     Medication?: SortOrderInput | SortOrder
     Remarks?: SortOrderInput | SortOrder
+    patientConfirmed?: SortOrder
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
@@ -24405,6 +24423,7 @@ export namespace Prisma {
     comments?: StringNullableWithAggregatesFilter<"Consent"> | string | null
     Medication?: StringNullableWithAggregatesFilter<"Consent"> | string | null
     Remarks?: StringNullableWithAggregatesFilter<"Consent"> | string | null
+    patientConfirmed?: BoolWithAggregatesFilter<"Consent"> | boolean
     patientId?: IntWithAggregatesFilter<"Consent"> | number
     doctorId?: IntWithAggregatesFilter<"Consent"> | number
     clinicId?: IntWithAggregatesFilter<"Consent"> | number
@@ -25841,6 +25860,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     Patient: PatientCreateNestedOneWithoutConsentInput
     Doctor: DoctorCreateNestedOneWithoutConsentInput
     Clinic: ClinicCreateNestedOneWithoutConsentInput
@@ -25853,6 +25873,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     patientId: number
     doctorId: number
     clinicId: number
@@ -25864,6 +25885,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     Patient?: PatientUpdateOneRequiredWithoutConsentNestedInput
     Doctor?: DoctorUpdateOneRequiredWithoutConsentNestedInput
     Clinic?: ClinicUpdateOneRequiredWithoutConsentNestedInput
@@ -25876,6 +25898,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -25888,6 +25911,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     patientId: number
     doctorId: number
     clinicId: number
@@ -25899,6 +25923,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ConsentUncheckedUpdateManyInput = {
@@ -25908,6 +25933,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
@@ -27493,6 +27519,7 @@ export namespace Prisma {
     comments?: SortOrder
     Medication?: SortOrder
     Remarks?: SortOrder
+    patientConfirmed?: SortOrder
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
@@ -27512,6 +27539,7 @@ export namespace Prisma {
     comments?: SortOrder
     Medication?: SortOrder
     Remarks?: SortOrder
+    patientConfirmed?: SortOrder
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
@@ -27524,6 +27552,7 @@ export namespace Prisma {
     comments?: SortOrder
     Medication?: SortOrder
     Remarks?: SortOrder
+    patientConfirmed?: SortOrder
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
@@ -30261,6 +30290,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     Patient: PatientCreateNestedOneWithoutConsentInput
     Doctor: DoctorCreateNestedOneWithoutConsentInput
   }
@@ -30272,6 +30302,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     patientId: number
     doctorId: number
   }
@@ -30545,6 +30576,7 @@ export namespace Prisma {
     comments?: StringNullableFilter<"Consent"> | string | null
     Medication?: StringNullableFilter<"Consent"> | string | null
     Remarks?: StringNullableFilter<"Consent"> | string | null
+    patientConfirmed?: BoolFilter<"Consent"> | boolean
     patientId?: IntFilter<"Consent"> | number
     doctorId?: IntFilter<"Consent"> | number
     clinicId?: IntFilter<"Consent"> | number
@@ -31228,6 +31260,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     Doctor: DoctorCreateNestedOneWithoutConsentInput
     Clinic: ClinicCreateNestedOneWithoutConsentInput
   }
@@ -31239,6 +31272,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     doctorId: number
     clinicId: number
   }
@@ -32768,6 +32802,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     Patient: PatientCreateNestedOneWithoutConsentInput
     Clinic: ClinicCreateNestedOneWithoutConsentInput
   }
@@ -32779,6 +32814,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     patientId: number
     clinicId: number
   }
@@ -33672,6 +33708,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     patientId: number
     doctorId: number
   }
@@ -33982,6 +34019,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     Patient?: PatientUpdateOneRequiredWithoutConsentNestedInput
     Doctor?: DoctorUpdateOneRequiredWithoutConsentNestedInput
   }
@@ -33993,6 +34031,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: IntFieldUpdateOperationsInput | number
   }
@@ -34004,6 +34043,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: IntFieldUpdateOperationsInput | number
   }
@@ -34149,6 +34189,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     doctorId: number
     clinicId: number
   }
@@ -34224,6 +34265,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     Doctor?: DoctorUpdateOneRequiredWithoutConsentNestedInput
     Clinic?: ClinicUpdateOneRequiredWithoutConsentNestedInput
   }
@@ -34235,6 +34277,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     doctorId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
   }
@@ -34246,6 +34289,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     doctorId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
   }
@@ -34343,6 +34387,7 @@ export namespace Prisma {
     comments?: string | null
     Medication?: string | null
     Remarks?: string | null
+    patientConfirmed?: boolean
     patientId: number
     clinicId: number
   }
@@ -34410,6 +34455,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     Patient?: PatientUpdateOneRequiredWithoutConsentNestedInput
     Clinic?: ClinicUpdateOneRequiredWithoutConsentNestedInput
   }
@@ -34421,6 +34467,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
   }
@@ -34432,6 +34479,7 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     Medication?: NullableStringFieldUpdateOperationsInput | string | null
     Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientConfirmed?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
   }

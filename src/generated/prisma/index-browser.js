@@ -204,6 +204,7 @@ exports.Prisma.ConsentScalarFieldEnum = {
   comments: 'comments',
   Medication: 'Medication',
   Remarks: 'Remarks',
+  patientConfirmed: 'patientConfirmed',
   patientId: 'patientId',
   doctorId: 'doctorId',
   clinicId: 'clinicId'

@@ -12,12 +12,19 @@ const addConsent = async (req, res) => {
       comments,
       Medication,
       Remarks,
+      patientConfirmed,
     } = req.body;
 
     // Validation
-    if (!doctorId || !patientId || !dateTime || !Treatment) {
+    if (
+      !doctorId ||
+      !patientId ||
+      !dateTime ||
+      !Treatment ||
+      !patientConfirmed
+    ) {
       return res.status(400).json({
-        error: "doctorId, patientId, dateTime and Treatment are required",
+        error: "doctorId, patientId, dateTime, consent and Treatment are required",
       });
     }
 
@@ -74,6 +81,7 @@ const addConsent = async (req, res) => {
         comments: comments || null,
         Medication: Medication || null,
         Remarks: Remarks || null,
+        patientConfirmed,
       },
       include: {
         Patient: {
