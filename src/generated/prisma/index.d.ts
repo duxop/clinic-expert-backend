@@ -39,6 +39,11 @@ export type Patient = $Result.DefaultSelection<Prisma.$PatientPayload>
  */
 export type Appointment = $Result.DefaultSelection<Prisma.$AppointmentPayload>
 /**
+ * Model Consent
+ * 
+ */
+export type Consent = $Result.DefaultSelection<Prisma.$ConsentPayload>
+/**
  * Model InvoiceItems
  * 
  */
@@ -397,6 +402,16 @@ export class PrismaClient<
     * ```
     */
   get appointment(): Prisma.AppointmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.consent`: Exposes CRUD operations for the **Consent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Consents
+    * const consents = await prisma.consent.findMany()
+    * ```
+    */
+  get consent(): Prisma.ConsentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.invoiceItems`: Exposes CRUD operations for the **InvoiceItems** model.
@@ -946,6 +961,7 @@ export namespace Prisma {
     Receptionist: 'Receptionist',
     Patient: 'Patient',
     Appointment: 'Appointment',
+    Consent: 'Consent',
     InvoiceItems: 'InvoiceItems',
     InvoicePrefills: 'InvoicePrefills',
     Invoice: 'Invoice',
@@ -972,7 +988,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "clinic" | "user" | "receptionist" | "patient" | "appointment" | "invoiceItems" | "invoicePrefills" | "invoice" | "appointmentDocument" | "ePrescription" | "doctor" | "patientDoctor" | "subscriptionPlan" | "subscription" | "payment" | "verificationOTP"
+      modelProps: "clinic" | "user" | "receptionist" | "patient" | "appointment" | "consent" | "invoiceItems" | "invoicePrefills" | "invoice" | "appointmentDocument" | "ePrescription" | "doctor" | "patientDoctor" | "subscriptionPlan" | "subscription" | "payment" | "verificationOTP"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1343,6 +1359,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AppointmentCountArgs<ExtArgs>
             result: $Utils.Optional<AppointmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Consent: {
+        payload: Prisma.$ConsentPayload<ExtArgs>
+        fields: Prisma.ConsentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConsentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConsentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>
+          }
+          findFirst: {
+            args: Prisma.ConsentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConsentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>
+          }
+          findMany: {
+            args: Prisma.ConsentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>[]
+          }
+          create: {
+            args: Prisma.ConsentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>
+          }
+          createMany: {
+            args: Prisma.ConsentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConsentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>[]
+          }
+          delete: {
+            args: Prisma.ConsentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>
+          }
+          update: {
+            args: Prisma.ConsentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ConsentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConsentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConsentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>[]
+          }
+          upsert: {
+            args: Prisma.ConsentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsentPayload>
+          }
+          aggregate: {
+            args: Prisma.ConsentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConsent>
+          }
+          groupBy: {
+            args: Prisma.ConsentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConsentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConsentCountArgs<ExtArgs>
+            result: $Utils.Optional<ConsentCountAggregateOutputType> | number
           }
         }
       }
@@ -2273,6 +2363,7 @@ export namespace Prisma {
     receptionist?: ReceptionistOmit
     patient?: PatientOmit
     appointment?: AppointmentOmit
+    consent?: ConsentOmit
     invoiceItems?: InvoiceItemsOmit
     invoicePrefills?: InvoicePrefillsOmit
     invoice?: InvoiceOmit
@@ -2371,6 +2462,7 @@ export namespace Prisma {
     Doctor: number
     Receptionist: number
     InvoicePrefills: number
+    Consent: number
   }
 
   export type ClinicCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2381,6 +2473,7 @@ export namespace Prisma {
     Doctor?: boolean | ClinicCountOutputTypeCountDoctorArgs
     Receptionist?: boolean | ClinicCountOutputTypeCountReceptionistArgs
     InvoicePrefills?: boolean | ClinicCountOutputTypeCountInvoicePrefillsArgs
+    Consent?: boolean | ClinicCountOutputTypeCountConsentArgs
   }
 
   // Custom InputTypes
@@ -2443,6 +2536,13 @@ export namespace Prisma {
     where?: InvoicePrefillsWhereInput
   }
 
+  /**
+   * ClinicCountOutputType without action
+   */
+  export type ClinicCountOutputTypeCountConsentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -2491,11 +2591,13 @@ export namespace Prisma {
   export type PatientCountOutputType = {
     Appointment: number
     PatientDoctor: number
+    Consent: number
   }
 
   export type PatientCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Appointment?: boolean | PatientCountOutputTypeCountAppointmentArgs
     PatientDoctor?: boolean | PatientCountOutputTypeCountPatientDoctorArgs
+    Consent?: boolean | PatientCountOutputTypeCountConsentArgs
   }
 
   // Custom InputTypes
@@ -2521,6 +2623,13 @@ export namespace Prisma {
    */
   export type PatientCountOutputTypeCountPatientDoctorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PatientDoctorWhereInput
+  }
+
+  /**
+   * PatientCountOutputType without action
+   */
+  export type PatientCountOutputTypeCountConsentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentWhereInput
   }
 
 
@@ -2592,11 +2701,13 @@ export namespace Prisma {
 
   export type DoctorCountOutputType = {
     Appointment: number
+    Consent: number
     PatientDoctor: number
   }
 
   export type DoctorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Appointment?: boolean | DoctorCountOutputTypeCountAppointmentArgs
+    Consent?: boolean | DoctorCountOutputTypeCountConsentArgs
     PatientDoctor?: boolean | DoctorCountOutputTypeCountPatientDoctorArgs
   }
 
@@ -2616,6 +2727,13 @@ export namespace Prisma {
    */
   export type DoctorCountOutputTypeCountAppointmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AppointmentWhereInput
+  }
+
+  /**
+   * DoctorCountOutputType without action
+   */
+  export type DoctorCountOutputTypeCountConsentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentWhereInput
   }
 
   /**
@@ -2945,6 +3063,7 @@ export namespace Prisma {
     Doctor?: boolean | Clinic$DoctorArgs<ExtArgs>
     Receptionist?: boolean | Clinic$ReceptionistArgs<ExtArgs>
     InvoicePrefills?: boolean | Clinic$InvoicePrefillsArgs<ExtArgs>
+    Consent?: boolean | Clinic$ConsentArgs<ExtArgs>
     _count?: boolean | ClinicCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clinic"]>
 
@@ -2999,6 +3118,7 @@ export namespace Prisma {
     Doctor?: boolean | Clinic$DoctorArgs<ExtArgs>
     Receptionist?: boolean | Clinic$ReceptionistArgs<ExtArgs>
     InvoicePrefills?: boolean | Clinic$InvoicePrefillsArgs<ExtArgs>
+    Consent?: boolean | Clinic$ConsentArgs<ExtArgs>
     _count?: boolean | ClinicCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClinicIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3014,6 +3134,7 @@ export namespace Prisma {
       Doctor: Prisma.$DoctorPayload<ExtArgs>[]
       Receptionist: Prisma.$ReceptionistPayload<ExtArgs>[]
       InvoicePrefills: Prisma.$InvoicePrefillsPayload<ExtArgs>[]
+      Consent: Prisma.$ConsentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3428,6 +3549,7 @@ export namespace Prisma {
     Doctor<T extends Clinic$DoctorArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$DoctorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DoctorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Receptionist<T extends Clinic$ReceptionistArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$ReceptionistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReceptionistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     InvoicePrefills<T extends Clinic$InvoicePrefillsArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$InvoicePrefillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Consent<T extends Clinic$ConsentArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$ConsentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4026,6 +4148,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvoicePrefillsScalarFieldEnum | InvoicePrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * Clinic.Consent
+   */
+  export type Clinic$ConsentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    where?: ConsentWhereInput
+    orderBy?: ConsentOrderByWithRelationInput | ConsentOrderByWithRelationInput[]
+    cursor?: ConsentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConsentScalarFieldEnum | ConsentScalarFieldEnum[]
   }
 
   /**
@@ -6829,6 +6975,7 @@ export namespace Prisma {
     Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
     Appointment?: boolean | Patient$AppointmentArgs<ExtArgs>
     PatientDoctor?: boolean | Patient$PatientDoctorArgs<ExtArgs>
+    Consent?: boolean | Patient$ConsentArgs<ExtArgs>
     _count?: boolean | PatientCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["patient"]>
 
@@ -6884,6 +7031,7 @@ export namespace Prisma {
     Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
     Appointment?: boolean | Patient$AppointmentArgs<ExtArgs>
     PatientDoctor?: boolean | Patient$PatientDoctorArgs<ExtArgs>
+    Consent?: boolean | Patient$ConsentArgs<ExtArgs>
     _count?: boolean | PatientCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PatientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6899,6 +7047,7 @@ export namespace Prisma {
       Clinic: Prisma.$ClinicPayload<ExtArgs>
       Appointment: Prisma.$AppointmentPayload<ExtArgs>[]
       PatientDoctor: Prisma.$PatientDoctorPayload<ExtArgs>[]
+      Consent: Prisma.$ConsentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7310,6 +7459,7 @@ export namespace Prisma {
     Clinic<T extends ClinicDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClinicDefaultArgs<ExtArgs>>): Prisma__ClinicClient<$Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     Appointment<T extends Patient$AppointmentArgs<ExtArgs> = {}>(args?: Subset<T, Patient$AppointmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     PatientDoctor<T extends Patient$PatientDoctorArgs<ExtArgs> = {}>(args?: Subset<T, Patient$PatientDoctorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PatientDoctorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Consent<T extends Patient$ConsentArgs<ExtArgs> = {}>(args?: Subset<T, Patient$ConsentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7797,6 +7947,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PatientDoctorScalarFieldEnum | PatientDoctorScalarFieldEnum[]
+  }
+
+  /**
+   * Patient.Consent
+   */
+  export type Patient$ConsentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    where?: ConsentWhereInput
+    orderBy?: ConsentOrderByWithRelationInput | ConsentOrderByWithRelationInput[]
+    cursor?: ConsentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConsentScalarFieldEnum | ConsentScalarFieldEnum[]
   }
 
   /**
@@ -9168,6 +9342,1183 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AppointmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Consent
+   */
+
+  export type AggregateConsent = {
+    _count: ConsentCountAggregateOutputType | null
+    _avg: ConsentAvgAggregateOutputType | null
+    _sum: ConsentSumAggregateOutputType | null
+    _min: ConsentMinAggregateOutputType | null
+    _max: ConsentMaxAggregateOutputType | null
+  }
+
+  export type ConsentAvgAggregateOutputType = {
+    id: number | null
+    patientId: number | null
+    doctorId: number | null
+    clinicId: number | null
+  }
+
+  export type ConsentSumAggregateOutputType = {
+    id: number | null
+    patientId: number | null
+    doctorId: number | null
+    clinicId: number | null
+  }
+
+  export type ConsentMinAggregateOutputType = {
+    id: number | null
+    dateTime: Date | null
+    Treatment: string | null
+    comments: string | null
+    Medication: string | null
+    Remarks: string | null
+    patientId: number | null
+    doctorId: number | null
+    clinicId: number | null
+  }
+
+  export type ConsentMaxAggregateOutputType = {
+    id: number | null
+    dateTime: Date | null
+    Treatment: string | null
+    comments: string | null
+    Medication: string | null
+    Remarks: string | null
+    patientId: number | null
+    doctorId: number | null
+    clinicId: number | null
+  }
+
+  export type ConsentCountAggregateOutputType = {
+    id: number
+    dateTime: number
+    Treatment: number
+    comments: number
+    Medication: number
+    Remarks: number
+    patientId: number
+    doctorId: number
+    clinicId: number
+    _all: number
+  }
+
+
+  export type ConsentAvgAggregateInputType = {
+    id?: true
+    patientId?: true
+    doctorId?: true
+    clinicId?: true
+  }
+
+  export type ConsentSumAggregateInputType = {
+    id?: true
+    patientId?: true
+    doctorId?: true
+    clinicId?: true
+  }
+
+  export type ConsentMinAggregateInputType = {
+    id?: true
+    dateTime?: true
+    Treatment?: true
+    comments?: true
+    Medication?: true
+    Remarks?: true
+    patientId?: true
+    doctorId?: true
+    clinicId?: true
+  }
+
+  export type ConsentMaxAggregateInputType = {
+    id?: true
+    dateTime?: true
+    Treatment?: true
+    comments?: true
+    Medication?: true
+    Remarks?: true
+    patientId?: true
+    doctorId?: true
+    clinicId?: true
+  }
+
+  export type ConsentCountAggregateInputType = {
+    id?: true
+    dateTime?: true
+    Treatment?: true
+    comments?: true
+    Medication?: true
+    Remarks?: true
+    patientId?: true
+    doctorId?: true
+    clinicId?: true
+    _all?: true
+  }
+
+  export type ConsentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Consent to aggregate.
+     */
+    where?: ConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consents to fetch.
+     */
+    orderBy?: ConsentOrderByWithRelationInput | ConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Consents
+    **/
+    _count?: true | ConsentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ConsentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ConsentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConsentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConsentMaxAggregateInputType
+  }
+
+  export type GetConsentAggregateType<T extends ConsentAggregateArgs> = {
+        [P in keyof T & keyof AggregateConsent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConsent[P]>
+      : GetScalarType<T[P], AggregateConsent[P]>
+  }
+
+
+
+
+  export type ConsentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentWhereInput
+    orderBy?: ConsentOrderByWithAggregationInput | ConsentOrderByWithAggregationInput[]
+    by: ConsentScalarFieldEnum[] | ConsentScalarFieldEnum
+    having?: ConsentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConsentCountAggregateInputType | true
+    _avg?: ConsentAvgAggregateInputType
+    _sum?: ConsentSumAggregateInputType
+    _min?: ConsentMinAggregateInputType
+    _max?: ConsentMaxAggregateInputType
+  }
+
+  export type ConsentGroupByOutputType = {
+    id: number
+    dateTime: Date
+    Treatment: string
+    comments: string | null
+    Medication: string | null
+    Remarks: string | null
+    patientId: number
+    doctorId: number
+    clinicId: number
+    _count: ConsentCountAggregateOutputType | null
+    _avg: ConsentAvgAggregateOutputType | null
+    _sum: ConsentSumAggregateOutputType | null
+    _min: ConsentMinAggregateOutputType | null
+    _max: ConsentMaxAggregateOutputType | null
+  }
+
+  type GetConsentGroupByPayload<T extends ConsentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConsentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConsentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConsentGroupByOutputType[P]>
+            : GetScalarType<T[P], ConsentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConsentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dateTime?: boolean
+    Treatment?: boolean
+    comments?: boolean
+    Medication?: boolean
+    Remarks?: boolean
+    patientId?: boolean
+    doctorId?: boolean
+    clinicId?: boolean
+    Patient?: boolean | PatientDefaultArgs<ExtArgs>
+    Doctor?: boolean | DoctorDefaultArgs<ExtArgs>
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consent"]>
+
+  export type ConsentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dateTime?: boolean
+    Treatment?: boolean
+    comments?: boolean
+    Medication?: boolean
+    Remarks?: boolean
+    patientId?: boolean
+    doctorId?: boolean
+    clinicId?: boolean
+    Patient?: boolean | PatientDefaultArgs<ExtArgs>
+    Doctor?: boolean | DoctorDefaultArgs<ExtArgs>
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consent"]>
+
+  export type ConsentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    dateTime?: boolean
+    Treatment?: boolean
+    comments?: boolean
+    Medication?: boolean
+    Remarks?: boolean
+    patientId?: boolean
+    doctorId?: boolean
+    clinicId?: boolean
+    Patient?: boolean | PatientDefaultArgs<ExtArgs>
+    Doctor?: boolean | DoctorDefaultArgs<ExtArgs>
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["consent"]>
+
+  export type ConsentSelectScalar = {
+    id?: boolean
+    dateTime?: boolean
+    Treatment?: boolean
+    comments?: boolean
+    Medication?: boolean
+    Remarks?: boolean
+    patientId?: boolean
+    doctorId?: boolean
+    clinicId?: boolean
+  }
+
+  export type ConsentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dateTime" | "Treatment" | "comments" | "Medication" | "Remarks" | "patientId" | "doctorId" | "clinicId", ExtArgs["result"]["consent"]>
+  export type ConsentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Patient?: boolean | PatientDefaultArgs<ExtArgs>
+    Doctor?: boolean | DoctorDefaultArgs<ExtArgs>
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+  export type ConsentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Patient?: boolean | PatientDefaultArgs<ExtArgs>
+    Doctor?: boolean | DoctorDefaultArgs<ExtArgs>
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+  export type ConsentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Patient?: boolean | PatientDefaultArgs<ExtArgs>
+    Doctor?: boolean | DoctorDefaultArgs<ExtArgs>
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+
+  export type $ConsentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Consent"
+    objects: {
+      Patient: Prisma.$PatientPayload<ExtArgs>
+      Doctor: Prisma.$DoctorPayload<ExtArgs>
+      Clinic: Prisma.$ClinicPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      dateTime: Date
+      Treatment: string
+      comments: string | null
+      Medication: string | null
+      Remarks: string | null
+      patientId: number
+      doctorId: number
+      clinicId: number
+    }, ExtArgs["result"]["consent"]>
+    composites: {}
+  }
+
+  type ConsentGetPayload<S extends boolean | null | undefined | ConsentDefaultArgs> = $Result.GetResult<Prisma.$ConsentPayload, S>
+
+  type ConsentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConsentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConsentCountAggregateInputType | true
+    }
+
+  export interface ConsentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Consent'], meta: { name: 'Consent' } }
+    /**
+     * Find zero or one Consent that matches the filter.
+     * @param {ConsentFindUniqueArgs} args - Arguments to find a Consent
+     * @example
+     * // Get one Consent
+     * const consent = await prisma.consent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConsentFindUniqueArgs>(args: SelectSubset<T, ConsentFindUniqueArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Consent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConsentFindUniqueOrThrowArgs} args - Arguments to find a Consent
+     * @example
+     * // Get one Consent
+     * const consent = await prisma.consent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConsentFindUniqueOrThrowArgs>(args: SelectSubset<T, ConsentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Consent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentFindFirstArgs} args - Arguments to find a Consent
+     * @example
+     * // Get one Consent
+     * const consent = await prisma.consent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConsentFindFirstArgs>(args?: SelectSubset<T, ConsentFindFirstArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Consent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentFindFirstOrThrowArgs} args - Arguments to find a Consent
+     * @example
+     * // Get one Consent
+     * const consent = await prisma.consent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConsentFindFirstOrThrowArgs>(args?: SelectSubset<T, ConsentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Consents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Consents
+     * const consents = await prisma.consent.findMany()
+     * 
+     * // Get first 10 Consents
+     * const consents = await prisma.consent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const consentWithIdOnly = await prisma.consent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConsentFindManyArgs>(args?: SelectSubset<T, ConsentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Consent.
+     * @param {ConsentCreateArgs} args - Arguments to create a Consent.
+     * @example
+     * // Create one Consent
+     * const Consent = await prisma.consent.create({
+     *   data: {
+     *     // ... data to create a Consent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConsentCreateArgs>(args: SelectSubset<T, ConsentCreateArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Consents.
+     * @param {ConsentCreateManyArgs} args - Arguments to create many Consents.
+     * @example
+     * // Create many Consents
+     * const consent = await prisma.consent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConsentCreateManyArgs>(args?: SelectSubset<T, ConsentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Consents and returns the data saved in the database.
+     * @param {ConsentCreateManyAndReturnArgs} args - Arguments to create many Consents.
+     * @example
+     * // Create many Consents
+     * const consent = await prisma.consent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Consents and only return the `id`
+     * const consentWithIdOnly = await prisma.consent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConsentCreateManyAndReturnArgs>(args?: SelectSubset<T, ConsentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Consent.
+     * @param {ConsentDeleteArgs} args - Arguments to delete one Consent.
+     * @example
+     * // Delete one Consent
+     * const Consent = await prisma.consent.delete({
+     *   where: {
+     *     // ... filter to delete one Consent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConsentDeleteArgs>(args: SelectSubset<T, ConsentDeleteArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Consent.
+     * @param {ConsentUpdateArgs} args - Arguments to update one Consent.
+     * @example
+     * // Update one Consent
+     * const consent = await prisma.consent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConsentUpdateArgs>(args: SelectSubset<T, ConsentUpdateArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Consents.
+     * @param {ConsentDeleteManyArgs} args - Arguments to filter Consents to delete.
+     * @example
+     * // Delete a few Consents
+     * const { count } = await prisma.consent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConsentDeleteManyArgs>(args?: SelectSubset<T, ConsentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Consents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Consents
+     * const consent = await prisma.consent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConsentUpdateManyArgs>(args: SelectSubset<T, ConsentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Consents and returns the data updated in the database.
+     * @param {ConsentUpdateManyAndReturnArgs} args - Arguments to update many Consents.
+     * @example
+     * // Update many Consents
+     * const consent = await prisma.consent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Consents and only return the `id`
+     * const consentWithIdOnly = await prisma.consent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConsentUpdateManyAndReturnArgs>(args: SelectSubset<T, ConsentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Consent.
+     * @param {ConsentUpsertArgs} args - Arguments to update or create a Consent.
+     * @example
+     * // Update or create a Consent
+     * const consent = await prisma.consent.upsert({
+     *   create: {
+     *     // ... data to create a Consent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Consent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConsentUpsertArgs>(args: SelectSubset<T, ConsentUpsertArgs<ExtArgs>>): Prisma__ConsentClient<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Consents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentCountArgs} args - Arguments to filter Consents to count.
+     * @example
+     * // Count the number of Consents
+     * const count = await prisma.consent.count({
+     *   where: {
+     *     // ... the filter for the Consents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConsentCountArgs>(
+      args?: Subset<T, ConsentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConsentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Consent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConsentAggregateArgs>(args: Subset<T, ConsentAggregateArgs>): Prisma.PrismaPromise<GetConsentAggregateType<T>>
+
+    /**
+     * Group by Consent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConsentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConsentGroupByArgs['orderBy'] }
+        : { orderBy?: ConsentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConsentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConsentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Consent model
+   */
+  readonly fields: ConsentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Consent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConsentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Patient<T extends PatientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PatientDefaultArgs<ExtArgs>>): Prisma__PatientClient<$Result.GetResult<Prisma.$PatientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Doctor<T extends DoctorDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DoctorDefaultArgs<ExtArgs>>): Prisma__DoctorClient<$Result.GetResult<Prisma.$DoctorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Clinic<T extends ClinicDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClinicDefaultArgs<ExtArgs>>): Prisma__ClinicClient<$Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Consent model
+   */
+  interface ConsentFieldRefs {
+    readonly id: FieldRef<"Consent", 'Int'>
+    readonly dateTime: FieldRef<"Consent", 'DateTime'>
+    readonly Treatment: FieldRef<"Consent", 'String'>
+    readonly comments: FieldRef<"Consent", 'String'>
+    readonly Medication: FieldRef<"Consent", 'String'>
+    readonly Remarks: FieldRef<"Consent", 'String'>
+    readonly patientId: FieldRef<"Consent", 'Int'>
+    readonly doctorId: FieldRef<"Consent", 'Int'>
+    readonly clinicId: FieldRef<"Consent", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Consent findUnique
+   */
+  export type ConsentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which Consent to fetch.
+     */
+    where: ConsentWhereUniqueInput
+  }
+
+  /**
+   * Consent findUniqueOrThrow
+   */
+  export type ConsentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which Consent to fetch.
+     */
+    where: ConsentWhereUniqueInput
+  }
+
+  /**
+   * Consent findFirst
+   */
+  export type ConsentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which Consent to fetch.
+     */
+    where?: ConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consents to fetch.
+     */
+    orderBy?: ConsentOrderByWithRelationInput | ConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Consents.
+     */
+    cursor?: ConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Consents.
+     */
+    distinct?: ConsentScalarFieldEnum | ConsentScalarFieldEnum[]
+  }
+
+  /**
+   * Consent findFirstOrThrow
+   */
+  export type ConsentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which Consent to fetch.
+     */
+    where?: ConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consents to fetch.
+     */
+    orderBy?: ConsentOrderByWithRelationInput | ConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Consents.
+     */
+    cursor?: ConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Consents.
+     */
+    distinct?: ConsentScalarFieldEnum | ConsentScalarFieldEnum[]
+  }
+
+  /**
+   * Consent findMany
+   */
+  export type ConsentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * Filter, which Consents to fetch.
+     */
+    where?: ConsentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Consents to fetch.
+     */
+    orderBy?: ConsentOrderByWithRelationInput | ConsentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Consents.
+     */
+    cursor?: ConsentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Consents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Consents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Consents.
+     */
+    distinct?: ConsentScalarFieldEnum | ConsentScalarFieldEnum[]
+  }
+
+  /**
+   * Consent create
+   */
+  export type ConsentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Consent.
+     */
+    data: XOR<ConsentCreateInput, ConsentUncheckedCreateInput>
+  }
+
+  /**
+   * Consent createMany
+   */
+  export type ConsentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Consents.
+     */
+    data: ConsentCreateManyInput | ConsentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Consent createManyAndReturn
+   */
+  export type ConsentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Consents.
+     */
+    data: ConsentCreateManyInput | ConsentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Consent update
+   */
+  export type ConsentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Consent.
+     */
+    data: XOR<ConsentUpdateInput, ConsentUncheckedUpdateInput>
+    /**
+     * Choose, which Consent to update.
+     */
+    where: ConsentWhereUniqueInput
+  }
+
+  /**
+   * Consent updateMany
+   */
+  export type ConsentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Consents.
+     */
+    data: XOR<ConsentUpdateManyMutationInput, ConsentUncheckedUpdateManyInput>
+    /**
+     * Filter which Consents to update
+     */
+    where?: ConsentWhereInput
+    /**
+     * Limit how many Consents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Consent updateManyAndReturn
+   */
+  export type ConsentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * The data used to update Consents.
+     */
+    data: XOR<ConsentUpdateManyMutationInput, ConsentUncheckedUpdateManyInput>
+    /**
+     * Filter which Consents to update
+     */
+    where?: ConsentWhereInput
+    /**
+     * Limit how many Consents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Consent upsert
+   */
+  export type ConsentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Consent to update in case it exists.
+     */
+    where: ConsentWhereUniqueInput
+    /**
+     * In case the Consent found by the `where` argument doesn't exist, create a new Consent with this data.
+     */
+    create: XOR<ConsentCreateInput, ConsentUncheckedCreateInput>
+    /**
+     * In case the Consent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConsentUpdateInput, ConsentUncheckedUpdateInput>
+  }
+
+  /**
+   * Consent delete
+   */
+  export type ConsentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    /**
+     * Filter which Consent to delete.
+     */
+    where: ConsentWhereUniqueInput
+  }
+
+  /**
+   * Consent deleteMany
+   */
+  export type ConsentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Consents to delete
+     */
+    where?: ConsentWhereInput
+    /**
+     * Limit how many Consents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Consent without action
+   */
+  export type ConsentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
   }
 
 
@@ -15135,6 +16486,7 @@ export namespace Prisma {
     clinicId?: boolean
     isDeleted?: boolean
     Appointment?: boolean | Doctor$AppointmentArgs<ExtArgs>
+    Consent?: boolean | Doctor$ConsentArgs<ExtArgs>
     User?: boolean | Doctor$UserArgs<ExtArgs>
     Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
     PatientDoctor?: boolean | Doctor$PatientDoctorArgs<ExtArgs>
@@ -15190,6 +16542,7 @@ export namespace Prisma {
   export type DoctorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "profilePicture" | "degree" | "specialization" | "experience" | "userId" | "clinicId" | "isDeleted", ExtArgs["result"]["doctor"]>
   export type DoctorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Appointment?: boolean | Doctor$AppointmentArgs<ExtArgs>
+    Consent?: boolean | Doctor$ConsentArgs<ExtArgs>
     User?: boolean | Doctor$UserArgs<ExtArgs>
     Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
     PatientDoctor?: boolean | Doctor$PatientDoctorArgs<ExtArgs>
@@ -15208,6 +16561,7 @@ export namespace Prisma {
     name: "Doctor"
     objects: {
       Appointment: Prisma.$AppointmentPayload<ExtArgs>[]
+      Consent: Prisma.$ConsentPayload<ExtArgs>[]
       User: Prisma.$UserPayload<ExtArgs> | null
       Clinic: Prisma.$ClinicPayload<ExtArgs>
       PatientDoctor: Prisma.$PatientDoctorPayload<ExtArgs>[]
@@ -15619,6 +16973,7 @@ export namespace Prisma {
   export interface Prisma__DoctorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Appointment<T extends Doctor$AppointmentArgs<ExtArgs> = {}>(args?: Subset<T, Doctor$AppointmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Consent<T extends Doctor$ConsentArgs<ExtArgs> = {}>(args?: Subset<T, Doctor$ConsentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     User<T extends Doctor$UserArgs<ExtArgs> = {}>(args?: Subset<T, Doctor$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Clinic<T extends ClinicDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClinicDefaultArgs<ExtArgs>>): Prisma__ClinicClient<$Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     PatientDoctor<T extends Doctor$PatientDoctorArgs<ExtArgs> = {}>(args?: Subset<T, Doctor$PatientDoctorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PatientDoctorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -16084,6 +17439,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AppointmentScalarFieldEnum | AppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * Doctor.Consent
+   */
+  export type Doctor$ConsentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consent
+     */
+    select?: ConsentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consent
+     */
+    omit?: ConsentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsentInclude<ExtArgs> | null
+    where?: ConsentWhereInput
+    orderBy?: ConsentOrderByWithRelationInput | ConsentOrderByWithRelationInput[]
+    cursor?: ConsentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConsentScalarFieldEnum | ConsentScalarFieldEnum[]
   }
 
   /**
@@ -22035,6 +23414,21 @@ export namespace Prisma {
   export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
 
 
+  export const ConsentScalarFieldEnum: {
+    id: 'id',
+    dateTime: 'dateTime',
+    Treatment: 'Treatment',
+    comments: 'comments',
+    Medication: 'Medication',
+    Remarks: 'Remarks',
+    patientId: 'patientId',
+    doctorId: 'doctorId',
+    clinicId: 'clinicId'
+  };
+
+  export type ConsentScalarFieldEnum = (typeof ConsentScalarFieldEnum)[keyof typeof ConsentScalarFieldEnum]
+
+
   export const InvoiceItemsScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -22422,6 +23816,7 @@ export namespace Prisma {
     Doctor?: DoctorListRelationFilter
     Receptionist?: ReceptionistListRelationFilter
     InvoicePrefills?: InvoicePrefillsListRelationFilter
+    Consent?: ConsentListRelationFilter
   }
 
   export type ClinicOrderByWithRelationInput = {
@@ -22443,6 +23838,7 @@ export namespace Prisma {
     Doctor?: DoctorOrderByRelationAggregateInput
     Receptionist?: ReceptionistOrderByRelationAggregateInput
     InvoicePrefills?: InvoicePrefillsOrderByRelationAggregateInput
+    Consent?: ConsentOrderByRelationAggregateInput
   }
 
   export type ClinicWhereUniqueInput = Prisma.AtLeast<{
@@ -22467,6 +23863,7 @@ export namespace Prisma {
     Doctor?: DoctorListRelationFilter
     Receptionist?: ReceptionistListRelationFilter
     InvoicePrefills?: InvoicePrefillsListRelationFilter
+    Consent?: ConsentListRelationFilter
   }, "id" | "email">
 
   export type ClinicOrderByWithAggregationInput = {
@@ -22728,6 +24125,7 @@ export namespace Prisma {
     Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
     Appointment?: AppointmentListRelationFilter
     PatientDoctor?: PatientDoctorListRelationFilter
+    Consent?: ConsentListRelationFilter
   }
 
   export type PatientOrderByWithRelationInput = {
@@ -22746,6 +24144,7 @@ export namespace Prisma {
     Clinic?: ClinicOrderByWithRelationInput
     Appointment?: AppointmentOrderByRelationAggregateInput
     PatientDoctor?: PatientDoctorOrderByRelationAggregateInput
+    Consent?: ConsentOrderByRelationAggregateInput
   }
 
   export type PatientWhereUniqueInput = Prisma.AtLeast<{
@@ -22767,6 +24166,7 @@ export namespace Prisma {
     Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
     Appointment?: AppointmentListRelationFilter
     PatientDoctor?: PatientDoctorListRelationFilter
+    Consent?: ConsentListRelationFilter
   }, "id">
 
   export type PatientOrderByWithAggregationInput = {
@@ -22925,6 +24325,89 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
     createdById?: IntWithAggregatesFilter<"Appointment"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
+  }
+
+  export type ConsentWhereInput = {
+    AND?: ConsentWhereInput | ConsentWhereInput[]
+    OR?: ConsentWhereInput[]
+    NOT?: ConsentWhereInput | ConsentWhereInput[]
+    id?: IntFilter<"Consent"> | number
+    dateTime?: DateTimeFilter<"Consent"> | Date | string
+    Treatment?: StringFilter<"Consent"> | string
+    comments?: StringNullableFilter<"Consent"> | string | null
+    Medication?: StringNullableFilter<"Consent"> | string | null
+    Remarks?: StringNullableFilter<"Consent"> | string | null
+    patientId?: IntFilter<"Consent"> | number
+    doctorId?: IntFilter<"Consent"> | number
+    clinicId?: IntFilter<"Consent"> | number
+    Patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
+    Doctor?: XOR<DoctorScalarRelationFilter, DoctorWhereInput>
+    Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
+  }
+
+  export type ConsentOrderByWithRelationInput = {
+    id?: SortOrder
+    dateTime?: SortOrder
+    Treatment?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    Medication?: SortOrderInput | SortOrder
+    Remarks?: SortOrderInput | SortOrder
+    patientId?: SortOrder
+    doctorId?: SortOrder
+    clinicId?: SortOrder
+    Patient?: PatientOrderByWithRelationInput
+    Doctor?: DoctorOrderByWithRelationInput
+    Clinic?: ClinicOrderByWithRelationInput
+  }
+
+  export type ConsentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ConsentWhereInput | ConsentWhereInput[]
+    OR?: ConsentWhereInput[]
+    NOT?: ConsentWhereInput | ConsentWhereInput[]
+    dateTime?: DateTimeFilter<"Consent"> | Date | string
+    Treatment?: StringFilter<"Consent"> | string
+    comments?: StringNullableFilter<"Consent"> | string | null
+    Medication?: StringNullableFilter<"Consent"> | string | null
+    Remarks?: StringNullableFilter<"Consent"> | string | null
+    patientId?: IntFilter<"Consent"> | number
+    doctorId?: IntFilter<"Consent"> | number
+    clinicId?: IntFilter<"Consent"> | number
+    Patient?: XOR<PatientScalarRelationFilter, PatientWhereInput>
+    Doctor?: XOR<DoctorScalarRelationFilter, DoctorWhereInput>
+    Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
+  }, "id">
+
+  export type ConsentOrderByWithAggregationInput = {
+    id?: SortOrder
+    dateTime?: SortOrder
+    Treatment?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    Medication?: SortOrderInput | SortOrder
+    Remarks?: SortOrderInput | SortOrder
+    patientId?: SortOrder
+    doctorId?: SortOrder
+    clinicId?: SortOrder
+    _count?: ConsentCountOrderByAggregateInput
+    _avg?: ConsentAvgOrderByAggregateInput
+    _max?: ConsentMaxOrderByAggregateInput
+    _min?: ConsentMinOrderByAggregateInput
+    _sum?: ConsentSumOrderByAggregateInput
+  }
+
+  export type ConsentScalarWhereWithAggregatesInput = {
+    AND?: ConsentScalarWhereWithAggregatesInput | ConsentScalarWhereWithAggregatesInput[]
+    OR?: ConsentScalarWhereWithAggregatesInput[]
+    NOT?: ConsentScalarWhereWithAggregatesInput | ConsentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Consent"> | number
+    dateTime?: DateTimeWithAggregatesFilter<"Consent"> | Date | string
+    Treatment?: StringWithAggregatesFilter<"Consent"> | string
+    comments?: StringNullableWithAggregatesFilter<"Consent"> | string | null
+    Medication?: StringNullableWithAggregatesFilter<"Consent"> | string | null
+    Remarks?: StringNullableWithAggregatesFilter<"Consent"> | string | null
+    patientId?: IntWithAggregatesFilter<"Consent"> | number
+    doctorId?: IntWithAggregatesFilter<"Consent"> | number
+    clinicId?: IntWithAggregatesFilter<"Consent"> | number
   }
 
   export type InvoiceItemsWhereInput = {
@@ -23284,6 +24767,7 @@ export namespace Prisma {
     clinicId?: IntFilter<"Doctor"> | number
     isDeleted?: BoolFilter<"Doctor"> | boolean
     Appointment?: AppointmentListRelationFilter
+    Consent?: ConsentListRelationFilter
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
     PatientDoctor?: PatientDoctorListRelationFilter
@@ -23302,6 +24786,7 @@ export namespace Prisma {
     clinicId?: SortOrder
     isDeleted?: SortOrder
     Appointment?: AppointmentOrderByRelationAggregateInput
+    Consent?: ConsentOrderByRelationAggregateInput
     User?: UserOrderByWithRelationInput
     Clinic?: ClinicOrderByWithRelationInput
     PatientDoctor?: PatientDoctorOrderByRelationAggregateInput
@@ -23323,6 +24808,7 @@ export namespace Prisma {
     clinicId?: IntFilter<"Doctor"> | number
     isDeleted?: BoolFilter<"Doctor"> | boolean
     Appointment?: AppointmentListRelationFilter
+    Consent?: ConsentListRelationFilter
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
     PatientDoctor?: PatientDoctorListRelationFilter
@@ -23779,6 +25265,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateInput = {
@@ -23800,6 +25287,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUpdateInput = {
@@ -23820,6 +25308,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateInput = {
@@ -23841,6 +25330,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicCreateManyInput = {
@@ -24122,6 +25612,7 @@ export namespace Prisma {
     Clinic: ClinicCreateNestedOneWithoutPatientInput
     Appointment?: AppointmentCreateNestedManyWithoutPatientInput
     PatientDoctor?: PatientDoctorCreateNestedManyWithoutPatientInput
+    Consent?: ConsentCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateInput = {
@@ -24139,6 +25630,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutPatientInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUpdateInput = {
@@ -24155,6 +25647,7 @@ export namespace Prisma {
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
     Appointment?: AppointmentUpdateManyWithoutPatientNestedInput
     PatientDoctor?: PatientDoctorUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateInput = {
@@ -24172,6 +25665,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientCreateManyInput = {
@@ -24339,6 +25833,84 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsentCreateInput = {
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    Patient: PatientCreateNestedOneWithoutConsentInput
+    Doctor: DoctorCreateNestedOneWithoutConsentInput
+    Clinic: ClinicCreateNestedOneWithoutConsentInput
+  }
+
+  export type ConsentUncheckedCreateInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    patientId: number
+    doctorId: number
+    clinicId: number
+  }
+
+  export type ConsentUpdateInput = {
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    Patient?: PatientUpdateOneRequiredWithoutConsentNestedInput
+    Doctor?: DoctorUpdateOneRequiredWithoutConsentNestedInput
+    Clinic?: ClinicUpdateOneRequiredWithoutConsentNestedInput
+  }
+
+  export type ConsentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: IntFieldUpdateOperationsInput | number
+    doctorId?: IntFieldUpdateOperationsInput | number
+    clinicId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ConsentCreateManyInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    patientId: number
+    doctorId: number
+    clinicId: number
+  }
+
+  export type ConsentUpdateManyMutationInput = {
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ConsentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: IntFieldUpdateOperationsInput | number
+    doctorId?: IntFieldUpdateOperationsInput | number
+    clinicId?: IntFieldUpdateOperationsInput | number
   }
 
   export type InvoiceItemsCreateInput = {
@@ -24684,6 +26256,7 @@ export namespace Prisma {
     experience?: number | null
     isDeleted?: boolean
     Appointment?: AppointmentCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentCreateNestedManyWithoutDoctorInput
     User?: UserCreateNestedOneWithoutDoctorInput
     Clinic: ClinicCreateNestedOneWithoutDoctorInput
     PatientDoctor?: PatientDoctorCreateNestedManyWithoutDoctorInput
@@ -24702,6 +26275,7 @@ export namespace Prisma {
     clinicId: number
     isDeleted?: boolean
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutDoctorInput
     PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutDoctorInput
   }
 
@@ -24715,6 +26289,7 @@ export namespace Prisma {
     experience?: NullableIntFieldUpdateOperationsInput | number | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUpdateManyWithoutDoctorNestedInput
     User?: UserUpdateOneWithoutDoctorNestedInput
     Clinic?: ClinicUpdateOneRequiredWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUpdateManyWithoutDoctorNestedInput
@@ -24733,6 +26308,7 @@ export namespace Prisma {
     clinicId?: IntFieldUpdateOperationsInput | number
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutDoctorNestedInput
   }
 
@@ -25288,6 +26864,12 @@ export namespace Prisma {
     none?: InvoicePrefillsWhereInput
   }
 
+  export type ConsentListRelationFilter = {
+    every?: ConsentWhereInput
+    some?: ConsentWhereInput
+    none?: ConsentWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -25318,6 +26900,10 @@ export namespace Prisma {
   }
 
   export type InvoicePrefillsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConsentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25895,6 +27481,61 @@ export namespace Prisma {
     _max?: NestedEnumAppointmentStatusFilter<$PrismaModel>
   }
 
+  export type DoctorScalarRelationFilter = {
+    is?: DoctorWhereInput
+    isNot?: DoctorWhereInput
+  }
+
+  export type ConsentCountOrderByAggregateInput = {
+    id?: SortOrder
+    dateTime?: SortOrder
+    Treatment?: SortOrder
+    comments?: SortOrder
+    Medication?: SortOrder
+    Remarks?: SortOrder
+    patientId?: SortOrder
+    doctorId?: SortOrder
+    clinicId?: SortOrder
+  }
+
+  export type ConsentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    doctorId?: SortOrder
+    clinicId?: SortOrder
+  }
+
+  export type ConsentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    dateTime?: SortOrder
+    Treatment?: SortOrder
+    comments?: SortOrder
+    Medication?: SortOrder
+    Remarks?: SortOrder
+    patientId?: SortOrder
+    doctorId?: SortOrder
+    clinicId?: SortOrder
+  }
+
+  export type ConsentMinOrderByAggregateInput = {
+    id?: SortOrder
+    dateTime?: SortOrder
+    Treatment?: SortOrder
+    comments?: SortOrder
+    Medication?: SortOrder
+    Remarks?: SortOrder
+    patientId?: SortOrder
+    doctorId?: SortOrder
+    clinicId?: SortOrder
+  }
+
+  export type ConsentSumOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    doctorId?: SortOrder
+    clinicId?: SortOrder
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -26263,11 +27904,6 @@ export namespace Prisma {
     clinicId?: SortOrder
   }
 
-  export type DoctorScalarRelationFilter = {
-    is?: DoctorWhereInput
-    isNot?: DoctorWhereInput
-  }
-
   export type PatientDoctorPatientIdDoctorIdCompoundUniqueInput = {
     patientId: number
     doctorId: number
@@ -26621,6 +28257,13 @@ export namespace Prisma {
     connect?: InvoicePrefillsWhereUniqueInput | InvoicePrefillsWhereUniqueInput[]
   }
 
+  export type ConsentCreateNestedManyWithoutClinicInput = {
+    create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
+    createMany?: ConsentCreateManyClinicInputEnvelope
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+  }
+
   export type SubscriptionUncheckedCreateNestedManyWithoutClinicInput = {
     create?: XOR<SubscriptionCreateWithoutClinicInput, SubscriptionUncheckedCreateWithoutClinicInput> | SubscriptionCreateWithoutClinicInput[] | SubscriptionUncheckedCreateWithoutClinicInput[]
     connectOrCreate?: SubscriptionCreateOrConnectWithoutClinicInput | SubscriptionCreateOrConnectWithoutClinicInput[]
@@ -26668,6 +28311,13 @@ export namespace Prisma {
     connectOrCreate?: InvoicePrefillsCreateOrConnectWithoutClinicInput | InvoicePrefillsCreateOrConnectWithoutClinicInput[]
     createMany?: InvoicePrefillsCreateManyClinicInputEnvelope
     connect?: InvoicePrefillsWhereUniqueInput | InvoicePrefillsWhereUniqueInput[]
+  }
+
+  export type ConsentUncheckedCreateNestedManyWithoutClinicInput = {
+    create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
+    createMany?: ConsentCreateManyClinicInputEnvelope
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -26780,6 +28430,20 @@ export namespace Prisma {
     deleteMany?: InvoicePrefillsScalarWhereInput | InvoicePrefillsScalarWhereInput[]
   }
 
+  export type ConsentUpdateManyWithoutClinicNestedInput = {
+    create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
+    upsert?: ConsentUpsertWithWhereUniqueWithoutClinicInput | ConsentUpsertWithWhereUniqueWithoutClinicInput[]
+    createMany?: ConsentCreateManyClinicInputEnvelope
+    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    update?: ConsentUpdateWithWhereUniqueWithoutClinicInput | ConsentUpdateWithWhereUniqueWithoutClinicInput[]
+    updateMany?: ConsentUpdateManyWithWhereWithoutClinicInput | ConsentUpdateManyWithWhereWithoutClinicInput[]
+    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -26884,6 +28548,20 @@ export namespace Prisma {
     update?: InvoicePrefillsUpdateWithWhereUniqueWithoutClinicInput | InvoicePrefillsUpdateWithWhereUniqueWithoutClinicInput[]
     updateMany?: InvoicePrefillsUpdateManyWithWhereWithoutClinicInput | InvoicePrefillsUpdateManyWithWhereWithoutClinicInput[]
     deleteMany?: InvoicePrefillsScalarWhereInput | InvoicePrefillsScalarWhereInput[]
+  }
+
+  export type ConsentUncheckedUpdateManyWithoutClinicNestedInput = {
+    create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
+    upsert?: ConsentUpsertWithWhereUniqueWithoutClinicInput | ConsentUpsertWithWhereUniqueWithoutClinicInput[]
+    createMany?: ConsentCreateManyClinicInputEnvelope
+    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    update?: ConsentUpdateWithWhereUniqueWithoutClinicInput | ConsentUpdateWithWhereUniqueWithoutClinicInput[]
+    updateMany?: ConsentUpdateManyWithWhereWithoutClinicInput | ConsentUpdateManyWithWhereWithoutClinicInput[]
+    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
   }
 
   export type ClinicCreateNestedOneWithoutUserInput = {
@@ -27120,6 +28798,13 @@ export namespace Prisma {
     connect?: PatientDoctorWhereUniqueInput | PatientDoctorWhereUniqueInput[]
   }
 
+  export type ConsentCreateNestedManyWithoutPatientInput = {
+    create?: XOR<ConsentCreateWithoutPatientInput, ConsentUncheckedCreateWithoutPatientInput> | ConsentCreateWithoutPatientInput[] | ConsentUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutPatientInput | ConsentCreateOrConnectWithoutPatientInput[]
+    createMany?: ConsentCreateManyPatientInputEnvelope
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+  }
+
   export type AppointmentUncheckedCreateNestedManyWithoutPatientInput = {
     create?: XOR<AppointmentCreateWithoutPatientInput, AppointmentUncheckedCreateWithoutPatientInput> | AppointmentCreateWithoutPatientInput[] | AppointmentUncheckedCreateWithoutPatientInput[]
     connectOrCreate?: AppointmentCreateOrConnectWithoutPatientInput | AppointmentCreateOrConnectWithoutPatientInput[]
@@ -27132,6 +28817,13 @@ export namespace Prisma {
     connectOrCreate?: PatientDoctorCreateOrConnectWithoutPatientInput | PatientDoctorCreateOrConnectWithoutPatientInput[]
     createMany?: PatientDoctorCreateManyPatientInputEnvelope
     connect?: PatientDoctorWhereUniqueInput | PatientDoctorWhereUniqueInput[]
+  }
+
+  export type ConsentUncheckedCreateNestedManyWithoutPatientInput = {
+    create?: XOR<ConsentCreateWithoutPatientInput, ConsentUncheckedCreateWithoutPatientInput> | ConsentCreateWithoutPatientInput[] | ConsentUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutPatientInput | ConsentCreateOrConnectWithoutPatientInput[]
+    createMany?: ConsentCreateManyPatientInputEnvelope
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
   }
 
   export type EnumGenderFieldUpdateOperationsInput = {
@@ -27178,6 +28870,20 @@ export namespace Prisma {
     deleteMany?: PatientDoctorScalarWhereInput | PatientDoctorScalarWhereInput[]
   }
 
+  export type ConsentUpdateManyWithoutPatientNestedInput = {
+    create?: XOR<ConsentCreateWithoutPatientInput, ConsentUncheckedCreateWithoutPatientInput> | ConsentCreateWithoutPatientInput[] | ConsentUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutPatientInput | ConsentCreateOrConnectWithoutPatientInput[]
+    upsert?: ConsentUpsertWithWhereUniqueWithoutPatientInput | ConsentUpsertWithWhereUniqueWithoutPatientInput[]
+    createMany?: ConsentCreateManyPatientInputEnvelope
+    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    update?: ConsentUpdateWithWhereUniqueWithoutPatientInput | ConsentUpdateWithWhereUniqueWithoutPatientInput[]
+    updateMany?: ConsentUpdateManyWithWhereWithoutPatientInput | ConsentUpdateManyWithWhereWithoutPatientInput[]
+    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+  }
+
   export type AppointmentUncheckedUpdateManyWithoutPatientNestedInput = {
     create?: XOR<AppointmentCreateWithoutPatientInput, AppointmentUncheckedCreateWithoutPatientInput> | AppointmentCreateWithoutPatientInput[] | AppointmentUncheckedCreateWithoutPatientInput[]
     connectOrCreate?: AppointmentCreateOrConnectWithoutPatientInput | AppointmentCreateOrConnectWithoutPatientInput[]
@@ -27204,6 +28910,20 @@ export namespace Prisma {
     update?: PatientDoctorUpdateWithWhereUniqueWithoutPatientInput | PatientDoctorUpdateWithWhereUniqueWithoutPatientInput[]
     updateMany?: PatientDoctorUpdateManyWithWhereWithoutPatientInput | PatientDoctorUpdateManyWithWhereWithoutPatientInput[]
     deleteMany?: PatientDoctorScalarWhereInput | PatientDoctorScalarWhereInput[]
+  }
+
+  export type ConsentUncheckedUpdateManyWithoutPatientNestedInput = {
+    create?: XOR<ConsentCreateWithoutPatientInput, ConsentUncheckedCreateWithoutPatientInput> | ConsentCreateWithoutPatientInput[] | ConsentUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutPatientInput | ConsentCreateOrConnectWithoutPatientInput[]
+    upsert?: ConsentUpsertWithWhereUniqueWithoutPatientInput | ConsentUpsertWithWhereUniqueWithoutPatientInput[]
+    createMany?: ConsentCreateManyPatientInputEnvelope
+    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    update?: ConsentUpdateWithWhereUniqueWithoutPatientInput | ConsentUpdateWithWhereUniqueWithoutPatientInput[]
+    updateMany?: ConsentUpdateManyWithWhereWithoutPatientInput | ConsentUpdateManyWithWhereWithoutPatientInput[]
+    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
   }
 
   export type PatientCreateNestedOneWithoutAppointmentInput = {
@@ -27374,6 +29094,48 @@ export namespace Prisma {
     update?: XOR<XOR<EPrescriptionUpdateToOneWithWhereWithoutAppointmentInput, EPrescriptionUpdateWithoutAppointmentInput>, EPrescriptionUncheckedUpdateWithoutAppointmentInput>
   }
 
+  export type PatientCreateNestedOneWithoutConsentInput = {
+    create?: XOR<PatientCreateWithoutConsentInput, PatientUncheckedCreateWithoutConsentInput>
+    connectOrCreate?: PatientCreateOrConnectWithoutConsentInput
+    connect?: PatientWhereUniqueInput
+  }
+
+  export type DoctorCreateNestedOneWithoutConsentInput = {
+    create?: XOR<DoctorCreateWithoutConsentInput, DoctorUncheckedCreateWithoutConsentInput>
+    connectOrCreate?: DoctorCreateOrConnectWithoutConsentInput
+    connect?: DoctorWhereUniqueInput
+  }
+
+  export type ClinicCreateNestedOneWithoutConsentInput = {
+    create?: XOR<ClinicCreateWithoutConsentInput, ClinicUncheckedCreateWithoutConsentInput>
+    connectOrCreate?: ClinicCreateOrConnectWithoutConsentInput
+    connect?: ClinicWhereUniqueInput
+  }
+
+  export type PatientUpdateOneRequiredWithoutConsentNestedInput = {
+    create?: XOR<PatientCreateWithoutConsentInput, PatientUncheckedCreateWithoutConsentInput>
+    connectOrCreate?: PatientCreateOrConnectWithoutConsentInput
+    upsert?: PatientUpsertWithoutConsentInput
+    connect?: PatientWhereUniqueInput
+    update?: XOR<XOR<PatientUpdateToOneWithWhereWithoutConsentInput, PatientUpdateWithoutConsentInput>, PatientUncheckedUpdateWithoutConsentInput>
+  }
+
+  export type DoctorUpdateOneRequiredWithoutConsentNestedInput = {
+    create?: XOR<DoctorCreateWithoutConsentInput, DoctorUncheckedCreateWithoutConsentInput>
+    connectOrCreate?: DoctorCreateOrConnectWithoutConsentInput
+    upsert?: DoctorUpsertWithoutConsentInput
+    connect?: DoctorWhereUniqueInput
+    update?: XOR<XOR<DoctorUpdateToOneWithWhereWithoutConsentInput, DoctorUpdateWithoutConsentInput>, DoctorUncheckedUpdateWithoutConsentInput>
+  }
+
+  export type ClinicUpdateOneRequiredWithoutConsentNestedInput = {
+    create?: XOR<ClinicCreateWithoutConsentInput, ClinicUncheckedCreateWithoutConsentInput>
+    connectOrCreate?: ClinicCreateOrConnectWithoutConsentInput
+    upsert?: ClinicUpsertWithoutConsentInput
+    connect?: ClinicWhereUniqueInput
+    update?: XOR<XOR<ClinicUpdateToOneWithWhereWithoutConsentInput, ClinicUpdateWithoutConsentInput>, ClinicUncheckedUpdateWithoutConsentInput>
+  }
+
   export type InvoiceCreateNestedOneWithoutInvoiceItemsInput = {
     create?: XOR<InvoiceCreateWithoutInvoiceItemsInput, InvoiceUncheckedCreateWithoutInvoiceItemsInput>
     connectOrCreate?: InvoiceCreateOrConnectWithoutInvoiceItemsInput
@@ -27527,6 +29289,13 @@ export namespace Prisma {
     connect?: AppointmentWhereUniqueInput | AppointmentWhereUniqueInput[]
   }
 
+  export type ConsentCreateNestedManyWithoutDoctorInput = {
+    create?: XOR<ConsentCreateWithoutDoctorInput, ConsentUncheckedCreateWithoutDoctorInput> | ConsentCreateWithoutDoctorInput[] | ConsentUncheckedCreateWithoutDoctorInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutDoctorInput | ConsentCreateOrConnectWithoutDoctorInput[]
+    createMany?: ConsentCreateManyDoctorInputEnvelope
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutDoctorInput = {
     create?: XOR<UserCreateWithoutDoctorInput, UserUncheckedCreateWithoutDoctorInput>
     connectOrCreate?: UserCreateOrConnectWithoutDoctorInput
@@ -27553,6 +29322,13 @@ export namespace Prisma {
     connect?: AppointmentWhereUniqueInput | AppointmentWhereUniqueInput[]
   }
 
+  export type ConsentUncheckedCreateNestedManyWithoutDoctorInput = {
+    create?: XOR<ConsentCreateWithoutDoctorInput, ConsentUncheckedCreateWithoutDoctorInput> | ConsentCreateWithoutDoctorInput[] | ConsentUncheckedCreateWithoutDoctorInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutDoctorInput | ConsentCreateOrConnectWithoutDoctorInput[]
+    createMany?: ConsentCreateManyDoctorInputEnvelope
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+  }
+
   export type PatientDoctorUncheckedCreateNestedManyWithoutDoctorInput = {
     create?: XOR<PatientDoctorCreateWithoutDoctorInput, PatientDoctorUncheckedCreateWithoutDoctorInput> | PatientDoctorCreateWithoutDoctorInput[] | PatientDoctorUncheckedCreateWithoutDoctorInput[]
     connectOrCreate?: PatientDoctorCreateOrConnectWithoutDoctorInput | PatientDoctorCreateOrConnectWithoutDoctorInput[]
@@ -27572,6 +29348,20 @@ export namespace Prisma {
     update?: AppointmentUpdateWithWhereUniqueWithoutDoctorInput | AppointmentUpdateWithWhereUniqueWithoutDoctorInput[]
     updateMany?: AppointmentUpdateManyWithWhereWithoutDoctorInput | AppointmentUpdateManyWithWhereWithoutDoctorInput[]
     deleteMany?: AppointmentScalarWhereInput | AppointmentScalarWhereInput[]
+  }
+
+  export type ConsentUpdateManyWithoutDoctorNestedInput = {
+    create?: XOR<ConsentCreateWithoutDoctorInput, ConsentUncheckedCreateWithoutDoctorInput> | ConsentCreateWithoutDoctorInput[] | ConsentUncheckedCreateWithoutDoctorInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutDoctorInput | ConsentCreateOrConnectWithoutDoctorInput[]
+    upsert?: ConsentUpsertWithWhereUniqueWithoutDoctorInput | ConsentUpsertWithWhereUniqueWithoutDoctorInput[]
+    createMany?: ConsentCreateManyDoctorInputEnvelope
+    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    update?: ConsentUpdateWithWhereUniqueWithoutDoctorInput | ConsentUpdateWithWhereUniqueWithoutDoctorInput[]
+    updateMany?: ConsentUpdateManyWithWhereWithoutDoctorInput | ConsentUpdateManyWithWhereWithoutDoctorInput[]
+    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
   }
 
   export type UserUpdateOneWithoutDoctorNestedInput = {
@@ -27618,6 +29408,20 @@ export namespace Prisma {
     update?: AppointmentUpdateWithWhereUniqueWithoutDoctorInput | AppointmentUpdateWithWhereUniqueWithoutDoctorInput[]
     updateMany?: AppointmentUpdateManyWithWhereWithoutDoctorInput | AppointmentUpdateManyWithWhereWithoutDoctorInput[]
     deleteMany?: AppointmentScalarWhereInput | AppointmentScalarWhereInput[]
+  }
+
+  export type ConsentUncheckedUpdateManyWithoutDoctorNestedInput = {
+    create?: XOR<ConsentCreateWithoutDoctorInput, ConsentUncheckedCreateWithoutDoctorInput> | ConsentCreateWithoutDoctorInput[] | ConsentUncheckedCreateWithoutDoctorInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutDoctorInput | ConsentCreateOrConnectWithoutDoctorInput[]
+    upsert?: ConsentUpsertWithWhereUniqueWithoutDoctorInput | ConsentUpsertWithWhereUniqueWithoutDoctorInput[]
+    createMany?: ConsentCreateManyDoctorInputEnvelope
+    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    update?: ConsentUpdateWithWhereUniqueWithoutDoctorInput | ConsentUpdateWithWhereUniqueWithoutDoctorInput[]
+    updateMany?: ConsentUpdateManyWithWhereWithoutDoctorInput | ConsentUpdateManyWithWhereWithoutDoctorInput[]
+    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
   }
 
   export type PatientDoctorUncheckedUpdateManyWithoutDoctorNestedInput = {
@@ -28275,6 +30079,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     Appointment?: AppointmentCreateNestedManyWithoutPatientInput
     PatientDoctor?: PatientDoctorCreateNestedManyWithoutPatientInput
+    Consent?: ConsentCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateWithoutClinicInput = {
@@ -28291,6 +30096,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutPatientInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientCreateOrConnectWithoutClinicInput = {
@@ -28360,6 +30166,7 @@ export namespace Prisma {
     experience?: number | null
     isDeleted?: boolean
     Appointment?: AppointmentCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentCreateNestedManyWithoutDoctorInput
     User?: UserCreateNestedOneWithoutDoctorInput
     PatientDoctor?: PatientDoctorCreateNestedManyWithoutDoctorInput
   }
@@ -28376,6 +30183,7 @@ export namespace Prisma {
     userId?: number | null
     isDeleted?: boolean
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutDoctorInput
     PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutDoctorInput
   }
 
@@ -28444,6 +30252,37 @@ export namespace Prisma {
 
   export type InvoicePrefillsCreateManyClinicInputEnvelope = {
     data: InvoicePrefillsCreateManyClinicInput | InvoicePrefillsCreateManyClinicInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConsentCreateWithoutClinicInput = {
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    Patient: PatientCreateNestedOneWithoutConsentInput
+    Doctor: DoctorCreateNestedOneWithoutConsentInput
+  }
+
+  export type ConsentUncheckedCreateWithoutClinicInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    patientId: number
+    doctorId: number
+  }
+
+  export type ConsentCreateOrConnectWithoutClinicInput = {
+    where: ConsentWhereUniqueInput
+    create: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput>
+  }
+
+  export type ConsentCreateManyClinicInputEnvelope = {
+    data: ConsentCreateManyClinicInput | ConsentCreateManyClinicInput[]
     skipDuplicates?: boolean
   }
 
@@ -28680,6 +30519,37 @@ export namespace Prisma {
     clinicId?: IntFilter<"InvoicePrefills"> | number
   }
 
+  export type ConsentUpsertWithWhereUniqueWithoutClinicInput = {
+    where: ConsentWhereUniqueInput
+    update: XOR<ConsentUpdateWithoutClinicInput, ConsentUncheckedUpdateWithoutClinicInput>
+    create: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput>
+  }
+
+  export type ConsentUpdateWithWhereUniqueWithoutClinicInput = {
+    where: ConsentWhereUniqueInput
+    data: XOR<ConsentUpdateWithoutClinicInput, ConsentUncheckedUpdateWithoutClinicInput>
+  }
+
+  export type ConsentUpdateManyWithWhereWithoutClinicInput = {
+    where: ConsentScalarWhereInput
+    data: XOR<ConsentUpdateManyMutationInput, ConsentUncheckedUpdateManyWithoutClinicInput>
+  }
+
+  export type ConsentScalarWhereInput = {
+    AND?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+    OR?: ConsentScalarWhereInput[]
+    NOT?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+    id?: IntFilter<"Consent"> | number
+    dateTime?: DateTimeFilter<"Consent"> | Date | string
+    Treatment?: StringFilter<"Consent"> | string
+    comments?: StringNullableFilter<"Consent"> | string | null
+    Medication?: StringNullableFilter<"Consent"> | string | null
+    Remarks?: StringNullableFilter<"Consent"> | string | null
+    patientId?: IntFilter<"Consent"> | number
+    doctorId?: IntFilter<"Consent"> | number
+    clinicId?: IntFilter<"Consent"> | number
+  }
+
   export type ClinicCreateWithoutUserInput = {
     email: string
     createdOn?: Date | string
@@ -28697,6 +30567,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutUserInput = {
@@ -28717,6 +30588,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutUserInput = {
@@ -28734,6 +30606,7 @@ export namespace Prisma {
     experience?: number | null
     isDeleted?: boolean
     Appointment?: AppointmentCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentCreateNestedManyWithoutDoctorInput
     Clinic: ClinicCreateNestedOneWithoutDoctorInput
     PatientDoctor?: PatientDoctorCreateNestedManyWithoutDoctorInput
   }
@@ -28750,6 +30623,7 @@ export namespace Prisma {
     clinicId: number
     isDeleted?: boolean
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutDoctorInput
     PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutDoctorInput
   }
 
@@ -28898,6 +30772,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutUserInput = {
@@ -28918,6 +30793,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type DoctorUpsertWithoutUserInput = {
@@ -28941,6 +30817,7 @@ export namespace Prisma {
     experience?: NullableIntFieldUpdateOperationsInput | number | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUpdateManyWithoutDoctorNestedInput
     Clinic?: ClinicUpdateOneRequiredWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUpdateManyWithoutDoctorNestedInput
   }
@@ -28957,6 +30834,7 @@ export namespace Prisma {
     clinicId?: IntFieldUpdateOperationsInput | number
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutDoctorNestedInput
   }
 
@@ -29104,6 +30982,7 @@ export namespace Prisma {
     Appointment?: AppointmentCreateNestedManyWithoutClinicInput
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutReceptionistInput = {
@@ -29124,6 +31003,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutReceptionistInput = {
@@ -29207,6 +31087,7 @@ export namespace Prisma {
     Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutReceptionistInput = {
@@ -29227,6 +31108,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicCreateWithoutPatientInput = {
@@ -29246,6 +31128,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutPatientInput = {
@@ -29266,6 +31149,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutPatientInput = {
@@ -29338,6 +31222,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ConsentCreateWithoutPatientInput = {
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    Doctor: DoctorCreateNestedOneWithoutConsentInput
+    Clinic: ClinicCreateNestedOneWithoutConsentInput
+  }
+
+  export type ConsentUncheckedCreateWithoutPatientInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    doctorId: number
+    clinicId: number
+  }
+
+  export type ConsentCreateOrConnectWithoutPatientInput = {
+    where: ConsentWhereUniqueInput
+    create: XOR<ConsentCreateWithoutPatientInput, ConsentUncheckedCreateWithoutPatientInput>
+  }
+
+  export type ConsentCreateManyPatientInputEnvelope = {
+    data: ConsentCreateManyPatientInput | ConsentCreateManyPatientInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ClinicUpsertWithoutPatientInput = {
     update: XOR<ClinicUpdateWithoutPatientInput, ClinicUncheckedUpdateWithoutPatientInput>
     create: XOR<ClinicCreateWithoutPatientInput, ClinicUncheckedCreateWithoutPatientInput>
@@ -29366,6 +31281,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutPatientInput = {
@@ -29386,6 +31302,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type AppointmentUpsertWithWhereUniqueWithoutPatientInput = {
@@ -29428,6 +31345,22 @@ export namespace Prisma {
     doctorId?: IntFilter<"PatientDoctor"> | number
   }
 
+  export type ConsentUpsertWithWhereUniqueWithoutPatientInput = {
+    where: ConsentWhereUniqueInput
+    update: XOR<ConsentUpdateWithoutPatientInput, ConsentUncheckedUpdateWithoutPatientInput>
+    create: XOR<ConsentCreateWithoutPatientInput, ConsentUncheckedCreateWithoutPatientInput>
+  }
+
+  export type ConsentUpdateWithWhereUniqueWithoutPatientInput = {
+    where: ConsentWhereUniqueInput
+    data: XOR<ConsentUpdateWithoutPatientInput, ConsentUncheckedUpdateWithoutPatientInput>
+  }
+
+  export type ConsentUpdateManyWithWhereWithoutPatientInput = {
+    where: ConsentScalarWhereInput
+    data: XOR<ConsentUpdateManyMutationInput, ConsentUncheckedUpdateManyWithoutPatientInput>
+  }
+
   export type PatientCreateWithoutAppointmentInput = {
     firstName: string
     lastName?: string | null
@@ -29441,6 +31374,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
     PatientDoctor?: PatientDoctorCreateNestedManyWithoutPatientInput
+    Consent?: ConsentCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateWithoutAppointmentInput = {
@@ -29457,6 +31391,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutPatientInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientCreateOrConnectWithoutAppointmentInput = {
@@ -29473,6 +31408,7 @@ export namespace Prisma {
     specialization?: string | null
     experience?: number | null
     isDeleted?: boolean
+    Consent?: ConsentCreateNestedManyWithoutDoctorInput
     User?: UserCreateNestedOneWithoutDoctorInput
     Clinic: ClinicCreateNestedOneWithoutDoctorInput
     PatientDoctor?: PatientDoctorCreateNestedManyWithoutDoctorInput
@@ -29490,6 +31426,7 @@ export namespace Prisma {
     userId?: number | null
     clinicId: number
     isDeleted?: boolean
+    Consent?: ConsentUncheckedCreateNestedManyWithoutDoctorInput
     PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutDoctorInput
   }
 
@@ -29515,6 +31452,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutAppointmentInput = {
@@ -29535,6 +31473,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutAppointmentInput = {
@@ -29691,6 +31630,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
     PatientDoctor?: PatientDoctorUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateWithoutAppointmentInput = {
@@ -29707,6 +31647,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type DoctorUpsertWithoutAppointmentInput = {
@@ -29729,6 +31670,7 @@ export namespace Prisma {
     specialization?: NullableStringFieldUpdateOperationsInput | string | null
     experience?: NullableIntFieldUpdateOperationsInput | number | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    Consent?: ConsentUpdateManyWithoutDoctorNestedInput
     User?: UserUpdateOneWithoutDoctorNestedInput
     Clinic?: ClinicUpdateOneRequiredWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUpdateManyWithoutDoctorNestedInput
@@ -29746,6 +31688,7 @@ export namespace Prisma {
     userId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    Consent?: ConsentUncheckedUpdateManyWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutDoctorNestedInput
   }
 
@@ -29777,6 +31720,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutAppointmentInput = {
@@ -29797,6 +31741,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type InvoiceUpsertWithoutAppointmentInput = {
@@ -29942,6 +31887,264 @@ export namespace Prisma {
     InvoiceUpdated?: InvoiceUncheckedUpdateManyWithoutLastUpdatedByNestedInput
   }
 
+  export type PatientCreateWithoutConsentInput = {
+    firstName: string
+    lastName?: string | null
+    email?: string | null
+    phone: string
+    emergencyContact?: string | null
+    gender: $Enums.Gender
+    age?: number | null
+    bloodGroup?: $Enums.BloodGroup | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Clinic: ClinicCreateNestedOneWithoutPatientInput
+    Appointment?: AppointmentCreateNestedManyWithoutPatientInput
+    PatientDoctor?: PatientDoctorCreateNestedManyWithoutPatientInput
+  }
+
+  export type PatientUncheckedCreateWithoutConsentInput = {
+    id?: number
+    firstName: string
+    lastName?: string | null
+    email?: string | null
+    phone: string
+    emergencyContact?: string | null
+    gender: $Enums.Gender
+    age?: number | null
+    bloodGroup?: $Enums.BloodGroup | null
+    clinicId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Appointment?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
+    PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutPatientInput
+  }
+
+  export type PatientCreateOrConnectWithoutConsentInput = {
+    where: PatientWhereUniqueInput
+    create: XOR<PatientCreateWithoutConsentInput, PatientUncheckedCreateWithoutConsentInput>
+  }
+
+  export type DoctorCreateWithoutConsentInput = {
+    firstName?: string | null
+    lastName?: string | null
+    email?: string | null
+    profilePicture?: string | null
+    degree?: string | null
+    specialization?: string | null
+    experience?: number | null
+    isDeleted?: boolean
+    Appointment?: AppointmentCreateNestedManyWithoutDoctorInput
+    User?: UserCreateNestedOneWithoutDoctorInput
+    Clinic: ClinicCreateNestedOneWithoutDoctorInput
+    PatientDoctor?: PatientDoctorCreateNestedManyWithoutDoctorInput
+  }
+
+  export type DoctorUncheckedCreateWithoutConsentInput = {
+    id?: number
+    firstName?: string | null
+    lastName?: string | null
+    email?: string | null
+    profilePicture?: string | null
+    degree?: string | null
+    specialization?: string | null
+    experience?: number | null
+    userId?: number | null
+    clinicId: number
+    isDeleted?: boolean
+    Appointment?: AppointmentUncheckedCreateNestedManyWithoutDoctorInput
+    PatientDoctor?: PatientDoctorUncheckedCreateNestedManyWithoutDoctorInput
+  }
+
+  export type DoctorCreateOrConnectWithoutConsentInput = {
+    where: DoctorWhereUniqueInput
+    create: XOR<DoctorCreateWithoutConsentInput, DoctorUncheckedCreateWithoutConsentInput>
+  }
+
+  export type ClinicCreateWithoutConsentInput = {
+    email: string
+    createdOn?: Date | string
+    name: string
+    address?: string | null
+    phone?: string | null
+    workHours?: string | null
+    logo?: string | null
+    brandColor?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
+    User?: UserCreateNestedManyWithoutClinicInput
+    Patient?: PatientCreateNestedManyWithoutClinicInput
+    Appointment?: AppointmentCreateNestedManyWithoutClinicInput
+    Doctor?: DoctorCreateNestedManyWithoutClinicInput
+    Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
+    InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+  }
+
+  export type ClinicUncheckedCreateWithoutConsentInput = {
+    id?: number
+    email: string
+    createdOn?: Date | string
+    name: string
+    address?: string | null
+    phone?: string | null
+    workHours?: string | null
+    logo?: string | null
+    brandColor?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
+    User?: UserUncheckedCreateNestedManyWithoutClinicInput
+    Patient?: PatientUncheckedCreateNestedManyWithoutClinicInput
+    Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
+    Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
+    Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
+    InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+  }
+
+  export type ClinicCreateOrConnectWithoutConsentInput = {
+    where: ClinicWhereUniqueInput
+    create: XOR<ClinicCreateWithoutConsentInput, ClinicUncheckedCreateWithoutConsentInput>
+  }
+
+  export type PatientUpsertWithoutConsentInput = {
+    update: XOR<PatientUpdateWithoutConsentInput, PatientUncheckedUpdateWithoutConsentInput>
+    create: XOR<PatientCreateWithoutConsentInput, PatientUncheckedCreateWithoutConsentInput>
+    where?: PatientWhereInput
+  }
+
+  export type PatientUpdateToOneWithWhereWithoutConsentInput = {
+    where?: PatientWhereInput
+    data: XOR<PatientUpdateWithoutConsentInput, PatientUncheckedUpdateWithoutConsentInput>
+  }
+
+  export type PatientUpdateWithoutConsentInput = {
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
+    Appointment?: AppointmentUpdateManyWithoutPatientNestedInput
+    PatientDoctor?: PatientDoctorUpdateManyWithoutPatientNestedInput
+  }
+
+  export type PatientUncheckedUpdateWithoutConsentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: StringFieldUpdateOperationsInput | string
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    age?: NullableIntFieldUpdateOperationsInput | number | null
+    bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    clinicId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Appointment?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+    PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutPatientNestedInput
+  }
+
+  export type DoctorUpsertWithoutConsentInput = {
+    update: XOR<DoctorUpdateWithoutConsentInput, DoctorUncheckedUpdateWithoutConsentInput>
+    create: XOR<DoctorCreateWithoutConsentInput, DoctorUncheckedCreateWithoutConsentInput>
+    where?: DoctorWhereInput
+  }
+
+  export type DoctorUpdateToOneWithWhereWithoutConsentInput = {
+    where?: DoctorWhereInput
+    data: XOR<DoctorUpdateWithoutConsentInput, DoctorUncheckedUpdateWithoutConsentInput>
+  }
+
+  export type DoctorUpdateWithoutConsentInput = {
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    degree?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    Appointment?: AppointmentUpdateManyWithoutDoctorNestedInput
+    User?: UserUpdateOneWithoutDoctorNestedInput
+    Clinic?: ClinicUpdateOneRequiredWithoutDoctorNestedInput
+    PatientDoctor?: PatientDoctorUpdateManyWithoutDoctorNestedInput
+  }
+
+  export type DoctorUncheckedUpdateWithoutConsentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    degree?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    userId?: NullableIntFieldUpdateOperationsInput | number | null
+    clinicId?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    Appointment?: AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+    PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutDoctorNestedInput
+  }
+
+  export type ClinicUpsertWithoutConsentInput = {
+    update: XOR<ClinicUpdateWithoutConsentInput, ClinicUncheckedUpdateWithoutConsentInput>
+    create: XOR<ClinicCreateWithoutConsentInput, ClinicUncheckedCreateWithoutConsentInput>
+    where?: ClinicWhereInput
+  }
+
+  export type ClinicUpdateToOneWithWhereWithoutConsentInput = {
+    where?: ClinicWhereInput
+    data: XOR<ClinicUpdateWithoutConsentInput, ClinicUncheckedUpdateWithoutConsentInput>
+  }
+
+  export type ClinicUpdateWithoutConsentInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    workHours?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
+    User?: UserUpdateManyWithoutClinicNestedInput
+    Patient?: PatientUpdateManyWithoutClinicNestedInput
+    Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
+    Doctor?: DoctorUpdateManyWithoutClinicNestedInput
+    Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
+    InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+  }
+
+  export type ClinicUncheckedUpdateWithoutConsentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    workHours?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
+    User?: UserUncheckedUpdateManyWithoutClinicNestedInput
+    Patient?: PatientUncheckedUpdateManyWithoutClinicNestedInput
+    Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
+    Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
+    Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
+    InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+  }
+
   export type InvoiceCreateWithoutInvoiceItemsInput = {
     modeOfPayment?: $Enums.ModeOfPayment | null
     amountPaid?: number
@@ -30021,6 +32224,7 @@ export namespace Prisma {
     Appointment?: AppointmentCreateNestedManyWithoutClinicInput
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutInvoicePrefillsInput = {
@@ -30041,6 +32245,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutInvoicePrefillsInput = {
@@ -30076,6 +32281,7 @@ export namespace Prisma {
     Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutInvoicePrefillsInput = {
@@ -30096,6 +32302,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type InvoiceItemsCreateWithoutInvoiceInput = {
@@ -30555,6 +32762,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ConsentCreateWithoutDoctorInput = {
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    Patient: PatientCreateNestedOneWithoutConsentInput
+    Clinic: ClinicCreateNestedOneWithoutConsentInput
+  }
+
+  export type ConsentUncheckedCreateWithoutDoctorInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    patientId: number
+    clinicId: number
+  }
+
+  export type ConsentCreateOrConnectWithoutDoctorInput = {
+    where: ConsentWhereUniqueInput
+    create: XOR<ConsentCreateWithoutDoctorInput, ConsentUncheckedCreateWithoutDoctorInput>
+  }
+
+  export type ConsentCreateManyDoctorInputEnvelope = {
+    data: ConsentCreateManyDoctorInput | ConsentCreateManyDoctorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutDoctorInput = {
     firstName: string
     lastName?: string | null
@@ -30614,6 +32852,7 @@ export namespace Prisma {
     Appointment?: AppointmentCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutDoctorInput = {
@@ -30634,6 +32873,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutDoctorInput = {
@@ -30673,6 +32913,22 @@ export namespace Prisma {
   export type AppointmentUpdateManyWithWhereWithoutDoctorInput = {
     where: AppointmentScalarWhereInput
     data: XOR<AppointmentUpdateManyMutationInput, AppointmentUncheckedUpdateManyWithoutDoctorInput>
+  }
+
+  export type ConsentUpsertWithWhereUniqueWithoutDoctorInput = {
+    where: ConsentWhereUniqueInput
+    update: XOR<ConsentUpdateWithoutDoctorInput, ConsentUncheckedUpdateWithoutDoctorInput>
+    create: XOR<ConsentCreateWithoutDoctorInput, ConsentUncheckedCreateWithoutDoctorInput>
+  }
+
+  export type ConsentUpdateWithWhereUniqueWithoutDoctorInput = {
+    where: ConsentWhereUniqueInput
+    data: XOR<ConsentUpdateWithoutDoctorInput, ConsentUncheckedUpdateWithoutDoctorInput>
+  }
+
+  export type ConsentUpdateManyWithWhereWithoutDoctorInput = {
+    where: ConsentScalarWhereInput
+    data: XOR<ConsentUpdateManyMutationInput, ConsentUncheckedUpdateManyWithoutDoctorInput>
   }
 
   export type UserUpsertWithoutDoctorInput = {
@@ -30751,6 +33007,7 @@ export namespace Prisma {
     Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutDoctorInput = {
@@ -30771,6 +33028,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type PatientDoctorUpsertWithWhereUniqueWithoutDoctorInput = {
@@ -30802,6 +33060,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
     Appointment?: AppointmentCreateNestedManyWithoutPatientInput
+    Consent?: ConsentCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateWithoutPatientDoctorInput = {
@@ -30818,6 +33077,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientCreateOrConnectWithoutPatientDoctorInput = {
@@ -30835,6 +33095,7 @@ export namespace Prisma {
     experience?: number | null
     isDeleted?: boolean
     Appointment?: AppointmentCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentCreateNestedManyWithoutDoctorInput
     User?: UserCreateNestedOneWithoutDoctorInput
     Clinic: ClinicCreateNestedOneWithoutDoctorInput
   }
@@ -30852,6 +33113,7 @@ export namespace Prisma {
     clinicId: number
     isDeleted?: boolean
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutDoctorInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutDoctorInput
   }
 
   export type DoctorCreateOrConnectWithoutPatientDoctorInput = {
@@ -30883,6 +33145,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
     Appointment?: AppointmentUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateWithoutPatientDoctorInput = {
@@ -30899,6 +33162,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type DoctorUpsertWithoutPatientDoctorInput = {
@@ -30922,6 +33186,7 @@ export namespace Prisma {
     experience?: NullableIntFieldUpdateOperationsInput | number | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUpdateManyWithoutDoctorNestedInput
     User?: UserUpdateOneWithoutDoctorNestedInput
     Clinic?: ClinicUpdateOneRequiredWithoutDoctorNestedInput
   }
@@ -30939,6 +33204,7 @@ export namespace Prisma {
     clinicId?: IntFieldUpdateOperationsInput | number
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutDoctorNestedInput
   }
 
   export type SubscriptionCreateWithoutSubscriptionPlanInput = {
@@ -31015,6 +33281,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutSubscriptionInput = {
@@ -31035,6 +33302,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutSubscriptionInput = {
@@ -31135,6 +33403,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutSubscriptionInput = {
@@ -31155,6 +33424,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type SubscriptionPlanUpsertWithoutSubscriptionInput = {
@@ -31395,6 +33665,17 @@ export namespace Prisma {
     amount: number
   }
 
+  export type ConsentCreateManyClinicInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    patientId: number
+    doctorId: number
+  }
+
   export type SubscriptionUpdateWithoutClinicInput = {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31506,6 +33787,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUpdateManyWithoutPatientNestedInput
     PatientDoctor?: PatientDoctorUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateWithoutClinicInput = {
@@ -31522,6 +33804,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutPatientNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateManyWithoutClinicInput = {
@@ -31601,6 +33884,7 @@ export namespace Prisma {
     experience?: NullableIntFieldUpdateOperationsInput | number | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUpdateManyWithoutDoctorNestedInput
     User?: UserUpdateOneWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUpdateManyWithoutDoctorNestedInput
   }
@@ -31617,6 +33901,7 @@ export namespace Prisma {
     userId?: NullableIntFieldUpdateOperationsInput | number | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     Appointment?: AppointmentUncheckedUpdateManyWithoutDoctorNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutDoctorNestedInput
     PatientDoctor?: PatientDoctorUncheckedUpdateManyWithoutDoctorNestedInput
   }
 
@@ -31689,6 +33974,38 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ConsentUpdateWithoutClinicInput = {
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    Patient?: PatientUpdateOneRequiredWithoutConsentNestedInput
+    Doctor?: DoctorUpdateOneRequiredWithoutConsentNestedInput
+  }
+
+  export type ConsentUncheckedUpdateWithoutClinicInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: IntFieldUpdateOperationsInput | number
+    doctorId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ConsentUncheckedUpdateManyWithoutClinicInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: IntFieldUpdateOperationsInput | number
+    doctorId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AppointmentCreateManyCreatedByInput = {
@@ -31825,6 +34142,17 @@ export namespace Prisma {
     doctorId: number
   }
 
+  export type ConsentCreateManyPatientInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    doctorId: number
+    clinicId: number
+  }
+
   export type AppointmentUpdateWithoutPatientInput = {
     scheduledTime?: DateTimeFieldUpdateOperationsInput | Date | string
     actualStartTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31888,6 +34216,38 @@ export namespace Prisma {
 
   export type PatientDoctorUncheckedUpdateManyWithoutPatientInput = {
     doctorId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ConsentUpdateWithoutPatientInput = {
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    Doctor?: DoctorUpdateOneRequiredWithoutConsentNestedInput
+    Clinic?: ClinicUpdateOneRequiredWithoutConsentNestedInput
+  }
+
+  export type ConsentUncheckedUpdateWithoutPatientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorId?: IntFieldUpdateOperationsInput | number
+    clinicId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ConsentUncheckedUpdateManyWithoutPatientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    doctorId?: IntFieldUpdateOperationsInput | number
+    clinicId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AppointmentDocumentCreateManyAppointmentInput = {
@@ -31976,6 +34336,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ConsentCreateManyDoctorInput = {
+    id?: number
+    dateTime: Date | string
+    Treatment: string
+    comments?: string | null
+    Medication?: string | null
+    Remarks?: string | null
+    patientId: number
+    clinicId: number
+  }
+
   export type PatientDoctorCreateManyDoctorInput = {
     patientId: number
   }
@@ -32031,6 +34402,38 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsentUpdateWithoutDoctorInput = {
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    Patient?: PatientUpdateOneRequiredWithoutConsentNestedInput
+    Clinic?: ClinicUpdateOneRequiredWithoutConsentNestedInput
+  }
+
+  export type ConsentUncheckedUpdateWithoutDoctorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: IntFieldUpdateOperationsInput | number
+    clinicId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ConsentUncheckedUpdateManyWithoutDoctorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    Treatment?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    Medication?: NullableStringFieldUpdateOperationsInput | string | null
+    Remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    patientId?: IntFieldUpdateOperationsInput | number
+    clinicId?: IntFieldUpdateOperationsInput | number
   }
 
   export type PatientDoctorUpdateWithoutDoctorInput = {

@@ -197,6 +197,18 @@ exports.Prisma.AppointmentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConsentScalarFieldEnum = {
+  id: 'id',
+  dateTime: 'dateTime',
+  Treatment: 'Treatment',
+  comments: 'comments',
+  Medication: 'Medication',
+  Remarks: 'Remarks',
+  patientId: 'patientId',
+  doctorId: 'doctorId',
+  clinicId: 'clinicId'
+};
+
 exports.Prisma.InvoiceItemsScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -401,6 +413,7 @@ exports.Prisma.ModelName = {
   Receptionist: 'Receptionist',
   Patient: 'Patient',
   Appointment: 'Appointment',
+  Consent: 'Consent',
   InvoiceItems: 'InvoiceItems',
   InvoicePrefills: 'InvoicePrefills',
   Invoice: 'Invoice',

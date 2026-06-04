@@ -13,14 +13,15 @@ const appointmentRoute = require("./routes/appointmentRoute");
 const subscriptionRoute = require("./routes/subscriptionRoute");
 const invoicePrefillsRoute = require("./routes/invoicePrefills");
 const receptionistRoute = require("./routes/receptionistRoute");
+const consentRoute = require("./routes/consentRoute");
 const { initSubscriptionCron } = require("./cron/subscription");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Increase body size limit to handle large base64 images (50MB)
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: false, limit: '50mb' }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 app.use(cookieParser());
 
 // ✅ Allow frontend (local + production)
@@ -34,7 +35,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow cookies and authorization headers
-  })
+  }),
 );
 
 app.use("/auth", authRoute);
@@ -45,12 +46,14 @@ app.use("/appointment", appointmentRoute);
 app.use("/subscription", subscriptionRoute);
 app.use("/invoicePrefills", invoicePrefillsRoute);
 app.use("/receptionist", receptionistRoute);
+app.use("/consent", consentRoute);
 
 // Handle payload too large errors
 app.use((err, req, res, next) => {
-  if (err.type === 'entity.too.large') {
-    return res.status(413).json({ 
-      error: 'Payload too large. Please reduce the image size or use a smaller image.' 
+  if (err.type === "entity.too.large") {
+    return res.status(413).json({
+      error:
+        "Payload too large. Please reduce the image size or use a smaller image.",
     });
   }
   next(err);

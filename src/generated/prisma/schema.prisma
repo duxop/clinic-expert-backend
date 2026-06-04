@@ -26,6 +26,7 @@ model Clinic {
   Doctor          Doctor[]
   Receptionist    Receptionist[]
   InvoicePrefills InvoicePrefills[]
+  Consent         Consent[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 }
@@ -90,6 +91,7 @@ model Patient {
   Clinic           Clinic          @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   Appointment      Appointment[]
   PatientDoctor    PatientDoctor[]
+  Consent          Consent[]
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 
@@ -122,6 +124,23 @@ model Appointment {
 
   @@index([clinicId, patientId])
   @@index([clinicId, doctorId])
+}
+
+model Consent {
+  id         Int      @id @default(autoincrement())
+  dateTime   DateTime
+  Treatment  String
+  comments   String?
+  Medication String?
+  Remarks    String?
+  patientId  Int
+  Patient    Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId   Int
+  Doctor     Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  clinicId   Int
+  Clinic     Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+
+  @@index([clinicId])
 }
 
 model InvoiceItems {
@@ -207,6 +226,7 @@ model Doctor {
   specialization String?
   experience     Int? // in years
   Appointment    Appointment[]
+  Consent        Consent[]
   userId         Int?            @unique
   User           User?           @relation(fields: [userId], references: [id])
   clinicId       Int
