@@ -4,11 +4,11 @@ const checkSubscription = (req, res, next) => {
 
     if (!subscription[0]) {
         console.log("Checkujdsbcvdsbhjdbhjdsb")
-      return res.status(401).json({ error: "No subscription found" });
+      return res.status(405).json({ error: "No subscription found" });
     }
 
     if (subscription[0].endDate && new Date(subscription[0].endDate) < new Date()) {
-      return res.status(401).json({ error: "Subscription has expired" });
+      return res.status(405).json({ error: "Subscription has expired" });
     }
 
     return next();

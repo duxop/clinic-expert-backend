@@ -9,7 +9,7 @@
 
 ### Make the migrations using -
     npx prisma migrate dev --name init
-    node prisma/seed.js 
+    npx prisma generate
 
 ### to start the server 
     npm run dev
