@@ -5,7 +5,7 @@ const addConsent = async (req, res) => {
     const { clinicId } = req.userData;
 
     const {
-      doctorId,
+      userId,
       patientId,
       dateTime,
       Treatment,
@@ -16,30 +16,25 @@ const addConsent = async (req, res) => {
     } = req.body;
 
     // Validation
-    if (
-      !doctorId ||
-      !patientId ||
-      !dateTime ||
-      !Treatment ||
-      !patientConfirmed
-    ) {
+    if (!userId || !patientId || !dateTime || !Treatment || !patientConfirmed) {
       return res.status(400).json({
-        error: "doctorId, patientId, dateTime, consent and Treatment are required",
+        error:
+          "userId, patientId, dateTime, consent and Treatment are required",
       });
     }
 
-    if (isNaN(Number(doctorId)) || isNaN(Number(patientId))) {
+    if (isNaN(Number(userId)) || isNaN(Number(patientId))) {
       return res.status(400).json({
-        error: "doctorId and patientId must be valid numbers",
+        error: "userId and patientId must be valid numbers",
       });
     }
 
-    const doctorIdNum = Number(doctorId);
+    const userIdNum = Number(userId);
     const patientIdNum = Number(patientId);
 
-    if (!Number.isInteger(doctorIdNum) || !Number.isInteger(patientIdNum)) {
+    if (!Number.isInteger(userIdNum) || !Number.isInteger(patientIdNum)) {
       return res.status(400).json({
-        error: "doctorId and patientId must be integers",
+        error: "userId and patientId must be integers",
       });
     }
 
@@ -57,24 +52,24 @@ const addConsent = async (req, res) => {
       });
     }
 
-    // Verify doctor belongs to clinic
-    const doctor = await prisma.doctor.findFirst({
+    // Verify User belongs to clinic
+    const user = await prisma.User.findFirst({
       where: {
-        id: Number(doctorId),
+        id: Number(userId),
         clinicId,
       },
     });
 
-    if (!doctor) {
+    if (!user) {
       return res.status(404).json({
-        error: "Doctor not found",
+        error: "user not found",
       });
     }
 
     const consent = await prisma.consent.create({
       data: {
         clinicId,
-        doctorId: Number(doctorId),
+        userId: Number(userId),
         patientId: Number(patientId),
         dateTime: new Date(dateTime),
         Treatment,
@@ -91,11 +86,12 @@ const addConsent = async (req, res) => {
             lastName: true,
           },
         },
-        Doctor: {
+        User: {
           select: {
             id: true,
             firstName: true,
             lastName: true,
+            role: true,
           },
         },
       },

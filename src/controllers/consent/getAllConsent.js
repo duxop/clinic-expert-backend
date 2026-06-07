@@ -16,11 +16,12 @@ const getConsents = async (req, res) => {
             lastName: true,
           },
         },
-        Doctor: {
+        User: {
           select: {
             id: true,
             firstName: true,
             lastName: true,
+            role: true,
           },
         },
       },

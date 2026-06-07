@@ -7,9 +7,6 @@ const getAllStaff = async (req, res) => {
     const staffList = await prisma.User.findMany({
       where: {
         clinicId: clinicId,
-        role: {
-          not: "ADMIN", // Use `not` for exclusion
-        },
       },
       include: {
         Doctor: {

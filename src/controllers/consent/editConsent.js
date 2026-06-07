@@ -6,7 +6,7 @@ const editConsent = async (req, res) => {
     const { id : consentId } = req.params;
 
     const {
-      doctorId,
+      userId,
       dateTime,
       Treatment,
       comments,
@@ -41,30 +41,30 @@ const editConsent = async (req, res) => {
     const updateData = {};
     updateData.patientId = existingConsent.patientId;
 
-    // Validate and update doctor
-    if (doctorId !== undefined) {
-      const doctorIdNum = parseInt(doctorId, 10);
+    // Validate and update user
+    if (userId !== undefined) {
+      const userIdNum = parseInt(userId, 10);
 
-      if (Number.isNaN(doctorIdNum)) {
+      if (Number.isNaN(userIdNum)) {
         return res.status(400).json({
-          error: "doctorId must be a valid number",
+          error: "userId must be a valid number",
         });
       }
 
-      const doctor = await prisma.doctor.findFirst({
+      const user = await prisma.user.findFirst({
         where: {
-          id: doctorIdNum,
+          id: userIdNum,
           clinicId,
         },
       });
 
-      if (!doctor) {
+      if (!user) {
         return res.status(404).json({
-          error: "Doctor not found",
+          error: "user not found",
         });
       }
 
-      updateData.doctorId = doctorIdNum;
+      updateData.userId = userIdNum;
     }
 
     // Optional fields
@@ -103,11 +103,12 @@ const editConsent = async (req, res) => {
             lastName: true,
           },
         },
-        Doctor: {
+        User: {
           select: {
             id: true,
             firstName: true,
             lastName: true,
+            role: true
           },
         },
       },
