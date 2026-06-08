@@ -13,6 +13,7 @@ const editConsent = async (req, res) => {
       Medication,
       Remarks,
       patientConfirmed,
+      patientSignature,
     } = req.body;
 
     // Validate consentId
@@ -40,6 +41,8 @@ const editConsent = async (req, res) => {
 
     const updateData = {};
     updateData.patientId = existingConsent.patientId;
+
+    updateData.patientSignature = patientSignature;
 
     // Validate and update user
     if (userId !== undefined) {
