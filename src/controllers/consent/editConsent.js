@@ -3,7 +3,7 @@ const { prisma } = require("../../config/database");
 const editConsent = async (req, res) => {
   try {
     const { clinicId } = req.userData;
-    const { id : consentId } = req.params;
+    const { id: consentId } = req.params;
 
     const {
       userId,
@@ -12,12 +12,18 @@ const editConsent = async (req, res) => {
       comments,
       Medication,
       Remarks,
+      countTreatment,
       patientConfirmed,
       patientSignature,
+      addTreatments,
     } = req.body;
 
     // Validate consentId
     const consentIdNum = parseInt(consentId, 10);
+
+    const addTreatmentsNum = Number(addTreatments) || 0;
+    const toCountTreatment =
+      countTreatment === true || countTreatment === "true";
 
     if (Number.isNaN(consentIdNum)) {
       return res.status(400).json({
@@ -31,6 +37,14 @@ const editConsent = async (req, res) => {
         id: consentIdNum,
         clinicId,
       },
+      include: {
+        Patient: {
+          select: {
+            id: true,
+            treatmentsLeft: true,
+          },
+        },
+      },
     });
 
     if (!existingConsent) {
@@ -39,8 +53,12 @@ const editConsent = async (req, res) => {
       });
     }
 
+    const updatedTreatments =
+      existingConsent.Patient.treatmentsLeft +
+      addTreatmentsNum -
+      toCountTreatment;
+
     const updateData = {};
-    updateData.patientId = existingConsent.patientId;
 
     updateData.patientSignature = patientSignature;
 
@@ -67,7 +85,11 @@ const editConsent = async (req, res) => {
         });
       }
 
-      updateData.userId = userIdNum;
+      updateData.User = {
+        connect: {
+          id: Number(userId),
+        },
+      };
     }
 
     // Optional fields
@@ -91,30 +113,42 @@ const editConsent = async (req, res) => {
       updateData.Remarks = Remarks;
     }
 
-    if(patientConfirmed)
-        updateData.patientConfirmed = true;
-    const updatedConsent = await prisma.consent.update({
-      where: {
-        id: consentIdNum,
-      },
-      data: updateData,
-      include: {
-        Patient: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
+    if (patientConfirmed) updateData.patientConfirmed = true;
+
+    const updatedConsent = await prisma.$transaction(async (tx) => {
+      await tx.Patient.update({
+        where: {
+          id: Number(existingConsent.Patient.id),
+        },
+        data: {
+          treatmentsLeft: updatedTreatments,
+        },
+      });
+
+      return tx.consent.update({
+        where: {
+          id: consentIdNum,
+        },
+        data: updateData,
+        include: {
+          Patient: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              treatmentsLeft: true
+            },
+          },
+          User: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              role: true,
+            },
           },
         },
-        User: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            role: true
-          },
-        },
-      },
+      });
     });
 
     return res.status(200).json({

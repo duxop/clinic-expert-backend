@@ -12,17 +12,25 @@ const addConsent = async (req, res) => {
       comments,
       Medication,
       Remarks,
+      countTreatment,
+      addTreatments,
       patientConfirmed,
       patientSignature,
     } = req.body;
+    console.log("req.body;", req.body);
 
+    const addTreatmentsNum = Number(addTreatments) || 0;
+    const toCountTreatment =
+      countTreatment === true || countTreatment === "true";
+    const isConfirmed =
+      patientConfirmed === true || patientConfirmed === "true";
     // Validation
     if (
       !userId ||
       !patientId ||
       !dateTime ||
       !Treatment ||
-      !patientConfirmed ||
+      !isConfirmed ||
       !patientSignature
     ) {
       return res.status(400).json({
@@ -60,6 +68,14 @@ const addConsent = async (req, res) => {
       });
     }
 
+    const updatedTreatments =
+      patient.treatmentsLeft + addTreatmentsNum - toCountTreatment;
+
+    if (updatedTreatments < 0)
+      return res.status(404).json({
+        error: "No Treatments Left",
+      });
+
     // Verify User belongs to clinic
     const user = await prisma.User.findFirst({
       where: {
@@ -74,36 +90,48 @@ const addConsent = async (req, res) => {
       });
     }
 
-    const consent = await prisma.consent.create({
-      data: {
-        clinicId,
-        userId: Number(userId),
-        patientId: Number(patientId),
-        dateTime: new Date(dateTime),
-        Treatment,
-        comments: comments || null,
-        Medication: Medication || null,
-        Remarks: Remarks || null,
-        patientConfirmed,
-        patientSignature,
-      },
-      include: {
-        Patient: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
+    const consent = await prisma.$transaction(async (tx) => {
+      await tx.patient.update({
+        where: {
+          id: Number(patientId),
+        },
+        data: {
+          treatmentsLeft: updatedTreatments,
+        },
+      });
+
+      return tx.consent.create({
+        data: {
+          clinicId,
+          userId: Number(userId),
+          patientId: Number(patientId),
+          dateTime: new Date(dateTime),
+          Treatment,
+          comments: comments || null,
+          Medication: Medication || null,
+          Remarks: Remarks || null,
+          patientConfirmed: isConfirmed,
+          patientSignature,
+        },
+        include: {
+          Patient: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              treatmentsLeft: true,
+            },
+          },
+          User: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              role: true,
+            },
           },
         },
-        User: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            role: true,
-          },
-        },
-      },
+      });
     });
 
     return res.status(201).json({

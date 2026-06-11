@@ -2840,6 +2840,7 @@ export namespace Prisma {
     workHours: string | null
     logo: string | null
     brandColor: string | null
+    ConsentTermsAndConditions: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2854,6 +2855,7 @@ export namespace Prisma {
     workHours: string | null
     logo: string | null
     brandColor: string | null
+    ConsentTermsAndConditions: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2868,6 +2870,7 @@ export namespace Prisma {
     workHours: number
     logo: number
     brandColor: number
+    ConsentTermsAndConditions: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2892,6 +2895,7 @@ export namespace Prisma {
     workHours?: true
     logo?: true
     brandColor?: true
+    ConsentTermsAndConditions?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2906,6 +2910,7 @@ export namespace Prisma {
     workHours?: true
     logo?: true
     brandColor?: true
+    ConsentTermsAndConditions?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2920,6 +2925,7 @@ export namespace Prisma {
     workHours?: true
     logo?: true
     brandColor?: true
+    ConsentTermsAndConditions?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3021,6 +3027,7 @@ export namespace Prisma {
     workHours: string | null
     logo: string | null
     brandColor: string | null
+    ConsentTermsAndConditions: string | null
     createdAt: Date
     updatedAt: Date
     _count: ClinicCountAggregateOutputType | null
@@ -3054,6 +3061,7 @@ export namespace Prisma {
     workHours?: boolean
     logo?: boolean
     brandColor?: boolean
+    ConsentTermsAndConditions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     Subscription?: boolean | Clinic$SubscriptionArgs<ExtArgs>
@@ -3077,6 +3085,7 @@ export namespace Prisma {
     workHours?: boolean
     logo?: boolean
     brandColor?: boolean
+    ConsentTermsAndConditions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["clinic"]>
@@ -3091,6 +3100,7 @@ export namespace Prisma {
     workHours?: boolean
     logo?: boolean
     brandColor?: boolean
+    ConsentTermsAndConditions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["clinic"]>
@@ -3105,11 +3115,12 @@ export namespace Prisma {
     workHours?: boolean
     logo?: boolean
     brandColor?: boolean
+    ConsentTermsAndConditions?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ClinicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "createdOn" | "name" | "address" | "phone" | "workHours" | "logo" | "brandColor" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
+  export type ClinicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "createdOn" | "name" | "address" | "phone" | "workHours" | "logo" | "brandColor" | "ConsentTermsAndConditions" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
   export type ClinicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Subscription?: boolean | Clinic$SubscriptionArgs<ExtArgs>
     User?: boolean | Clinic$UserArgs<ExtArgs>
@@ -3146,6 +3157,7 @@ export namespace Prisma {
       workHours: string | null
       logo: string | null
       brandColor: string | null
+      ConsentTermsAndConditions: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["clinic"]>
@@ -3588,6 +3600,7 @@ export namespace Prisma {
     readonly workHours: FieldRef<"Clinic", 'String'>
     readonly logo: FieldRef<"Clinic", 'String'>
     readonly brandColor: FieldRef<"Clinic", 'String'>
+    readonly ConsentTermsAndConditions: FieldRef<"Clinic", 'String'>
     readonly createdAt: FieldRef<"Clinic", 'DateTime'>
     readonly updatedAt: FieldRef<"Clinic", 'DateTime'>
   }
@@ -6753,12 +6766,14 @@ export namespace Prisma {
   export type PatientAvgAggregateOutputType = {
     id: number | null
     age: number | null
+    treatmentsLeft: number | null
     clinicId: number | null
   }
 
   export type PatientSumAggregateOutputType = {
     id: number | null
     age: number | null
+    treatmentsLeft: number | null
     clinicId: number | null
   }
 
@@ -6772,6 +6787,7 @@ export namespace Prisma {
     gender: $Enums.Gender | null
     age: number | null
     bloodGroup: $Enums.BloodGroup | null
+    treatmentsLeft: number | null
     clinicId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6787,6 +6803,7 @@ export namespace Prisma {
     gender: $Enums.Gender | null
     age: number | null
     bloodGroup: $Enums.BloodGroup | null
+    treatmentsLeft: number | null
     clinicId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6802,6 +6819,7 @@ export namespace Prisma {
     gender: number
     age: number
     bloodGroup: number
+    treatmentsLeft: number
     clinicId: number
     createdAt: number
     updatedAt: number
@@ -6812,12 +6830,14 @@ export namespace Prisma {
   export type PatientAvgAggregateInputType = {
     id?: true
     age?: true
+    treatmentsLeft?: true
     clinicId?: true
   }
 
   export type PatientSumAggregateInputType = {
     id?: true
     age?: true
+    treatmentsLeft?: true
     clinicId?: true
   }
 
@@ -6831,6 +6851,7 @@ export namespace Prisma {
     gender?: true
     age?: true
     bloodGroup?: true
+    treatmentsLeft?: true
     clinicId?: true
     createdAt?: true
     updatedAt?: true
@@ -6846,6 +6867,7 @@ export namespace Prisma {
     gender?: true
     age?: true
     bloodGroup?: true
+    treatmentsLeft?: true
     clinicId?: true
     createdAt?: true
     updatedAt?: true
@@ -6861,6 +6883,7 @@ export namespace Prisma {
     gender?: true
     age?: true
     bloodGroup?: true
+    treatmentsLeft?: true
     clinicId?: true
     createdAt?: true
     updatedAt?: true
@@ -6963,6 +6986,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age: number | null
     bloodGroup: $Enums.BloodGroup | null
+    treatmentsLeft: number | null
     clinicId: number
     createdAt: Date
     updatedAt: Date
@@ -6997,6 +7021,7 @@ export namespace Prisma {
     gender?: boolean
     age?: boolean
     bloodGroup?: boolean
+    treatmentsLeft?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7017,6 +7042,7 @@ export namespace Prisma {
     gender?: boolean
     age?: boolean
     bloodGroup?: boolean
+    treatmentsLeft?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7033,6 +7059,7 @@ export namespace Prisma {
     gender?: boolean
     age?: boolean
     bloodGroup?: boolean
+    treatmentsLeft?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7049,12 +7076,13 @@ export namespace Prisma {
     gender?: boolean
     age?: boolean
     bloodGroup?: boolean
+    treatmentsLeft?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PatientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "phone" | "emergencyContact" | "gender" | "age" | "bloodGroup" | "clinicId" | "createdAt" | "updatedAt", ExtArgs["result"]["patient"]>
+  export type PatientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "phone" | "emergencyContact" | "gender" | "age" | "bloodGroup" | "treatmentsLeft" | "clinicId" | "createdAt" | "updatedAt", ExtArgs["result"]["patient"]>
   export type PatientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
     Appointment?: boolean | Patient$AppointmentArgs<ExtArgs>
@@ -7087,6 +7115,7 @@ export namespace Prisma {
       gender: $Enums.Gender
       age: number | null
       bloodGroup: $Enums.BloodGroup | null
+      treatmentsLeft: number | null
       clinicId: number
       createdAt: Date
       updatedAt: Date
@@ -7526,6 +7555,7 @@ export namespace Prisma {
     readonly gender: FieldRef<"Patient", 'Gender'>
     readonly age: FieldRef<"Patient", 'Int'>
     readonly bloodGroup: FieldRef<"Patient", 'BloodGroup'>
+    readonly treatmentsLeft: FieldRef<"Patient", 'Int'>
     readonly clinicId: FieldRef<"Patient", 'Int'>
     readonly createdAt: FieldRef<"Patient", 'DateTime'>
     readonly updatedAt: FieldRef<"Patient", 'DateTime'>
@@ -23358,6 +23388,7 @@ export namespace Prisma {
     workHours: 'workHours',
     logo: 'logo',
     brandColor: 'brandColor',
+    ConsentTermsAndConditions: 'ConsentTermsAndConditions',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -23412,6 +23443,7 @@ export namespace Prisma {
     gender: 'gender',
     age: 'age',
     bloodGroup: 'bloodGroup',
+    treatmentsLeft: 'treatmentsLeft',
     clinicId: 'clinicId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -23835,6 +23867,7 @@ export namespace Prisma {
     workHours?: StringNullableFilter<"Clinic"> | string | null
     logo?: StringNullableFilter<"Clinic"> | string | null
     brandColor?: StringNullableFilter<"Clinic"> | string | null
+    ConsentTermsAndConditions?: StringNullableFilter<"Clinic"> | string | null
     createdAt?: DateTimeFilter<"Clinic"> | Date | string
     updatedAt?: DateTimeFilter<"Clinic"> | Date | string
     Subscription?: SubscriptionListRelationFilter
@@ -23857,6 +23890,7 @@ export namespace Prisma {
     workHours?: SortOrderInput | SortOrder
     logo?: SortOrderInput | SortOrder
     brandColor?: SortOrderInput | SortOrder
+    ConsentTermsAndConditions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     Subscription?: SubscriptionOrderByRelationAggregateInput
@@ -23882,6 +23916,7 @@ export namespace Prisma {
     workHours?: StringNullableFilter<"Clinic"> | string | null
     logo?: StringNullableFilter<"Clinic"> | string | null
     brandColor?: StringNullableFilter<"Clinic"> | string | null
+    ConsentTermsAndConditions?: StringNullableFilter<"Clinic"> | string | null
     createdAt?: DateTimeFilter<"Clinic"> | Date | string
     updatedAt?: DateTimeFilter<"Clinic"> | Date | string
     Subscription?: SubscriptionListRelationFilter
@@ -23904,6 +23939,7 @@ export namespace Prisma {
     workHours?: SortOrderInput | SortOrder
     logo?: SortOrderInput | SortOrder
     brandColor?: SortOrderInput | SortOrder
+    ConsentTermsAndConditions?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClinicCountOrderByAggregateInput
@@ -23926,6 +23962,7 @@ export namespace Prisma {
     workHours?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
     logo?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
     brandColor?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
+    ConsentTermsAndConditions?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Clinic"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Clinic"> | Date | string
   }
@@ -24150,6 +24187,7 @@ export namespace Prisma {
     gender?: EnumGenderFilter<"Patient"> | $Enums.Gender
     age?: IntNullableFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableFilter<"Patient"> | $Enums.BloodGroup | null
+    treatmentsLeft?: IntNullableFilter<"Patient"> | number | null
     clinicId?: IntFilter<"Patient"> | number
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
@@ -24169,6 +24207,7 @@ export namespace Prisma {
     gender?: SortOrder
     age?: SortOrderInput | SortOrder
     bloodGroup?: SortOrderInput | SortOrder
+    treatmentsLeft?: SortOrderInput | SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24191,6 +24230,7 @@ export namespace Prisma {
     gender?: EnumGenderFilter<"Patient"> | $Enums.Gender
     age?: IntNullableFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableFilter<"Patient"> | $Enums.BloodGroup | null
+    treatmentsLeft?: IntNullableFilter<"Patient"> | number | null
     clinicId?: IntFilter<"Patient"> | number
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
@@ -24210,6 +24250,7 @@ export namespace Prisma {
     gender?: SortOrder
     age?: SortOrderInput | SortOrder
     bloodGroup?: SortOrderInput | SortOrder
+    treatmentsLeft?: SortOrderInput | SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24233,6 +24274,7 @@ export namespace Prisma {
     gender?: EnumGenderWithAggregatesFilter<"Patient"> | $Enums.Gender
     age?: IntNullableWithAggregatesFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableWithAggregatesFilter<"Patient"> | $Enums.BloodGroup | null
+    treatmentsLeft?: IntNullableWithAggregatesFilter<"Patient"> | number | null
     clinicId?: IntWithAggregatesFilter<"Patient"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Patient"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Patient"> | Date | string
@@ -25294,6 +25336,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -25316,6 +25359,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -25337,6 +25381,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -25359,6 +25404,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -25381,6 +25427,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25394,6 +25441,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25408,6 +25456,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25649,6 +25698,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -25667,6 +25717,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25684,6 +25735,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -25702,6 +25754,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25720,6 +25773,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25734,6 +25788,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25748,6 +25803,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26969,6 +27025,7 @@ export namespace Prisma {
     workHours?: SortOrder
     logo?: SortOrder
     brandColor?: SortOrder
+    ConsentTermsAndConditions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -26987,6 +27044,7 @@ export namespace Prisma {
     workHours?: SortOrder
     logo?: SortOrder
     brandColor?: SortOrder
+    ConsentTermsAndConditions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27001,6 +27059,7 @@ export namespace Prisma {
     workHours?: SortOrder
     logo?: SortOrder
     brandColor?: SortOrder
+    ConsentTermsAndConditions?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27355,6 +27414,7 @@ export namespace Prisma {
     gender?: SortOrder
     age?: SortOrder
     bloodGroup?: SortOrder
+    treatmentsLeft?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27363,6 +27423,7 @@ export namespace Prisma {
   export type PatientAvgOrderByAggregateInput = {
     id?: SortOrder
     age?: SortOrder
+    treatmentsLeft?: SortOrder
     clinicId?: SortOrder
   }
 
@@ -27376,6 +27437,7 @@ export namespace Prisma {
     gender?: SortOrder
     age?: SortOrder
     bloodGroup?: SortOrder
+    treatmentsLeft?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27391,6 +27453,7 @@ export namespace Prisma {
     gender?: SortOrder
     age?: SortOrder
     bloodGroup?: SortOrder
+    treatmentsLeft?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27399,6 +27462,7 @@ export namespace Prisma {
   export type PatientSumOrderByAggregateInput = {
     id?: SortOrder
     age?: SortOrder
+    treatmentsLeft?: SortOrder
     clinicId?: SortOrder
   }
 
@@ -30135,6 +30199,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Appointment?: AppointmentCreateNestedManyWithoutPatientInput
@@ -30152,6 +30217,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
@@ -30447,6 +30513,7 @@ export namespace Prisma {
     gender?: EnumGenderFilter<"Patient"> | $Enums.Gender
     age?: IntNullableFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableFilter<"Patient"> | $Enums.BloodGroup | null
+    treatmentsLeft?: IntNullableFilter<"Patient"> | number | null
     clinicId?: IntFilter<"Patient"> | number
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
@@ -30623,6 +30690,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -30644,6 +30712,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -30861,6 +30930,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -30882,6 +30952,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -31087,6 +31158,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -31108,6 +31180,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -31194,6 +31267,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -31215,6 +31289,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -31235,6 +31310,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -31256,6 +31332,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -31392,6 +31469,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -31413,6 +31491,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -31489,6 +31568,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -31506,6 +31586,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31561,6 +31642,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -31582,6 +31664,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -31745,6 +31828,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -31762,6 +31846,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31829,6 +31914,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -31850,6 +31936,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -32015,6 +32102,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -32032,6 +32120,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32097,6 +32186,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -32118,6 +32208,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -32154,6 +32245,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -32171,6 +32263,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32248,6 +32341,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -32269,6 +32363,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -32351,6 +32446,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -32372,6 +32468,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -32408,6 +32505,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -32429,6 +32527,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -32954,6 +33053,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -32975,6 +33075,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -33095,6 +33196,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -33116,6 +33218,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -33152,6 +33255,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -33169,6 +33273,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33235,6 +33340,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -33252,6 +33358,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33365,6 +33472,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     User?: UserCreateNestedManyWithoutClinicInput
@@ -33386,6 +33494,7 @@ export namespace Prisma {
     workHours?: string | null
     logo?: string | null
     brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     User?: UserUncheckedCreateNestedManyWithoutClinicInput
@@ -33487,6 +33596,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateManyWithoutClinicNestedInput
@@ -33508,6 +33618,7 @@ export namespace Prisma {
     workHours?: NullableStringFieldUpdateOperationsInput | string | null
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUncheckedUpdateManyWithoutClinicNestedInput
@@ -33704,6 +33815,7 @@ export namespace Prisma {
     gender: $Enums.Gender
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
+    treatmentsLeft?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33879,6 +33991,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUpdateManyWithoutPatientNestedInput
@@ -33896,6 +34009,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
@@ -33913,6 +34027,7 @@ export namespace Prisma {
     gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
+    treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
