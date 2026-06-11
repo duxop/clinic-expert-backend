@@ -14,6 +14,7 @@ const getConsents = async (req, res) => {
             id: true,
             firstName: true,
             lastName: true,
+            treatmentsLeft: true,
           },
         },
         User: {

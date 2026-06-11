@@ -3,7 +3,15 @@ const { prisma } = require("../../config/database");
 const updateClinicDetails = async (req, res) => {
   try {
     const clinicId = req.userData.clinicId;
-    const { email, name, address, phone, workHours, brandColor } = req.body;
+    const {
+      email,
+      name,
+      address,
+      phone,
+      workHours,
+      brandColor,
+      ConsentTermsAndConditions,
+    } = req.body;
 
     // Build update data object with only provided fields
     const updateData = {};
@@ -13,6 +21,7 @@ const updateClinicDetails = async (req, res) => {
     if (phone !== undefined) updateData.phone = phone;
     if (workHours !== undefined) updateData.workHours = workHours;
     if (brandColor !== undefined) updateData.brandColor = brandColor;
+    if (ConsentTermsAndConditions !== undefined) updateData.ConsentTermsAndConditions = ConsentTermsAndConditions;
 
     // Check if clinic exists
     const existingClinic = await prisma.Clinic.findUnique({
@@ -45,6 +54,7 @@ const updateClinicDetails = async (req, res) => {
         phone: true,
         workHours: true,
         brandColor: true,
+        ConsentTermsAndConditions: true
       },
     });
 

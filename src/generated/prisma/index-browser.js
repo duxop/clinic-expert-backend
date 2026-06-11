@@ -130,6 +130,7 @@ exports.Prisma.ClinicScalarFieldEnum = {
   workHours: 'workHours',
   logo: 'logo',
   brandColor: 'brandColor',
+  ConsentTermsAndConditions: 'ConsentTermsAndConditions',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -175,6 +176,7 @@ exports.Prisma.PatientScalarFieldEnum = {
   gender: 'gender',
   age: 'age',
   bloodGroup: 'bloodGroup',
+  treatmentsLeft: 'treatmentsLeft',
   clinicId: 'clinicId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

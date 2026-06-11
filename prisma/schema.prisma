@@ -18,7 +18,7 @@ model Clinic {
   workHours          String? // E.g., "9:30 AM - 6:00 PM"
   logo               String? // URL or file path of the logo image
   brandColor         String? @default("#2B3E8F")
-  
+  ConsentTermsAndConditions  String? // URL or text of terms and conditions
   Subscription       Subscription[]  
   User               User[]
   Patient            Patient[]
@@ -89,6 +89,7 @@ model Patient {
   gender           Gender
   age              Int? 
   bloodGroup       BloodGroup?
+  treatmentsLeft   Int? @default(0)
   clinicId         Int
   Clinic           Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   Appointment      Appointment[]

@@ -9,15 +9,16 @@ generator client {
 }
 
 model Clinic {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
-  createdOn  DateTime @default(now())
-  name       String
-  address    String?
-  phone      String?
-  workHours  String? // E.g., "9:30 AM - 6:00 PM"
-  logo       String? // URL or file path of the logo image
-  brandColor String?  @default("#2B3E8F")
+  id                        Int      @id @default(autoincrement())
+  email                     String   @unique
+  createdOn                 DateTime @default(now())
+  name                      String
+  address                   String?
+  phone                     String?
+  workHours                 String? // E.g., "9:30 AM - 6:00 PM"
+  logo                      String? // URL or file path of the logo image
+  brandColor                String?  @default("#2B3E8F")
+  ConsentTermsAndConditions String? // URL or text of terms and conditions
 
   Subscription    Subscription[]
   User            User[]
@@ -88,6 +89,7 @@ model Patient {
   gender           Gender
   age              Int?
   bloodGroup       BloodGroup?
+  treatmentsLeft   Int?            @default(0)
   clinicId         Int
   Clinic           Clinic          @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   Appointment      Appointment[]
