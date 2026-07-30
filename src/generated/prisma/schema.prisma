@@ -9,27 +9,29 @@ generator client {
 }
 
 model Clinic {
-  id                        Int      @id @default(autoincrement())
-  email                     String   @unique
-  createdOn                 DateTime @default(now())
+  id                        Int                     @id @default(autoincrement())
+  email                     String                  @unique
+  createdOn                 DateTime                @default(now())
   name                      String
   address                   String?
   phone                     String?
   workHours                 String? // E.g., "9:30 AM - 6:00 PM"
   logo                      String? // URL or file path of the logo image
-  brandColor                String?  @default("#2B3E8F")
+  brandColor                String?                 @default("#2B3E8F")
   ConsentTermsAndConditions String? // URL or text of terms and conditions
-
-  Subscription    Subscription[]
-  User            User[]
-  Patient         Patient[]
-  Appointment     Appointment[]
-  Doctor          Doctor[]
-  Receptionist    Receptionist[]
-  InvoicePrefills InvoicePrefills[]
-  Consent         Consent[]
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  messagesLeft              Int                     @default(0)
+  feedbackLink              String?
+  Subscription              Subscription[]
+  User                      User[]
+  Patient                   Patient[]
+  Appointment               Appointment[]
+  Doctor                    Doctor[]
+  Receptionist              Receptionist[]
+  InvoicePrefills           InvoicePrefills[]
+  EPrescriptionPrefills     EPrescriptionPrefills[]
+  Consent                   Consent[]
+  createdAt                 DateTime                @default(now())
+  updatedAt                 DateTime                @updatedAt
 }
 
 model User {
@@ -80,53 +82,60 @@ model Receptionist {
 }
 
 model Patient {
-  id               Int             @id @default(autoincrement())
-  firstName        String
-  lastName         String?
-  email            String?
-  phone            String
-  emergencyContact String?
-  gender           Gender
-  age              Int?
-  bloodGroup       BloodGroup?
-  treatmentsLeft   Int?            @default(0)
-  clinicId         Int
-  Clinic           Clinic          @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-  Appointment      Appointment[]
-  PatientDoctor    PatientDoctor[]
-  Consent          Consent[]
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  id                        Int             @id @default(autoincrement())
+  firstName                 String
+  lastName                  String?
+  email                     String?
+  phone                     String
+  emergencyContact          String?
+  gender                    Gender
+  age                       Int?
+  bloodGroup                BloodGroup?
+  treatmentsLeft            Int?            @default(0)
+  /// Successful feedback WhatsApp sends for this patient (capped at 3)
+  feedbackWhatsAppSentCount Int             @default(0)
+  isDeleted                 Boolean         @default(false)
+  clinicId                  Int
+  Clinic                    Clinic          @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  Appointment               Appointment[]
+  PatientDoctor             PatientDoctor[]
+  Consent                   Consent[]
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
 
   @@index([clinicId])
   @@index([email, phone])
+  @@index([clinicId, isDeleted])
 }
 
 model Appointment {
-  id                  Int                   @id @default(autoincrement())
-  scheduledTime       DateTime
-  actualStartTime     DateTime?
-  actualEndTime       DateTime?
-  duration            Int                   @default(15) //it is in minutes
-  status              AppointmentStatus     @default(PENDING)
-  notes               String?
-  isWalkIn            Boolean               @default(false)
-  patientId           Int
-  Patient             Patient               @relation(fields: [patientId], references: [id])
-  doctorId            Int?
-  Doctor              Doctor?               @relation(fields: [doctorId], references: [id])
-  clinicId            Int
-  Clinic              Clinic                @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-  Invoice             Invoice?
-  AppointmentDocument AppointmentDocument[]
-  EPrescription       EPrescription?
-  createdAt           DateTime              @default(now())
-  createdById         Int
-  createdBy           User                  @relation(fields: [createdById], references: [id])
-  updatedAt           DateTime              @updatedAt
+  id                     Int                   @id @default(autoincrement())
+  scheduledTime          DateTime
+  actualStartTime        DateTime?
+  actualEndTime          DateTime?
+  duration               Int                   @default(15) //it is in minutes
+  status                 AppointmentStatus     @default(PENDING)
+  notes                  String?
+  isWalkIn               Boolean               @default(false)
+  patientId              Int
+  Patient                Patient               @relation(fields: [patientId], references: [id])
+  doctorId               Int?
+  Doctor                 Doctor?               @relation(fields: [doctorId], references: [id])
+  clinicId               Int
+  Clinic                 Clinic                @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  Invoice                Invoice?
+  AppointmentDocument    AppointmentDocument[]
+  EPrescription          EPrescription?
+  bookingWhatsAppSentAt  DateTime?
+  followUpWhatsAppSentAt DateTime?
+  createdAt              DateTime              @default(now())
+  createdById            Int
+  createdBy              User                  @relation(fields: [createdById], references: [id])
+  updatedAt              DateTime              @updatedAt
 
   @@index([clinicId, patientId])
   @@index([clinicId, doctorId])
+  @@index([status, followUpWhatsAppSentAt, actualEndTime])
 }
 
 model Consent {
@@ -219,6 +228,19 @@ model EPrescription {
   updatedAt     DateTime    @updatedAt
 
   @@index([appointmentId])
+}
+
+model EPrescriptionPrefills {
+  id        Int                       @id @default(autoincrement())
+  value     String
+  field     EPrescriptionPrefillField
+  clinicId  Int
+  Clinic    Clinic                    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  createdAt DateTime                  @default(now())
+  updatedAt DateTime                  @updatedAt
+
+  @@unique([clinicId, field, value])
+  @@index([clinicId, field])
 }
 
 model Doctor {
@@ -379,4 +401,11 @@ enum BloodGroup {
 enum AuthProvider {
   LOCAL
   GOOGLE
+}
+
+enum EPrescriptionPrefillField {
+  SYMPTOMS
+  DIAGNOSIS
+  PRESCRIPTIONS
+  ADVICE
 }

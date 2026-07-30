@@ -38,6 +38,7 @@ const registerPatientPublic = async (req, res) => {
     const existingPatient = await prisma.Patient.findFirst({
       where: {
         clinicId: parseInt(clinicId),
+        isDeleted: false,
         OR: [
           ...(email ? [{ email }] : []),
           { phone: phone },

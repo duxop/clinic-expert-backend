@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.6.0
- * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+ * Prisma Client JS version: 7.9.1
+ * Query Engine version: e922089b7d7502aff4249d5da3420f6fa55fc6ad
  */
 Prisma.prismaVersion = {
-  client: "7.6.0",
-  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
+  client: "7.9.1",
+  engine: "e922089b7d7502aff4249d5da3420f6fa55fc6ad"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -131,6 +131,8 @@ exports.Prisma.ClinicScalarFieldEnum = {
   logo: 'logo',
   brandColor: 'brandColor',
   ConsentTermsAndConditions: 'ConsentTermsAndConditions',
+  messagesLeft: 'messagesLeft',
+  feedbackLink: 'feedbackLink',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -177,6 +179,8 @@ exports.Prisma.PatientScalarFieldEnum = {
   age: 'age',
   bloodGroup: 'bloodGroup',
   treatmentsLeft: 'treatmentsLeft',
+  feedbackWhatsAppSentCount: 'feedbackWhatsAppSentCount',
+  isDeleted: 'isDeleted',
   clinicId: 'clinicId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -194,6 +198,8 @@ exports.Prisma.AppointmentScalarFieldEnum = {
   patientId: 'patientId',
   doctorId: 'doctorId',
   clinicId: 'clinicId',
+  bookingWhatsAppSentAt: 'bookingWhatsAppSentAt',
+  followUpWhatsAppSentAt: 'followUpWhatsAppSentAt',
   createdAt: 'createdAt',
   createdById: 'createdById',
   updatedAt: 'updatedAt'
@@ -259,6 +265,15 @@ exports.Prisma.EPrescriptionScalarFieldEnum = {
   prescriptions: 'prescriptions',
   advice: 'advice',
   appointmentId: 'appointmentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EPrescriptionPrefillsScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  field: 'field',
+  clinicId: 'clinicId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -397,6 +412,13 @@ exports.ModeOfPayment = exports.$Enums.ModeOfPayment = {
   ONLINE: 'ONLINE'
 };
 
+exports.EPrescriptionPrefillField = exports.$Enums.EPrescriptionPrefillField = {
+  SYMPTOMS: 'SYMPTOMS',
+  DIAGNOSIS: 'DIAGNOSIS',
+  PRESCRIPTIONS: 'PRESCRIPTIONS',
+  ADVICE: 'ADVICE'
+};
+
 exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
   ACTIVE: 'ACTIVE',
   TRIAL: 'TRIAL',
@@ -423,6 +445,7 @@ exports.Prisma.ModelName = {
   Invoice: 'Invoice',
   AppointmentDocument: 'AppointmentDocument',
   EPrescription: 'EPrescription',
+  EPrescriptionPrefills: 'EPrescriptionPrefills',
   Doctor: 'Doctor',
   PatientDoctor: 'PatientDoctor',
   SubscriptionPlan: 'SubscriptionPlan',

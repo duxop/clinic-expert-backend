@@ -1,4 +1,5 @@
 const { prisma } = require("../../config/database");
+const { sendBookingWhatsApp } = require("../../utils/appointmentWhatsApp");
 
 const addAppointment = async (req, res) => {
   try {
@@ -14,6 +15,8 @@ const addAppointment = async (req, res) => {
     const patient = await prisma.Patient.findFirst({
       where: {
         id: patientId,
+        clinicId,
+        isDeleted: false,
       },
     });
 
@@ -43,7 +46,13 @@ const addAppointment = async (req, res) => {
       include: {
         Patient: true,
         Doctor: true,
+        Clinic: true,
       },
+    });
+
+    // Fire-and-forget: never fail appointment creation on WhatsApp errors
+    sendBookingWhatsApp(appointment.id).catch((err) => {
+      console.error("Booking WhatsApp error:", err);
     });
 
     console.log(appointment);

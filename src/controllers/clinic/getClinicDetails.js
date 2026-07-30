@@ -14,7 +14,9 @@ const getClinicDetails = async (req, res) => {
         workHours: true,
         logo: true,
         brandColor: true,
-        ConsentTermsAndConditions: true
+        ConsentTermsAndConditions: true,
+        feedbackLink: true,
+        messagesLeft: true,
       },
     });
 

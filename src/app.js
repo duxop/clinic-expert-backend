@@ -12,9 +12,12 @@ const userRoute = require("./routes/userRoute");
 const appointmentRoute = require("./routes/appointmentRoute");
 const subscriptionRoute = require("./routes/subscriptionRoute");
 const invoicePrefillsRoute = require("./routes/invoicePrefills");
+const prescriptionPrefillsRoute = require("./routes/prescriptionPrefills");
 const receptionistRoute = require("./routes/receptionistRoute");
 const consentRoute = require("./routes/consentRoute");
+const whatsappRoute = require("./routes/whatsappRoute");
 const { initSubscriptionCron } = require("./cron/subscription");
+const { initWhatsAppFollowUpCron } = require("./cron/whatsappFollowUp");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -45,8 +48,10 @@ app.use("/user", userRoute);
 app.use("/appointment", appointmentRoute);
 app.use("/subscription", subscriptionRoute);
 app.use("/invoicePrefills", invoicePrefillsRoute);
+app.use("/prescriptionPrefills", prescriptionPrefillsRoute);
 app.use("/receptionist", receptionistRoute);
 app.use("/consent", consentRoute);
+app.use("/whatsapp", whatsappRoute);
 
 // Handle payload too large errors
 app.use((err, req, res, next) => {
@@ -70,6 +75,7 @@ connection()
       console.log(`Server is running on http://127.0.0.1:${PORT}`);
     });
     initSubscriptionCron();
+    initWhatsAppFollowUpCron();
   })
   .catch((error) => {
     console.error("Database connection failed:", error);

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/api@7/schema.json",
+  "apis": [
+    {
+      "private": true,
+      "identifier": "gupshup",
+      "source": "@gupshup/v1.0#19maau2zlvd74acy",
+      "integrity": "sha512-KNQdiZTrya3Ex49b75mLaqvFrCuhtPbdzQRnfHYaaa2imLqDbEQrs5WvgmSbO8LkoZe7xJQT5hKJqLYWAkrp7g==",
+      "installerVersion": "7.0.0",
+      "language": "js",
+      "createdAt": "2026-07-27T16:18:46.264Z"
+    }
+  ]
+}

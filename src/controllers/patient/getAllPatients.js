@@ -7,6 +7,7 @@ const getAllPatients = async (req, res) => {
     const allPatients = await prisma.Patient.findMany({
       where: {
         clinicId,
+        isDeleted: false,
       },
     });
 

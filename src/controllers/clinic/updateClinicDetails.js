@@ -11,8 +11,8 @@ const updateClinicDetails = async (req, res) => {
       workHours,
       brandColor,
       ConsentTermsAndConditions,
+      feedbackLink,
     } = req.body;
-
     // Build update data object with only provided fields
     const updateData = {};
     if (email !== undefined) updateData.email = email;
@@ -22,6 +22,7 @@ const updateClinicDetails = async (req, res) => {
     if (workHours !== undefined) updateData.workHours = workHours;
     if (brandColor !== undefined) updateData.brandColor = brandColor;
     if (ConsentTermsAndConditions !== undefined) updateData.ConsentTermsAndConditions = ConsentTermsAndConditions;
+    if (feedbackLink !== undefined) updateData.feedbackLink = feedbackLink;
 
     // Check if clinic exists
     const existingClinic = await prisma.Clinic.findUnique({
@@ -54,7 +55,9 @@ const updateClinicDetails = async (req, res) => {
         phone: true,
         workHours: true,
         brandColor: true,
-        ConsentTermsAndConditions: true
+        ConsentTermsAndConditions: true,
+        feedbackLink: true,
+        messagesLeft: true,
       },
     });
 

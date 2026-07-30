@@ -19,6 +19,8 @@ model Clinic {
   logo               String? // URL or file path of the logo image
   brandColor         String? @default("#2B3E8F")
   ConsentTermsAndConditions  String? // URL or text of terms and conditions
+  messagesLeft       Int               @default(0)
+  feedbackLink       String?
   Subscription       Subscription[]  
   User               User[]
   Patient            Patient[]
@@ -26,6 +28,7 @@ model Clinic {
   Doctor             Doctor[]
   Receptionist       Receptionist[]
   InvoicePrefills    InvoicePrefills[]
+  EPrescriptionPrefills EPrescriptionPrefills[]
   Consent        Consent[]
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
@@ -90,6 +93,9 @@ model Patient {
   age              Int? 
   bloodGroup       BloodGroup?
   treatmentsLeft   Int? @default(0)
+  /// Successful feedback WhatsApp sends for this patient (capped at 3)
+  feedbackWhatsAppSentCount Int @default(0)
+  isDeleted        Boolean   @default(false)
   clinicId         Int
   Clinic           Clinic    @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   Appointment      Appointment[]
@@ -100,6 +106,7 @@ model Patient {
 
   @@index([clinicId])
   @@index([email, phone])
+  @@index([clinicId, isDeleted])
 }
 
 model Appointment {
@@ -120,6 +127,8 @@ model Appointment {
   Invoice          Invoice?
   AppointmentDocument     AppointmentDocument[]
   EPrescription    EPrescription?
+  bookingWhatsAppSentAt  DateTime?
+  followUpWhatsAppSentAt DateTime?
   createdAt        DateTime           @default(now())
   createdById      Int
   createdBy        User               @relation(fields: [createdById], references: [id])
@@ -127,6 +136,7 @@ model Appointment {
 
   @@index([clinicId, patientId])
   @@index([clinicId, doctorId])
+  @@index([status, followUpWhatsAppSentAt, actualEndTime])
 }
 
 model Consent {
@@ -221,6 +231,19 @@ model EPrescription {
   updatedAt      DateTime         @updatedAt
 
   @@index([appointmentId])
+}
+
+model EPrescriptionPrefills {
+  id        Int                        @id @default(autoincrement())
+  value     String
+  field     EPrescriptionPrefillField
+  clinicId  Int
+  Clinic    Clinic                     @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  createdAt DateTime                   @default(now())
+  updatedAt DateTime                   @updatedAt
+
+  @@unique([clinicId, field, value])
+  @@index([clinicId, field])
 }
 
 model Doctor {
@@ -383,4 +406,11 @@ enum BloodGroup {
 enum AuthProvider {
   LOCAL
   GOOGLE
+}
+
+enum EPrescriptionPrefillField {
+  SYMPTOMS
+  DIAGNOSIS
+  PRESCRIPTIONS
+  ADVICE
 }

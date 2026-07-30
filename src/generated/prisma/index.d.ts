@@ -69,6 +69,11 @@ export type AppointmentDocument = $Result.DefaultSelection<Prisma.$AppointmentDo
  */
 export type EPrescription = $Result.DefaultSelection<Prisma.$EPrescriptionPayload>
 /**
+ * Model EPrescriptionPrefills
+ * 
+ */
+export type EPrescriptionPrefills = $Result.DefaultSelection<Prisma.$EPrescriptionPrefillsPayload>
+/**
  * Model Doctor
  * 
  */
@@ -194,6 +199,16 @@ export const AuthProvider: {
 
 export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider]
 
+
+export const EPrescriptionPrefillField: {
+  SYMPTOMS: 'SYMPTOMS',
+  DIAGNOSIS: 'DIAGNOSIS',
+  PRESCRIPTIONS: 'PRESCRIPTIONS',
+  ADVICE: 'ADVICE'
+};
+
+export type EPrescriptionPrefillField = (typeof EPrescriptionPrefillField)[keyof typeof EPrescriptionPrefillField]
+
 }
 
 export type Role = $Enums.Role
@@ -231,6 +246,10 @@ export const BloodGroup: typeof $Enums.BloodGroup
 export type AuthProvider = $Enums.AuthProvider
 
 export const AuthProvider: typeof $Enums.AuthProvider
+
+export type EPrescriptionPrefillField = $Enums.EPrescriptionPrefillField
+
+export const EPrescriptionPrefillField: typeof $Enums.EPrescriptionPrefillField
 
 /**
  * ##  Prisma Client ʲˢ
@@ -272,7 +291,7 @@ export class PrismaClient<
    * Read more in our [docs](https://pris.ly/d/client).
    */
 
-  constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
+  constructor(optionsArg ?: Prisma.PrismaClientConstructorArgs<ClientOptions>);
   $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): PrismaClient;
 
   /**
@@ -345,7 +364,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
@@ -464,6 +483,16 @@ export class PrismaClient<
   get ePrescription(): Prisma.EPrescriptionDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.ePrescriptionPrefills`: Exposes CRUD operations for the **EPrescriptionPrefills** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EPrescriptionPrefills
+    * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.findMany()
+    * ```
+    */
+  get ePrescriptionPrefills(): Prisma.EPrescriptionPrefillsDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.doctor`: Exposes CRUD operations for the **Doctor** model.
     * Example usage:
     * ```ts
@@ -572,8 +601,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.6.0
-   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+   * Prisma Client JS version: 7.9.1
+   * Query Engine version: e922089b7d7502aff4249d5da3420f6fa55fc6ad
    */
   export type PrismaVersion = {
     client: string
@@ -708,6 +737,19 @@ export namespace Prisma {
   };
 
   /**
+   * Resolved type of the argument passed to the `PrismaClient` constructor.
+   *
+   * When called without a narrower options type (the common case), this resolves
+   * to `PrismaClientOptions` directly, which produces a clear TypeScript error
+   * message (`not assignable to parameter of type 'PrismaClientOptions'`) when
+   * the argument is missing or incomplete. When the user supplies a narrower
+   * options type (e.g. via a literal), it falls back to `Subset` to keep
+   * filtering out unknown properties.
+   */
+  export type PrismaClientConstructorArgs<Options extends PrismaClientOptions> =
+    [PrismaClientOptions] extends [Options] ? PrismaClientOptions : Subset<Options, PrismaClientOptions>;
+
+  /**
    * SelectSubset
    * @desc From `T` pick properties that exist in `U`. Simple version of Intersection.
    * Additionally, it validates, if both select and include are present. If the case, it errors.
@@ -739,7 +781,7 @@ export namespace Prisma {
   type XOR<T, U> =
     T extends object ?
     U extends object ?
-      (Without<T, U> & U) | (Without<U, T> & T)
+      ((Without<T, U> & U) | (Without<U, T> & T)) & object
     : U : T
 
 
@@ -967,6 +1009,7 @@ export namespace Prisma {
     Invoice: 'Invoice',
     AppointmentDocument: 'AppointmentDocument',
     EPrescription: 'EPrescription',
+    EPrescriptionPrefills: 'EPrescriptionPrefills',
     Doctor: 'Doctor',
     PatientDoctor: 'PatientDoctor',
     SubscriptionPlan: 'SubscriptionPlan',
@@ -988,7 +1031,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "clinic" | "user" | "receptionist" | "patient" | "appointment" | "consent" | "invoiceItems" | "invoicePrefills" | "invoice" | "appointmentDocument" | "ePrescription" | "doctor" | "patientDoctor" | "subscriptionPlan" | "subscription" | "payment" | "verificationOTP"
+      modelProps: "clinic" | "user" | "receptionist" | "patient" | "appointment" | "consent" | "invoiceItems" | "invoicePrefills" | "invoice" | "appointmentDocument" | "ePrescription" | "ePrescriptionPrefills" | "doctor" | "patientDoctor" | "subscriptionPlan" | "subscription" | "payment" | "verificationOTP"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1806,6 +1849,80 @@ export namespace Prisma {
           }
         }
       }
+      EPrescriptionPrefills: {
+        payload: Prisma.$EPrescriptionPrefillsPayload<ExtArgs>
+        fields: Prisma.EPrescriptionPrefillsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EPrescriptionPrefillsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EPrescriptionPrefillsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>
+          }
+          findFirst: {
+            args: Prisma.EPrescriptionPrefillsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EPrescriptionPrefillsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>
+          }
+          findMany: {
+            args: Prisma.EPrescriptionPrefillsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>[]
+          }
+          create: {
+            args: Prisma.EPrescriptionPrefillsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>
+          }
+          createMany: {
+            args: Prisma.EPrescriptionPrefillsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EPrescriptionPrefillsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>[]
+          }
+          delete: {
+            args: Prisma.EPrescriptionPrefillsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>
+          }
+          update: {
+            args: Prisma.EPrescriptionPrefillsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>
+          }
+          deleteMany: {
+            args: Prisma.EPrescriptionPrefillsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EPrescriptionPrefillsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EPrescriptionPrefillsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>[]
+          }
+          upsert: {
+            args: Prisma.EPrescriptionPrefillsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EPrescriptionPrefillsPayload>
+          }
+          aggregate: {
+            args: Prisma.EPrescriptionPrefillsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEPrescriptionPrefills>
+          }
+          groupBy: {
+            args: Prisma.EPrescriptionPrefillsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EPrescriptionPrefillsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EPrescriptionPrefillsCountArgs<ExtArgs>
+            result: $Utils.Optional<EPrescriptionPrefillsCountAggregateOutputType> | number
+          }
+        }
+      }
       Doctor: {
         payload: Prisma.$DoctorPayload<ExtArgs>
         fields: Prisma.DoctorFieldRefs
@@ -2318,11 +2435,26 @@ export namespace Prisma {
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
     /**
-     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     * A driver adapter that PrismaClient uses to connect to your database, such as the ones provided by `@prisma/adapter-pg`, `@prisma/adapter-libsql`, `@prisma/adapter-planetscale`, etc.
+     * 
+     * A driver adapter is **required** unless you connect to your database through Prisma Accelerate (in which case use `accelerateUrl` instead).
+     * 
+     * Learn more: https://pris.ly/d/driver-adapters
+     * 
+     * @example
+     * ```ts
+     * import { PrismaPg } from '@prisma/adapter-pg'
+     * import { PrismaClient } from './generated/prisma/client'
+     * 
+     * const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+     * const prisma = new PrismaClient({ adapter })
+     * ```
      */
     adapter?: runtime.SqlDriverAdapterFactory
     /**
-     * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
+     * The Prisma Accelerate connection URL. Use this option to connect to your database through Prisma Accelerate instead of using a driver adapter to connect directly.
+     * 
+     * Learn more: https://pris.ly/d/accelerate
      */
     accelerateUrl?: string
     /**
@@ -2369,6 +2501,7 @@ export namespace Prisma {
     invoice?: InvoiceOmit
     appointmentDocument?: AppointmentDocumentOmit
     ePrescription?: EPrescriptionOmit
+    ePrescriptionPrefills?: EPrescriptionPrefillsOmit
     doctor?: DoctorOmit
     patientDoctor?: PatientDoctorOmit
     subscriptionPlan?: SubscriptionPlanOmit
@@ -2462,6 +2595,7 @@ export namespace Prisma {
     Doctor: number
     Receptionist: number
     InvoicePrefills: number
+    EPrescriptionPrefills: number
     Consent: number
   }
 
@@ -2473,6 +2607,7 @@ export namespace Prisma {
     Doctor?: boolean | ClinicCountOutputTypeCountDoctorArgs
     Receptionist?: boolean | ClinicCountOutputTypeCountReceptionistArgs
     InvoicePrefills?: boolean | ClinicCountOutputTypeCountInvoicePrefillsArgs
+    EPrescriptionPrefills?: boolean | ClinicCountOutputTypeCountEPrescriptionPrefillsArgs
     Consent?: boolean | ClinicCountOutputTypeCountConsentArgs
   }
 
@@ -2534,6 +2669,13 @@ export namespace Prisma {
    */
   export type ClinicCountOutputTypeCountInvoicePrefillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoicePrefillsWhereInput
+  }
+
+  /**
+   * ClinicCountOutputType without action
+   */
+  export type ClinicCountOutputTypeCountEPrescriptionPrefillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EPrescriptionPrefillsWhereInput
   }
 
   /**
@@ -2824,10 +2966,12 @@ export namespace Prisma {
 
   export type ClinicAvgAggregateOutputType = {
     id: number | null
+    messagesLeft: number | null
   }
 
   export type ClinicSumAggregateOutputType = {
     id: number | null
+    messagesLeft: number | null
   }
 
   export type ClinicMinAggregateOutputType = {
@@ -2841,6 +2985,8 @@ export namespace Prisma {
     logo: string | null
     brandColor: string | null
     ConsentTermsAndConditions: string | null
+    messagesLeft: number | null
+    feedbackLink: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2856,6 +3002,8 @@ export namespace Prisma {
     logo: string | null
     brandColor: string | null
     ConsentTermsAndConditions: string | null
+    messagesLeft: number | null
+    feedbackLink: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2871,6 +3019,8 @@ export namespace Prisma {
     logo: number
     brandColor: number
     ConsentTermsAndConditions: number
+    messagesLeft: number
+    feedbackLink: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2879,10 +3029,12 @@ export namespace Prisma {
 
   export type ClinicAvgAggregateInputType = {
     id?: true
+    messagesLeft?: true
   }
 
   export type ClinicSumAggregateInputType = {
     id?: true
+    messagesLeft?: true
   }
 
   export type ClinicMinAggregateInputType = {
@@ -2896,6 +3048,8 @@ export namespace Prisma {
     logo?: true
     brandColor?: true
     ConsentTermsAndConditions?: true
+    messagesLeft?: true
+    feedbackLink?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2911,6 +3065,8 @@ export namespace Prisma {
     logo?: true
     brandColor?: true
     ConsentTermsAndConditions?: true
+    messagesLeft?: true
+    feedbackLink?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2926,6 +3082,8 @@ export namespace Prisma {
     logo?: true
     brandColor?: true
     ConsentTermsAndConditions?: true
+    messagesLeft?: true
+    feedbackLink?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3028,6 +3186,8 @@ export namespace Prisma {
     logo: string | null
     brandColor: string | null
     ConsentTermsAndConditions: string | null
+    messagesLeft: number
+    feedbackLink: string | null
     createdAt: Date
     updatedAt: Date
     _count: ClinicCountAggregateOutputType | null
@@ -3062,6 +3222,8 @@ export namespace Prisma {
     logo?: boolean
     brandColor?: boolean
     ConsentTermsAndConditions?: boolean
+    messagesLeft?: boolean
+    feedbackLink?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     Subscription?: boolean | Clinic$SubscriptionArgs<ExtArgs>
@@ -3071,6 +3233,7 @@ export namespace Prisma {
     Doctor?: boolean | Clinic$DoctorArgs<ExtArgs>
     Receptionist?: boolean | Clinic$ReceptionistArgs<ExtArgs>
     InvoicePrefills?: boolean | Clinic$InvoicePrefillsArgs<ExtArgs>
+    EPrescriptionPrefills?: boolean | Clinic$EPrescriptionPrefillsArgs<ExtArgs>
     Consent?: boolean | Clinic$ConsentArgs<ExtArgs>
     _count?: boolean | ClinicCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clinic"]>
@@ -3086,6 +3249,8 @@ export namespace Prisma {
     logo?: boolean
     brandColor?: boolean
     ConsentTermsAndConditions?: boolean
+    messagesLeft?: boolean
+    feedbackLink?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["clinic"]>
@@ -3101,6 +3266,8 @@ export namespace Prisma {
     logo?: boolean
     brandColor?: boolean
     ConsentTermsAndConditions?: boolean
+    messagesLeft?: boolean
+    feedbackLink?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["clinic"]>
@@ -3116,11 +3283,13 @@ export namespace Prisma {
     logo?: boolean
     brandColor?: boolean
     ConsentTermsAndConditions?: boolean
+    messagesLeft?: boolean
+    feedbackLink?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ClinicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "createdOn" | "name" | "address" | "phone" | "workHours" | "logo" | "brandColor" | "ConsentTermsAndConditions" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
+  export type ClinicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "createdOn" | "name" | "address" | "phone" | "workHours" | "logo" | "brandColor" | "ConsentTermsAndConditions" | "messagesLeft" | "feedbackLink" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
   export type ClinicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Subscription?: boolean | Clinic$SubscriptionArgs<ExtArgs>
     User?: boolean | Clinic$UserArgs<ExtArgs>
@@ -3129,6 +3298,7 @@ export namespace Prisma {
     Doctor?: boolean | Clinic$DoctorArgs<ExtArgs>
     Receptionist?: boolean | Clinic$ReceptionistArgs<ExtArgs>
     InvoicePrefills?: boolean | Clinic$InvoicePrefillsArgs<ExtArgs>
+    EPrescriptionPrefills?: boolean | Clinic$EPrescriptionPrefillsArgs<ExtArgs>
     Consent?: boolean | Clinic$ConsentArgs<ExtArgs>
     _count?: boolean | ClinicCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3145,6 +3315,7 @@ export namespace Prisma {
       Doctor: Prisma.$DoctorPayload<ExtArgs>[]
       Receptionist: Prisma.$ReceptionistPayload<ExtArgs>[]
       InvoicePrefills: Prisma.$InvoicePrefillsPayload<ExtArgs>[]
+      EPrescriptionPrefills: Prisma.$EPrescriptionPrefillsPayload<ExtArgs>[]
       Consent: Prisma.$ConsentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3158,6 +3329,8 @@ export namespace Prisma {
       logo: string | null
       brandColor: string | null
       ConsentTermsAndConditions: string | null
+      messagesLeft: number
+      feedbackLink: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["clinic"]>
@@ -3561,6 +3734,7 @@ export namespace Prisma {
     Doctor<T extends Clinic$DoctorArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$DoctorArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DoctorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Receptionist<T extends Clinic$ReceptionistArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$ReceptionistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReceptionistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     InvoicePrefills<T extends Clinic$InvoicePrefillsArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$InvoicePrefillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    EPrescriptionPrefills<T extends Clinic$EPrescriptionPrefillsArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$EPrescriptionPrefillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Consent<T extends Clinic$ConsentArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$ConsentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3601,6 +3775,8 @@ export namespace Prisma {
     readonly logo: FieldRef<"Clinic", 'String'>
     readonly brandColor: FieldRef<"Clinic", 'String'>
     readonly ConsentTermsAndConditions: FieldRef<"Clinic", 'String'>
+    readonly messagesLeft: FieldRef<"Clinic", 'Int'>
+    readonly feedbackLink: FieldRef<"Clinic", 'String'>
     readonly createdAt: FieldRef<"Clinic", 'DateTime'>
     readonly updatedAt: FieldRef<"Clinic", 'DateTime'>
   }
@@ -4161,6 +4337,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvoicePrefillsScalarFieldEnum | InvoicePrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * Clinic.EPrescriptionPrefills
+   */
+  export type Clinic$EPrescriptionPrefillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    where?: EPrescriptionPrefillsWhereInput
+    orderBy?: EPrescriptionPrefillsOrderByWithRelationInput | EPrescriptionPrefillsOrderByWithRelationInput[]
+    cursor?: EPrescriptionPrefillsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EPrescriptionPrefillsScalarFieldEnum | EPrescriptionPrefillsScalarFieldEnum[]
   }
 
   /**
@@ -6767,6 +6967,7 @@ export namespace Prisma {
     id: number | null
     age: number | null
     treatmentsLeft: number | null
+    feedbackWhatsAppSentCount: number | null
     clinicId: number | null
   }
 
@@ -6774,6 +6975,7 @@ export namespace Prisma {
     id: number | null
     age: number | null
     treatmentsLeft: number | null
+    feedbackWhatsAppSentCount: number | null
     clinicId: number | null
   }
 
@@ -6788,6 +6990,8 @@ export namespace Prisma {
     age: number | null
     bloodGroup: $Enums.BloodGroup | null
     treatmentsLeft: number | null
+    feedbackWhatsAppSentCount: number | null
+    isDeleted: boolean | null
     clinicId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6804,6 +7008,8 @@ export namespace Prisma {
     age: number | null
     bloodGroup: $Enums.BloodGroup | null
     treatmentsLeft: number | null
+    feedbackWhatsAppSentCount: number | null
+    isDeleted: boolean | null
     clinicId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6820,6 +7026,8 @@ export namespace Prisma {
     age: number
     bloodGroup: number
     treatmentsLeft: number
+    feedbackWhatsAppSentCount: number
+    isDeleted: number
     clinicId: number
     createdAt: number
     updatedAt: number
@@ -6831,6 +7039,7 @@ export namespace Prisma {
     id?: true
     age?: true
     treatmentsLeft?: true
+    feedbackWhatsAppSentCount?: true
     clinicId?: true
   }
 
@@ -6838,6 +7047,7 @@ export namespace Prisma {
     id?: true
     age?: true
     treatmentsLeft?: true
+    feedbackWhatsAppSentCount?: true
     clinicId?: true
   }
 
@@ -6852,6 +7062,8 @@ export namespace Prisma {
     age?: true
     bloodGroup?: true
     treatmentsLeft?: true
+    feedbackWhatsAppSentCount?: true
+    isDeleted?: true
     clinicId?: true
     createdAt?: true
     updatedAt?: true
@@ -6868,6 +7080,8 @@ export namespace Prisma {
     age?: true
     bloodGroup?: true
     treatmentsLeft?: true
+    feedbackWhatsAppSentCount?: true
+    isDeleted?: true
     clinicId?: true
     createdAt?: true
     updatedAt?: true
@@ -6884,6 +7098,8 @@ export namespace Prisma {
     age?: true
     bloodGroup?: true
     treatmentsLeft?: true
+    feedbackWhatsAppSentCount?: true
+    isDeleted?: true
     clinicId?: true
     createdAt?: true
     updatedAt?: true
@@ -6987,6 +7203,8 @@ export namespace Prisma {
     age: number | null
     bloodGroup: $Enums.BloodGroup | null
     treatmentsLeft: number | null
+    feedbackWhatsAppSentCount: number
+    isDeleted: boolean
     clinicId: number
     createdAt: Date
     updatedAt: Date
@@ -7022,6 +7240,8 @@ export namespace Prisma {
     age?: boolean
     bloodGroup?: boolean
     treatmentsLeft?: boolean
+    feedbackWhatsAppSentCount?: boolean
+    isDeleted?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7043,6 +7263,8 @@ export namespace Prisma {
     age?: boolean
     bloodGroup?: boolean
     treatmentsLeft?: boolean
+    feedbackWhatsAppSentCount?: boolean
+    isDeleted?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7060,6 +7282,8 @@ export namespace Prisma {
     age?: boolean
     bloodGroup?: boolean
     treatmentsLeft?: boolean
+    feedbackWhatsAppSentCount?: boolean
+    isDeleted?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7077,12 +7301,14 @@ export namespace Prisma {
     age?: boolean
     bloodGroup?: boolean
     treatmentsLeft?: boolean
+    feedbackWhatsAppSentCount?: boolean
+    isDeleted?: boolean
     clinicId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PatientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "phone" | "emergencyContact" | "gender" | "age" | "bloodGroup" | "treatmentsLeft" | "clinicId" | "createdAt" | "updatedAt", ExtArgs["result"]["patient"]>
+  export type PatientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "phone" | "emergencyContact" | "gender" | "age" | "bloodGroup" | "treatmentsLeft" | "feedbackWhatsAppSentCount" | "isDeleted" | "clinicId" | "createdAt" | "updatedAt", ExtArgs["result"]["patient"]>
   export type PatientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
     Appointment?: boolean | Patient$AppointmentArgs<ExtArgs>
@@ -7116,6 +7342,11 @@ export namespace Prisma {
       age: number | null
       bloodGroup: $Enums.BloodGroup | null
       treatmentsLeft: number | null
+      /**
+       * Successful feedback WhatsApp sends for this patient (capped at 3)
+       */
+      feedbackWhatsAppSentCount: number
+      isDeleted: boolean
       clinicId: number
       createdAt: Date
       updatedAt: Date
@@ -7556,6 +7787,8 @@ export namespace Prisma {
     readonly age: FieldRef<"Patient", 'Int'>
     readonly bloodGroup: FieldRef<"Patient", 'BloodGroup'>
     readonly treatmentsLeft: FieldRef<"Patient", 'Int'>
+    readonly feedbackWhatsAppSentCount: FieldRef<"Patient", 'Int'>
+    readonly isDeleted: FieldRef<"Patient", 'Boolean'>
     readonly clinicId: FieldRef<"Patient", 'Int'>
     readonly createdAt: FieldRef<"Patient", 'DateTime'>
     readonly updatedAt: FieldRef<"Patient", 'DateTime'>
@@ -8092,6 +8325,8 @@ export namespace Prisma {
     patientId: number | null
     doctorId: number | null
     clinicId: number | null
+    bookingWhatsAppSentAt: Date | null
+    followUpWhatsAppSentAt: Date | null
     createdAt: Date | null
     createdById: number | null
     updatedAt: Date | null
@@ -8109,6 +8344,8 @@ export namespace Prisma {
     patientId: number | null
     doctorId: number | null
     clinicId: number | null
+    bookingWhatsAppSentAt: Date | null
+    followUpWhatsAppSentAt: Date | null
     createdAt: Date | null
     createdById: number | null
     updatedAt: Date | null
@@ -8126,6 +8363,8 @@ export namespace Prisma {
     patientId: number
     doctorId: number
     clinicId: number
+    bookingWhatsAppSentAt: number
+    followUpWhatsAppSentAt: number
     createdAt: number
     createdById: number
     updatedAt: number
@@ -8163,6 +8402,8 @@ export namespace Prisma {
     patientId?: true
     doctorId?: true
     clinicId?: true
+    bookingWhatsAppSentAt?: true
+    followUpWhatsAppSentAt?: true
     createdAt?: true
     createdById?: true
     updatedAt?: true
@@ -8180,6 +8421,8 @@ export namespace Prisma {
     patientId?: true
     doctorId?: true
     clinicId?: true
+    bookingWhatsAppSentAt?: true
+    followUpWhatsAppSentAt?: true
     createdAt?: true
     createdById?: true
     updatedAt?: true
@@ -8197,6 +8440,8 @@ export namespace Prisma {
     patientId?: true
     doctorId?: true
     clinicId?: true
+    bookingWhatsAppSentAt?: true
+    followUpWhatsAppSentAt?: true
     createdAt?: true
     createdById?: true
     updatedAt?: true
@@ -8301,6 +8546,8 @@ export namespace Prisma {
     patientId: number
     doctorId: number | null
     clinicId: number
+    bookingWhatsAppSentAt: Date | null
+    followUpWhatsAppSentAt: Date | null
     createdAt: Date
     createdById: number
     updatedAt: Date
@@ -8337,6 +8584,8 @@ export namespace Prisma {
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
+    bookingWhatsAppSentAt?: boolean
+    followUpWhatsAppSentAt?: boolean
     createdAt?: boolean
     createdById?: boolean
     updatedAt?: boolean
@@ -8362,6 +8611,8 @@ export namespace Prisma {
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
+    bookingWhatsAppSentAt?: boolean
+    followUpWhatsAppSentAt?: boolean
     createdAt?: boolean
     createdById?: boolean
     updatedAt?: boolean
@@ -8383,6 +8634,8 @@ export namespace Prisma {
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
+    bookingWhatsAppSentAt?: boolean
+    followUpWhatsAppSentAt?: boolean
     createdAt?: boolean
     createdById?: boolean
     updatedAt?: boolean
@@ -8404,12 +8657,14 @@ export namespace Prisma {
     patientId?: boolean
     doctorId?: boolean
     clinicId?: boolean
+    bookingWhatsAppSentAt?: boolean
+    followUpWhatsAppSentAt?: boolean
     createdAt?: boolean
     createdById?: boolean
     updatedAt?: boolean
   }
 
-  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scheduledTime" | "actualStartTime" | "actualEndTime" | "duration" | "status" | "notes" | "isWalkIn" | "patientId" | "doctorId" | "clinicId" | "createdAt" | "createdById" | "updatedAt", ExtArgs["result"]["appointment"]>
+  export type AppointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scheduledTime" | "actualStartTime" | "actualEndTime" | "duration" | "status" | "notes" | "isWalkIn" | "patientId" | "doctorId" | "clinicId" | "bookingWhatsAppSentAt" | "followUpWhatsAppSentAt" | "createdAt" | "createdById" | "updatedAt", ExtArgs["result"]["appointment"]>
   export type AppointmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Patient?: boolean | PatientDefaultArgs<ExtArgs>
     Doctor?: boolean | Appointment$DoctorArgs<ExtArgs>
@@ -8456,6 +8711,8 @@ export namespace Prisma {
       patientId: number
       doctorId: number | null
       clinicId: number
+      bookingWhatsAppSentAt: Date | null
+      followUpWhatsAppSentAt: Date | null
       createdAt: Date
       createdById: number
       updatedAt: Date
@@ -8900,6 +9157,8 @@ export namespace Prisma {
     readonly patientId: FieldRef<"Appointment", 'Int'>
     readonly doctorId: FieldRef<"Appointment", 'Int'>
     readonly clinicId: FieldRef<"Appointment", 'Int'>
+    readonly bookingWhatsAppSentAt: FieldRef<"Appointment", 'DateTime'>
+    readonly followUpWhatsAppSentAt: FieldRef<"Appointment", 'DateTime'>
     readonly createdAt: FieldRef<"Appointment", 'DateTime'>
     readonly createdById: FieldRef<"Appointment", 'Int'>
     readonly updatedAt: FieldRef<"Appointment", 'DateTime'>
@@ -16312,6 +16571,1120 @@ export namespace Prisma {
 
 
   /**
+   * Model EPrescriptionPrefills
+   */
+
+  export type AggregateEPrescriptionPrefills = {
+    _count: EPrescriptionPrefillsCountAggregateOutputType | null
+    _avg: EPrescriptionPrefillsAvgAggregateOutputType | null
+    _sum: EPrescriptionPrefillsSumAggregateOutputType | null
+    _min: EPrescriptionPrefillsMinAggregateOutputType | null
+    _max: EPrescriptionPrefillsMaxAggregateOutputType | null
+  }
+
+  export type EPrescriptionPrefillsAvgAggregateOutputType = {
+    id: number | null
+    clinicId: number | null
+  }
+
+  export type EPrescriptionPrefillsSumAggregateOutputType = {
+    id: number | null
+    clinicId: number | null
+  }
+
+  export type EPrescriptionPrefillsMinAggregateOutputType = {
+    id: number | null
+    value: string | null
+    field: $Enums.EPrescriptionPrefillField | null
+    clinicId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EPrescriptionPrefillsMaxAggregateOutputType = {
+    id: number | null
+    value: string | null
+    field: $Enums.EPrescriptionPrefillField | null
+    clinicId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EPrescriptionPrefillsCountAggregateOutputType = {
+    id: number
+    value: number
+    field: number
+    clinicId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EPrescriptionPrefillsAvgAggregateInputType = {
+    id?: true
+    clinicId?: true
+  }
+
+  export type EPrescriptionPrefillsSumAggregateInputType = {
+    id?: true
+    clinicId?: true
+  }
+
+  export type EPrescriptionPrefillsMinAggregateInputType = {
+    id?: true
+    value?: true
+    field?: true
+    clinicId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EPrescriptionPrefillsMaxAggregateInputType = {
+    id?: true
+    value?: true
+    field?: true
+    clinicId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EPrescriptionPrefillsCountAggregateInputType = {
+    id?: true
+    value?: true
+    field?: true
+    clinicId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EPrescriptionPrefillsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EPrescriptionPrefills to aggregate.
+     */
+    where?: EPrescriptionPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EPrescriptionPrefills to fetch.
+     */
+    orderBy?: EPrescriptionPrefillsOrderByWithRelationInput | EPrescriptionPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EPrescriptionPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EPrescriptionPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EPrescriptionPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EPrescriptionPrefills
+    **/
+    _count?: true | EPrescriptionPrefillsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: EPrescriptionPrefillsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EPrescriptionPrefillsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EPrescriptionPrefillsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EPrescriptionPrefillsMaxAggregateInputType
+  }
+
+  export type GetEPrescriptionPrefillsAggregateType<T extends EPrescriptionPrefillsAggregateArgs> = {
+        [P in keyof T & keyof AggregateEPrescriptionPrefills]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEPrescriptionPrefills[P]>
+      : GetScalarType<T[P], AggregateEPrescriptionPrefills[P]>
+  }
+
+
+
+
+  export type EPrescriptionPrefillsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EPrescriptionPrefillsWhereInput
+    orderBy?: EPrescriptionPrefillsOrderByWithAggregationInput | EPrescriptionPrefillsOrderByWithAggregationInput[]
+    by: EPrescriptionPrefillsScalarFieldEnum[] | EPrescriptionPrefillsScalarFieldEnum
+    having?: EPrescriptionPrefillsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EPrescriptionPrefillsCountAggregateInputType | true
+    _avg?: EPrescriptionPrefillsAvgAggregateInputType
+    _sum?: EPrescriptionPrefillsSumAggregateInputType
+    _min?: EPrescriptionPrefillsMinAggregateInputType
+    _max?: EPrescriptionPrefillsMaxAggregateInputType
+  }
+
+  export type EPrescriptionPrefillsGroupByOutputType = {
+    id: number
+    value: string
+    field: $Enums.EPrescriptionPrefillField
+    clinicId: number
+    createdAt: Date
+    updatedAt: Date
+    _count: EPrescriptionPrefillsCountAggregateOutputType | null
+    _avg: EPrescriptionPrefillsAvgAggregateOutputType | null
+    _sum: EPrescriptionPrefillsSumAggregateOutputType | null
+    _min: EPrescriptionPrefillsMinAggregateOutputType | null
+    _max: EPrescriptionPrefillsMaxAggregateOutputType | null
+  }
+
+  type GetEPrescriptionPrefillsGroupByPayload<T extends EPrescriptionPrefillsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EPrescriptionPrefillsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EPrescriptionPrefillsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EPrescriptionPrefillsGroupByOutputType[P]>
+            : GetScalarType<T[P], EPrescriptionPrefillsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EPrescriptionPrefillsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    value?: boolean
+    field?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ePrescriptionPrefills"]>
+
+  export type EPrescriptionPrefillsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    value?: boolean
+    field?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ePrescriptionPrefills"]>
+
+  export type EPrescriptionPrefillsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    value?: boolean
+    field?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ePrescriptionPrefills"]>
+
+  export type EPrescriptionPrefillsSelectScalar = {
+    id?: boolean
+    value?: boolean
+    field?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EPrescriptionPrefillsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "value" | "field" | "clinicId" | "createdAt" | "updatedAt", ExtArgs["result"]["ePrescriptionPrefills"]>
+  export type EPrescriptionPrefillsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+  export type EPrescriptionPrefillsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+  export type EPrescriptionPrefillsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+
+  export type $EPrescriptionPrefillsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EPrescriptionPrefills"
+    objects: {
+      Clinic: Prisma.$ClinicPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      value: string
+      field: $Enums.EPrescriptionPrefillField
+      clinicId: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ePrescriptionPrefills"]>
+    composites: {}
+  }
+
+  type EPrescriptionPrefillsGetPayload<S extends boolean | null | undefined | EPrescriptionPrefillsDefaultArgs> = $Result.GetResult<Prisma.$EPrescriptionPrefillsPayload, S>
+
+  type EPrescriptionPrefillsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EPrescriptionPrefillsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EPrescriptionPrefillsCountAggregateInputType | true
+    }
+
+  export interface EPrescriptionPrefillsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EPrescriptionPrefills'], meta: { name: 'EPrescriptionPrefills' } }
+    /**
+     * Find zero or one EPrescriptionPrefills that matches the filter.
+     * @param {EPrescriptionPrefillsFindUniqueArgs} args - Arguments to find a EPrescriptionPrefills
+     * @example
+     * // Get one EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EPrescriptionPrefillsFindUniqueArgs>(args: SelectSubset<T, EPrescriptionPrefillsFindUniqueArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EPrescriptionPrefills that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EPrescriptionPrefillsFindUniqueOrThrowArgs} args - Arguments to find a EPrescriptionPrefills
+     * @example
+     * // Get one EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EPrescriptionPrefillsFindUniqueOrThrowArgs>(args: SelectSubset<T, EPrescriptionPrefillsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EPrescriptionPrefills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EPrescriptionPrefillsFindFirstArgs} args - Arguments to find a EPrescriptionPrefills
+     * @example
+     * // Get one EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EPrescriptionPrefillsFindFirstArgs>(args?: SelectSubset<T, EPrescriptionPrefillsFindFirstArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EPrescriptionPrefills that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EPrescriptionPrefillsFindFirstOrThrowArgs} args - Arguments to find a EPrescriptionPrefills
+     * @example
+     * // Get one EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EPrescriptionPrefillsFindFirstOrThrowArgs>(args?: SelectSubset<T, EPrescriptionPrefillsFindFirstOrThrowArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EPrescriptionPrefills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EPrescriptionPrefillsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.findMany()
+     * 
+     * // Get first 10 EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ePrescriptionPrefillsWithIdOnly = await prisma.ePrescriptionPrefills.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EPrescriptionPrefillsFindManyArgs>(args?: SelectSubset<T, EPrescriptionPrefillsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EPrescriptionPrefills.
+     * @param {EPrescriptionPrefillsCreateArgs} args - Arguments to create a EPrescriptionPrefills.
+     * @example
+     * // Create one EPrescriptionPrefills
+     * const EPrescriptionPrefills = await prisma.ePrescriptionPrefills.create({
+     *   data: {
+     *     // ... data to create a EPrescriptionPrefills
+     *   }
+     * })
+     * 
+     */
+    create<T extends EPrescriptionPrefillsCreateArgs>(args: SelectSubset<T, EPrescriptionPrefillsCreateArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EPrescriptionPrefills.
+     * @param {EPrescriptionPrefillsCreateManyArgs} args - Arguments to create many EPrescriptionPrefills.
+     * @example
+     * // Create many EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EPrescriptionPrefillsCreateManyArgs>(args?: SelectSubset<T, EPrescriptionPrefillsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EPrescriptionPrefills and returns the data saved in the database.
+     * @param {EPrescriptionPrefillsCreateManyAndReturnArgs} args - Arguments to create many EPrescriptionPrefills.
+     * @example
+     * // Create many EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EPrescriptionPrefills and only return the `id`
+     * const ePrescriptionPrefillsWithIdOnly = await prisma.ePrescriptionPrefills.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EPrescriptionPrefillsCreateManyAndReturnArgs>(args?: SelectSubset<T, EPrescriptionPrefillsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EPrescriptionPrefills.
+     * @param {EPrescriptionPrefillsDeleteArgs} args - Arguments to delete one EPrescriptionPrefills.
+     * @example
+     * // Delete one EPrescriptionPrefills
+     * const EPrescriptionPrefills = await prisma.ePrescriptionPrefills.delete({
+     *   where: {
+     *     // ... filter to delete one EPrescriptionPrefills
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EPrescriptionPrefillsDeleteArgs>(args: SelectSubset<T, EPrescriptionPrefillsDeleteArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EPrescriptionPrefills.
+     * @param {EPrescriptionPrefillsUpdateArgs} args - Arguments to update one EPrescriptionPrefills.
+     * @example
+     * // Update one EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EPrescriptionPrefillsUpdateArgs>(args: SelectSubset<T, EPrescriptionPrefillsUpdateArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EPrescriptionPrefills.
+     * @param {EPrescriptionPrefillsDeleteManyArgs} args - Arguments to filter EPrescriptionPrefills to delete.
+     * @example
+     * // Delete a few EPrescriptionPrefills
+     * const { count } = await prisma.ePrescriptionPrefills.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EPrescriptionPrefillsDeleteManyArgs>(args?: SelectSubset<T, EPrescriptionPrefillsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EPrescriptionPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EPrescriptionPrefillsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EPrescriptionPrefillsUpdateManyArgs>(args: SelectSubset<T, EPrescriptionPrefillsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EPrescriptionPrefills and returns the data updated in the database.
+     * @param {EPrescriptionPrefillsUpdateManyAndReturnArgs} args - Arguments to update many EPrescriptionPrefills.
+     * @example
+     * // Update many EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EPrescriptionPrefills and only return the `id`
+     * const ePrescriptionPrefillsWithIdOnly = await prisma.ePrescriptionPrefills.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EPrescriptionPrefillsUpdateManyAndReturnArgs>(args: SelectSubset<T, EPrescriptionPrefillsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EPrescriptionPrefills.
+     * @param {EPrescriptionPrefillsUpsertArgs} args - Arguments to update or create a EPrescriptionPrefills.
+     * @example
+     * // Update or create a EPrescriptionPrefills
+     * const ePrescriptionPrefills = await prisma.ePrescriptionPrefills.upsert({
+     *   create: {
+     *     // ... data to create a EPrescriptionPrefills
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EPrescriptionPrefills we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EPrescriptionPrefillsUpsertArgs>(args: SelectSubset<T, EPrescriptionPrefillsUpsertArgs<ExtArgs>>): Prisma__EPrescriptionPrefillsClient<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EPrescriptionPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EPrescriptionPrefillsCountArgs} args - Arguments to filter EPrescriptionPrefills to count.
+     * @example
+     * // Count the number of EPrescriptionPrefills
+     * const count = await prisma.ePrescriptionPrefills.count({
+     *   where: {
+     *     // ... the filter for the EPrescriptionPrefills we want to count
+     *   }
+     * })
+    **/
+    count<T extends EPrescriptionPrefillsCountArgs>(
+      args?: Subset<T, EPrescriptionPrefillsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EPrescriptionPrefillsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EPrescriptionPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EPrescriptionPrefillsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EPrescriptionPrefillsAggregateArgs>(args: Subset<T, EPrescriptionPrefillsAggregateArgs>): Prisma.PrismaPromise<GetEPrescriptionPrefillsAggregateType<T>>
+
+    /**
+     * Group by EPrescriptionPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EPrescriptionPrefillsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EPrescriptionPrefillsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EPrescriptionPrefillsGroupByArgs['orderBy'] }
+        : { orderBy?: EPrescriptionPrefillsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EPrescriptionPrefillsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEPrescriptionPrefillsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EPrescriptionPrefills model
+   */
+  readonly fields: EPrescriptionPrefillsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EPrescriptionPrefills.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EPrescriptionPrefillsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Clinic<T extends ClinicDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClinicDefaultArgs<ExtArgs>>): Prisma__ClinicClient<$Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EPrescriptionPrefills model
+   */
+  interface EPrescriptionPrefillsFieldRefs {
+    readonly id: FieldRef<"EPrescriptionPrefills", 'Int'>
+    readonly value: FieldRef<"EPrescriptionPrefills", 'String'>
+    readonly field: FieldRef<"EPrescriptionPrefills", 'EPrescriptionPrefillField'>
+    readonly clinicId: FieldRef<"EPrescriptionPrefills", 'Int'>
+    readonly createdAt: FieldRef<"EPrescriptionPrefills", 'DateTime'>
+    readonly updatedAt: FieldRef<"EPrescriptionPrefills", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EPrescriptionPrefills findUnique
+   */
+  export type EPrescriptionPrefillsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which EPrescriptionPrefills to fetch.
+     */
+    where: EPrescriptionPrefillsWhereUniqueInput
+  }
+
+  /**
+   * EPrescriptionPrefills findUniqueOrThrow
+   */
+  export type EPrescriptionPrefillsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which EPrescriptionPrefills to fetch.
+     */
+    where: EPrescriptionPrefillsWhereUniqueInput
+  }
+
+  /**
+   * EPrescriptionPrefills findFirst
+   */
+  export type EPrescriptionPrefillsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which EPrescriptionPrefills to fetch.
+     */
+    where?: EPrescriptionPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EPrescriptionPrefills to fetch.
+     */
+    orderBy?: EPrescriptionPrefillsOrderByWithRelationInput | EPrescriptionPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EPrescriptionPrefills.
+     */
+    cursor?: EPrescriptionPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EPrescriptionPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EPrescriptionPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EPrescriptionPrefills.
+     */
+    distinct?: EPrescriptionPrefillsScalarFieldEnum | EPrescriptionPrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * EPrescriptionPrefills findFirstOrThrow
+   */
+  export type EPrescriptionPrefillsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which EPrescriptionPrefills to fetch.
+     */
+    where?: EPrescriptionPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EPrescriptionPrefills to fetch.
+     */
+    orderBy?: EPrescriptionPrefillsOrderByWithRelationInput | EPrescriptionPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EPrescriptionPrefills.
+     */
+    cursor?: EPrescriptionPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EPrescriptionPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EPrescriptionPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EPrescriptionPrefills.
+     */
+    distinct?: EPrescriptionPrefillsScalarFieldEnum | EPrescriptionPrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * EPrescriptionPrefills findMany
+   */
+  export type EPrescriptionPrefillsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which EPrescriptionPrefills to fetch.
+     */
+    where?: EPrescriptionPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EPrescriptionPrefills to fetch.
+     */
+    orderBy?: EPrescriptionPrefillsOrderByWithRelationInput | EPrescriptionPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EPrescriptionPrefills.
+     */
+    cursor?: EPrescriptionPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EPrescriptionPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EPrescriptionPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EPrescriptionPrefills.
+     */
+    distinct?: EPrescriptionPrefillsScalarFieldEnum | EPrescriptionPrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * EPrescriptionPrefills create
+   */
+  export type EPrescriptionPrefillsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EPrescriptionPrefills.
+     */
+    data: XOR<EPrescriptionPrefillsCreateInput, EPrescriptionPrefillsUncheckedCreateInput>
+  }
+
+  /**
+   * EPrescriptionPrefills createMany
+   */
+  export type EPrescriptionPrefillsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EPrescriptionPrefills.
+     */
+    data: EPrescriptionPrefillsCreateManyInput | EPrescriptionPrefillsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EPrescriptionPrefills createManyAndReturn
+   */
+  export type EPrescriptionPrefillsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * The data used to create many EPrescriptionPrefills.
+     */
+    data: EPrescriptionPrefillsCreateManyInput | EPrescriptionPrefillsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EPrescriptionPrefills update
+   */
+  export type EPrescriptionPrefillsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EPrescriptionPrefills.
+     */
+    data: XOR<EPrescriptionPrefillsUpdateInput, EPrescriptionPrefillsUncheckedUpdateInput>
+    /**
+     * Choose, which EPrescriptionPrefills to update.
+     */
+    where: EPrescriptionPrefillsWhereUniqueInput
+  }
+
+  /**
+   * EPrescriptionPrefills updateMany
+   */
+  export type EPrescriptionPrefillsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EPrescriptionPrefills.
+     */
+    data: XOR<EPrescriptionPrefillsUpdateManyMutationInput, EPrescriptionPrefillsUncheckedUpdateManyInput>
+    /**
+     * Filter which EPrescriptionPrefills to update
+     */
+    where?: EPrescriptionPrefillsWhereInput
+    /**
+     * Limit how many EPrescriptionPrefills to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EPrescriptionPrefills updateManyAndReturn
+   */
+  export type EPrescriptionPrefillsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * The data used to update EPrescriptionPrefills.
+     */
+    data: XOR<EPrescriptionPrefillsUpdateManyMutationInput, EPrescriptionPrefillsUncheckedUpdateManyInput>
+    /**
+     * Filter which EPrescriptionPrefills to update
+     */
+    where?: EPrescriptionPrefillsWhereInput
+    /**
+     * Limit how many EPrescriptionPrefills to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EPrescriptionPrefills upsert
+   */
+  export type EPrescriptionPrefillsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EPrescriptionPrefills to update in case it exists.
+     */
+    where: EPrescriptionPrefillsWhereUniqueInput
+    /**
+     * In case the EPrescriptionPrefills found by the `where` argument doesn't exist, create a new EPrescriptionPrefills with this data.
+     */
+    create: XOR<EPrescriptionPrefillsCreateInput, EPrescriptionPrefillsUncheckedCreateInput>
+    /**
+     * In case the EPrescriptionPrefills was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EPrescriptionPrefillsUpdateInput, EPrescriptionPrefillsUncheckedUpdateInput>
+  }
+
+  /**
+   * EPrescriptionPrefills delete
+   */
+  export type EPrescriptionPrefillsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter which EPrescriptionPrefills to delete.
+     */
+    where: EPrescriptionPrefillsWhereUniqueInput
+  }
+
+  /**
+   * EPrescriptionPrefills deleteMany
+   */
+  export type EPrescriptionPrefillsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EPrescriptionPrefills to delete
+     */
+    where?: EPrescriptionPrefillsWhereInput
+    /**
+     * Limit how many EPrescriptionPrefills to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EPrescriptionPrefills without action
+   */
+  export type EPrescriptionPrefillsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EPrescriptionPrefills
+     */
+    select?: EPrescriptionPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EPrescriptionPrefills
+     */
+    omit?: EPrescriptionPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EPrescriptionPrefillsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Doctor
    */
 
@@ -23389,6 +24762,8 @@ export namespace Prisma {
     logo: 'logo',
     brandColor: 'brandColor',
     ConsentTermsAndConditions: 'ConsentTermsAndConditions',
+    messagesLeft: 'messagesLeft',
+    feedbackLink: 'feedbackLink',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -23444,6 +24819,8 @@ export namespace Prisma {
     age: 'age',
     bloodGroup: 'bloodGroup',
     treatmentsLeft: 'treatmentsLeft',
+    feedbackWhatsAppSentCount: 'feedbackWhatsAppSentCount',
+    isDeleted: 'isDeleted',
     clinicId: 'clinicId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -23464,6 +24841,8 @@ export namespace Prisma {
     patientId: 'patientId',
     doctorId: 'doctorId',
     clinicId: 'clinicId',
+    bookingWhatsAppSentAt: 'bookingWhatsAppSentAt',
+    followUpWhatsAppSentAt: 'followUpWhatsAppSentAt',
     createdAt: 'createdAt',
     createdById: 'createdById',
     updatedAt: 'updatedAt'
@@ -23552,6 +24931,18 @@ export namespace Prisma {
   };
 
   export type EPrescriptionScalarFieldEnum = (typeof EPrescriptionScalarFieldEnum)[keyof typeof EPrescriptionScalarFieldEnum]
+
+
+  export const EPrescriptionPrefillsScalarFieldEnum: {
+    id: 'id',
+    value: 'value',
+    field: 'field',
+    clinicId: 'clinicId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EPrescriptionPrefillsScalarFieldEnum = (typeof EPrescriptionPrefillsScalarFieldEnum)[keyof typeof EPrescriptionPrefillsScalarFieldEnum]
 
 
   export const DoctorScalarFieldEnum: {
@@ -23824,6 +25215,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'EPrescriptionPrefillField'
+   */
+  export type EnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EPrescriptionPrefillField'>
+    
+
+
+  /**
+   * Reference to a field of type 'EPrescriptionPrefillField[]'
+   */
+  export type ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EPrescriptionPrefillField[]'>
+    
+
+
+  /**
    * Reference to a field of type 'SubscriptionStatus'
    */
   export type EnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus'>
@@ -23868,6 +25273,8 @@ export namespace Prisma {
     logo?: StringNullableFilter<"Clinic"> | string | null
     brandColor?: StringNullableFilter<"Clinic"> | string | null
     ConsentTermsAndConditions?: StringNullableFilter<"Clinic"> | string | null
+    messagesLeft?: IntFilter<"Clinic"> | number
+    feedbackLink?: StringNullableFilter<"Clinic"> | string | null
     createdAt?: DateTimeFilter<"Clinic"> | Date | string
     updatedAt?: DateTimeFilter<"Clinic"> | Date | string
     Subscription?: SubscriptionListRelationFilter
@@ -23877,6 +25284,7 @@ export namespace Prisma {
     Doctor?: DoctorListRelationFilter
     Receptionist?: ReceptionistListRelationFilter
     InvoicePrefills?: InvoicePrefillsListRelationFilter
+    EPrescriptionPrefills?: EPrescriptionPrefillsListRelationFilter
     Consent?: ConsentListRelationFilter
   }
 
@@ -23891,6 +25299,8 @@ export namespace Prisma {
     logo?: SortOrderInput | SortOrder
     brandColor?: SortOrderInput | SortOrder
     ConsentTermsAndConditions?: SortOrderInput | SortOrder
+    messagesLeft?: SortOrder
+    feedbackLink?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     Subscription?: SubscriptionOrderByRelationAggregateInput
@@ -23900,6 +25310,7 @@ export namespace Prisma {
     Doctor?: DoctorOrderByRelationAggregateInput
     Receptionist?: ReceptionistOrderByRelationAggregateInput
     InvoicePrefills?: InvoicePrefillsOrderByRelationAggregateInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsOrderByRelationAggregateInput
     Consent?: ConsentOrderByRelationAggregateInput
   }
 
@@ -23917,6 +25328,8 @@ export namespace Prisma {
     logo?: StringNullableFilter<"Clinic"> | string | null
     brandColor?: StringNullableFilter<"Clinic"> | string | null
     ConsentTermsAndConditions?: StringNullableFilter<"Clinic"> | string | null
+    messagesLeft?: IntFilter<"Clinic"> | number
+    feedbackLink?: StringNullableFilter<"Clinic"> | string | null
     createdAt?: DateTimeFilter<"Clinic"> | Date | string
     updatedAt?: DateTimeFilter<"Clinic"> | Date | string
     Subscription?: SubscriptionListRelationFilter
@@ -23926,6 +25339,7 @@ export namespace Prisma {
     Doctor?: DoctorListRelationFilter
     Receptionist?: ReceptionistListRelationFilter
     InvoicePrefills?: InvoicePrefillsListRelationFilter
+    EPrescriptionPrefills?: EPrescriptionPrefillsListRelationFilter
     Consent?: ConsentListRelationFilter
   }, "id" | "email">
 
@@ -23940,6 +25354,8 @@ export namespace Prisma {
     logo?: SortOrderInput | SortOrder
     brandColor?: SortOrderInput | SortOrder
     ConsentTermsAndConditions?: SortOrderInput | SortOrder
+    messagesLeft?: SortOrder
+    feedbackLink?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClinicCountOrderByAggregateInput
@@ -23963,6 +25379,8 @@ export namespace Prisma {
     logo?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
     brandColor?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
     ConsentTermsAndConditions?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
+    messagesLeft?: IntWithAggregatesFilter<"Clinic"> | number
+    feedbackLink?: StringNullableWithAggregatesFilter<"Clinic"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Clinic"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Clinic"> | Date | string
   }
@@ -24188,6 +25606,8 @@ export namespace Prisma {
     age?: IntNullableFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableFilter<"Patient"> | $Enums.BloodGroup | null
     treatmentsLeft?: IntNullableFilter<"Patient"> | number | null
+    feedbackWhatsAppSentCount?: IntFilter<"Patient"> | number
+    isDeleted?: BoolFilter<"Patient"> | boolean
     clinicId?: IntFilter<"Patient"> | number
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
@@ -24208,6 +25628,8 @@ export namespace Prisma {
     age?: SortOrderInput | SortOrder
     bloodGroup?: SortOrderInput | SortOrder
     treatmentsLeft?: SortOrderInput | SortOrder
+    feedbackWhatsAppSentCount?: SortOrder
+    isDeleted?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24231,6 +25653,8 @@ export namespace Prisma {
     age?: IntNullableFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableFilter<"Patient"> | $Enums.BloodGroup | null
     treatmentsLeft?: IntNullableFilter<"Patient"> | number | null
+    feedbackWhatsAppSentCount?: IntFilter<"Patient"> | number
+    isDeleted?: BoolFilter<"Patient"> | boolean
     clinicId?: IntFilter<"Patient"> | number
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
@@ -24251,6 +25675,8 @@ export namespace Prisma {
     age?: SortOrderInput | SortOrder
     bloodGroup?: SortOrderInput | SortOrder
     treatmentsLeft?: SortOrderInput | SortOrder
+    feedbackWhatsAppSentCount?: SortOrder
+    isDeleted?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24275,6 +25701,8 @@ export namespace Prisma {
     age?: IntNullableWithAggregatesFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableWithAggregatesFilter<"Patient"> | $Enums.BloodGroup | null
     treatmentsLeft?: IntNullableWithAggregatesFilter<"Patient"> | number | null
+    feedbackWhatsAppSentCount?: IntWithAggregatesFilter<"Patient"> | number
+    isDeleted?: BoolWithAggregatesFilter<"Patient"> | boolean
     clinicId?: IntWithAggregatesFilter<"Patient"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Patient"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Patient"> | Date | string
@@ -24295,6 +25723,8 @@ export namespace Prisma {
     patientId?: IntFilter<"Appointment"> | number
     doctorId?: IntNullableFilter<"Appointment"> | number | null
     clinicId?: IntFilter<"Appointment"> | number
+    bookingWhatsAppSentAt?: DateTimeNullableFilter<"Appointment"> | Date | string | null
+    followUpWhatsAppSentAt?: DateTimeNullableFilter<"Appointment"> | Date | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     createdById?: IntFilter<"Appointment"> | number
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
@@ -24319,6 +25749,8 @@ export namespace Prisma {
     patientId?: SortOrder
     doctorId?: SortOrderInput | SortOrder
     clinicId?: SortOrder
+    bookingWhatsAppSentAt?: SortOrderInput | SortOrder
+    followUpWhatsAppSentAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     createdById?: SortOrder
     updatedAt?: SortOrder
@@ -24346,6 +25778,8 @@ export namespace Prisma {
     patientId?: IntFilter<"Appointment"> | number
     doctorId?: IntNullableFilter<"Appointment"> | number | null
     clinicId?: IntFilter<"Appointment"> | number
+    bookingWhatsAppSentAt?: DateTimeNullableFilter<"Appointment"> | Date | string | null
+    followUpWhatsAppSentAt?: DateTimeNullableFilter<"Appointment"> | Date | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     createdById?: IntFilter<"Appointment"> | number
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
@@ -24370,6 +25804,8 @@ export namespace Prisma {
     patientId?: SortOrder
     doctorId?: SortOrderInput | SortOrder
     clinicId?: SortOrder
+    bookingWhatsAppSentAt?: SortOrderInput | SortOrder
+    followUpWhatsAppSentAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     createdById?: SortOrder
     updatedAt?: SortOrder
@@ -24395,6 +25831,8 @@ export namespace Prisma {
     patientId?: IntWithAggregatesFilter<"Appointment"> | number
     doctorId?: IntNullableWithAggregatesFilter<"Appointment"> | number | null
     clinicId?: IntWithAggregatesFilter<"Appointment"> | number
+    bookingWhatsAppSentAt?: DateTimeNullableWithAggregatesFilter<"Appointment"> | Date | string | null
+    followUpWhatsAppSentAt?: DateTimeNullableWithAggregatesFilter<"Appointment"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
     createdById?: IntWithAggregatesFilter<"Appointment"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"Appointment"> | Date | string
@@ -24832,6 +26270,69 @@ export namespace Prisma {
     appointmentId?: IntWithAggregatesFilter<"EPrescription"> | number
     createdAt?: DateTimeWithAggregatesFilter<"EPrescription"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"EPrescription"> | Date | string
+  }
+
+  export type EPrescriptionPrefillsWhereInput = {
+    AND?: EPrescriptionPrefillsWhereInput | EPrescriptionPrefillsWhereInput[]
+    OR?: EPrescriptionPrefillsWhereInput[]
+    NOT?: EPrescriptionPrefillsWhereInput | EPrescriptionPrefillsWhereInput[]
+    id?: IntFilter<"EPrescriptionPrefills"> | number
+    value?: StringFilter<"EPrescriptionPrefills"> | string
+    field?: EnumEPrescriptionPrefillFieldFilter<"EPrescriptionPrefills"> | $Enums.EPrescriptionPrefillField
+    clinicId?: IntFilter<"EPrescriptionPrefills"> | number
+    createdAt?: DateTimeFilter<"EPrescriptionPrefills"> | Date | string
+    updatedAt?: DateTimeFilter<"EPrescriptionPrefills"> | Date | string
+    Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
+  }
+
+  export type EPrescriptionPrefillsOrderByWithRelationInput = {
+    id?: SortOrder
+    value?: SortOrder
+    field?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    Clinic?: ClinicOrderByWithRelationInput
+  }
+
+  export type EPrescriptionPrefillsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    clinicId_field_value?: EPrescriptionPrefillsClinicIdFieldValueCompoundUniqueInput
+    AND?: EPrescriptionPrefillsWhereInput | EPrescriptionPrefillsWhereInput[]
+    OR?: EPrescriptionPrefillsWhereInput[]
+    NOT?: EPrescriptionPrefillsWhereInput | EPrescriptionPrefillsWhereInput[]
+    value?: StringFilter<"EPrescriptionPrefills"> | string
+    field?: EnumEPrescriptionPrefillFieldFilter<"EPrescriptionPrefills"> | $Enums.EPrescriptionPrefillField
+    clinicId?: IntFilter<"EPrescriptionPrefills"> | number
+    createdAt?: DateTimeFilter<"EPrescriptionPrefills"> | Date | string
+    updatedAt?: DateTimeFilter<"EPrescriptionPrefills"> | Date | string
+    Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
+  }, "id" | "clinicId_field_value">
+
+  export type EPrescriptionPrefillsOrderByWithAggregationInput = {
+    id?: SortOrder
+    value?: SortOrder
+    field?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EPrescriptionPrefillsCountOrderByAggregateInput
+    _avg?: EPrescriptionPrefillsAvgOrderByAggregateInput
+    _max?: EPrescriptionPrefillsMaxOrderByAggregateInput
+    _min?: EPrescriptionPrefillsMinOrderByAggregateInput
+    _sum?: EPrescriptionPrefillsSumOrderByAggregateInput
+  }
+
+  export type EPrescriptionPrefillsScalarWhereWithAggregatesInput = {
+    AND?: EPrescriptionPrefillsScalarWhereWithAggregatesInput | EPrescriptionPrefillsScalarWhereWithAggregatesInput[]
+    OR?: EPrescriptionPrefillsScalarWhereWithAggregatesInput[]
+    NOT?: EPrescriptionPrefillsScalarWhereWithAggregatesInput | EPrescriptionPrefillsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"EPrescriptionPrefills"> | number
+    value?: StringWithAggregatesFilter<"EPrescriptionPrefills"> | string
+    field?: EnumEPrescriptionPrefillFieldWithAggregatesFilter<"EPrescriptionPrefills"> | $Enums.EPrescriptionPrefillField
+    clinicId?: IntWithAggregatesFilter<"EPrescriptionPrefills"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"EPrescriptionPrefills"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EPrescriptionPrefills"> | Date | string
   }
 
   export type DoctorWhereInput = {
@@ -25337,6 +26838,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -25346,6 +26849,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -25360,6 +26864,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -25369,6 +26875,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -25382,6 +26889,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -25391,6 +26900,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -25405,6 +26915,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -25414,6 +26926,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -25428,6 +26941,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25442,6 +26957,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25457,6 +26974,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25699,6 +27218,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -25718,6 +27239,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25736,6 +27259,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -25755,6 +27280,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25774,6 +27301,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25789,6 +27318,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25804,6 +27335,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25817,6 +27350,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Patient: PatientCreateNestedOneWithoutAppointmentInput
@@ -25840,6 +27375,8 @@ export namespace Prisma {
     patientId: number
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -25856,6 +27393,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Patient?: PatientUpdateOneRequiredWithoutAppointmentNestedInput
@@ -25879,6 +27418,8 @@ export namespace Prisma {
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25899,6 +27440,8 @@ export namespace Prisma {
     patientId: number
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -25912,6 +27455,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25928,6 +27473,8 @@ export namespace Prisma {
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26354,6 +27901,65 @@ export namespace Prisma {
     prescriptions?: StringFieldUpdateOperationsInput | string
     advice?: StringFieldUpdateOperationsInput | string
     appointmentId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EPrescriptionPrefillsCreateInput = {
+    value: string
+    field: $Enums.EPrescriptionPrefillField
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Clinic: ClinicCreateNestedOneWithoutEPrescriptionPrefillsInput
+  }
+
+  export type EPrescriptionPrefillsUncheckedCreateInput = {
+    id?: number
+    value: string
+    field: $Enums.EPrescriptionPrefillField
+    clinicId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EPrescriptionPrefillsUpdateInput = {
+    value?: StringFieldUpdateOperationsInput | string
+    field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Clinic?: ClinicUpdateOneRequiredWithoutEPrescriptionPrefillsNestedInput
+  }
+
+  export type EPrescriptionPrefillsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+    field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    clinicId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EPrescriptionPrefillsCreateManyInput = {
+    id?: number
+    value: string
+    field: $Enums.EPrescriptionPrefillField
+    clinicId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EPrescriptionPrefillsUpdateManyMutationInput = {
+    value?: StringFieldUpdateOperationsInput | string
+    field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EPrescriptionPrefillsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+    field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26972,6 +28578,12 @@ export namespace Prisma {
     none?: InvoicePrefillsWhereInput
   }
 
+  export type EPrescriptionPrefillsListRelationFilter = {
+    every?: EPrescriptionPrefillsWhereInput
+    some?: EPrescriptionPrefillsWhereInput
+    none?: EPrescriptionPrefillsWhereInput
+  }
+
   export type ConsentListRelationFilter = {
     every?: ConsentWhereInput
     some?: ConsentWhereInput
@@ -27011,6 +28623,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type EPrescriptionPrefillsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ConsentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -27026,12 +28642,15 @@ export namespace Prisma {
     logo?: SortOrder
     brandColor?: SortOrder
     ConsentTermsAndConditions?: SortOrder
+    messagesLeft?: SortOrder
+    feedbackLink?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ClinicAvgOrderByAggregateInput = {
     id?: SortOrder
+    messagesLeft?: SortOrder
   }
 
   export type ClinicMaxOrderByAggregateInput = {
@@ -27045,6 +28664,8 @@ export namespace Prisma {
     logo?: SortOrder
     brandColor?: SortOrder
     ConsentTermsAndConditions?: SortOrder
+    messagesLeft?: SortOrder
+    feedbackLink?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27060,12 +28681,15 @@ export namespace Prisma {
     logo?: SortOrder
     brandColor?: SortOrder
     ConsentTermsAndConditions?: SortOrder
+    messagesLeft?: SortOrder
+    feedbackLink?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ClinicSumOrderByAggregateInput = {
     id?: SortOrder
+    messagesLeft?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -27415,6 +29039,8 @@ export namespace Prisma {
     age?: SortOrder
     bloodGroup?: SortOrder
     treatmentsLeft?: SortOrder
+    feedbackWhatsAppSentCount?: SortOrder
+    isDeleted?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27424,6 +29050,7 @@ export namespace Prisma {
     id?: SortOrder
     age?: SortOrder
     treatmentsLeft?: SortOrder
+    feedbackWhatsAppSentCount?: SortOrder
     clinicId?: SortOrder
   }
 
@@ -27438,6 +29065,8 @@ export namespace Prisma {
     age?: SortOrder
     bloodGroup?: SortOrder
     treatmentsLeft?: SortOrder
+    feedbackWhatsAppSentCount?: SortOrder
+    isDeleted?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27454,6 +29083,8 @@ export namespace Prisma {
     age?: SortOrder
     bloodGroup?: SortOrder
     treatmentsLeft?: SortOrder
+    feedbackWhatsAppSentCount?: SortOrder
+    isDeleted?: SortOrder
     clinicId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27463,6 +29094,7 @@ export namespace Prisma {
     id?: SortOrder
     age?: SortOrder
     treatmentsLeft?: SortOrder
+    feedbackWhatsAppSentCount?: SortOrder
     clinicId?: SortOrder
   }
 
@@ -27530,6 +29162,8 @@ export namespace Prisma {
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
+    bookingWhatsAppSentAt?: SortOrder
+    followUpWhatsAppSentAt?: SortOrder
     createdAt?: SortOrder
     createdById?: SortOrder
     updatedAt?: SortOrder
@@ -27556,6 +29190,8 @@ export namespace Prisma {
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
+    bookingWhatsAppSentAt?: SortOrder
+    followUpWhatsAppSentAt?: SortOrder
     createdAt?: SortOrder
     createdById?: SortOrder
     updatedAt?: SortOrder
@@ -27573,6 +29209,8 @@ export namespace Prisma {
     patientId?: SortOrder
     doctorId?: SortOrder
     clinicId?: SortOrder
+    bookingWhatsAppSentAt?: SortOrder
+    followUpWhatsAppSentAt?: SortOrder
     createdAt?: SortOrder
     createdById?: SortOrder
     updatedAt?: SortOrder
@@ -27958,6 +29596,66 @@ export namespace Prisma {
   export type EPrescriptionSumOrderByAggregateInput = {
     id?: SortOrder
     appointmentId?: SortOrder
+  }
+
+  export type EnumEPrescriptionPrefillFieldFilter<$PrismaModel = never> = {
+    equals?: $Enums.EPrescriptionPrefillField | EnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    in?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    not?: NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel> | $Enums.EPrescriptionPrefillField
+  }
+
+  export type EPrescriptionPrefillsClinicIdFieldValueCompoundUniqueInput = {
+    clinicId: number
+    field: $Enums.EPrescriptionPrefillField
+    value: string
+  }
+
+  export type EPrescriptionPrefillsCountOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    field?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EPrescriptionPrefillsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    clinicId?: SortOrder
+  }
+
+  export type EPrescriptionPrefillsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    field?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EPrescriptionPrefillsMinOrderByAggregateInput = {
+    id?: SortOrder
+    value?: SortOrder
+    field?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EPrescriptionPrefillsSumOrderByAggregateInput = {
+    id?: SortOrder
+    clinicId?: SortOrder
+  }
+
+  export type EnumEPrescriptionPrefillFieldWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EPrescriptionPrefillField | EnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    in?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    not?: NestedEnumEPrescriptionPrefillFieldWithAggregatesFilter<$PrismaModel> | $Enums.EPrescriptionPrefillField
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel>
+    _max?: NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel>
   }
 
   export type UserNullableScalarRelationFilter = {
@@ -28379,6 +30077,13 @@ export namespace Prisma {
     connect?: InvoicePrefillsWhereUniqueInput | InvoicePrefillsWhereUniqueInput[]
   }
 
+  export type EPrescriptionPrefillsCreateNestedManyWithoutClinicInput = {
+    create?: XOR<EPrescriptionPrefillsCreateWithoutClinicInput, EPrescriptionPrefillsUncheckedCreateWithoutClinicInput> | EPrescriptionPrefillsCreateWithoutClinicInput[] | EPrescriptionPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: EPrescriptionPrefillsCreateOrConnectWithoutClinicInput | EPrescriptionPrefillsCreateOrConnectWithoutClinicInput[]
+    createMany?: EPrescriptionPrefillsCreateManyClinicInputEnvelope
+    connect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+  }
+
   export type ConsentCreateNestedManyWithoutClinicInput = {
     create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
     connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
@@ -28435,6 +30140,13 @@ export namespace Prisma {
     connect?: InvoicePrefillsWhereUniqueInput | InvoicePrefillsWhereUniqueInput[]
   }
 
+  export type EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput = {
+    create?: XOR<EPrescriptionPrefillsCreateWithoutClinicInput, EPrescriptionPrefillsUncheckedCreateWithoutClinicInput> | EPrescriptionPrefillsCreateWithoutClinicInput[] | EPrescriptionPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: EPrescriptionPrefillsCreateOrConnectWithoutClinicInput | EPrescriptionPrefillsCreateOrConnectWithoutClinicInput[]
+    createMany?: EPrescriptionPrefillsCreateManyClinicInputEnvelope
+    connect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+  }
+
   export type ConsentUncheckedCreateNestedManyWithoutClinicInput = {
     create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
     connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
@@ -28452,6 +30164,14 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type SubscriptionUpdateManyWithoutClinicNestedInput = {
@@ -28552,6 +30272,20 @@ export namespace Prisma {
     deleteMany?: InvoicePrefillsScalarWhereInput | InvoicePrefillsScalarWhereInput[]
   }
 
+  export type EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput = {
+    create?: XOR<EPrescriptionPrefillsCreateWithoutClinicInput, EPrescriptionPrefillsUncheckedCreateWithoutClinicInput> | EPrescriptionPrefillsCreateWithoutClinicInput[] | EPrescriptionPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: EPrescriptionPrefillsCreateOrConnectWithoutClinicInput | EPrescriptionPrefillsCreateOrConnectWithoutClinicInput[]
+    upsert?: EPrescriptionPrefillsUpsertWithWhereUniqueWithoutClinicInput | EPrescriptionPrefillsUpsertWithWhereUniqueWithoutClinicInput[]
+    createMany?: EPrescriptionPrefillsCreateManyClinicInputEnvelope
+    set?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    disconnect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    delete?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    connect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    update?: EPrescriptionPrefillsUpdateWithWhereUniqueWithoutClinicInput | EPrescriptionPrefillsUpdateWithWhereUniqueWithoutClinicInput[]
+    updateMany?: EPrescriptionPrefillsUpdateManyWithWhereWithoutClinicInput | EPrescriptionPrefillsUpdateManyWithWhereWithoutClinicInput[]
+    deleteMany?: EPrescriptionPrefillsScalarWhereInput | EPrescriptionPrefillsScalarWhereInput[]
+  }
+
   export type ConsentUpdateManyWithoutClinicNestedInput = {
     create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
     connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
@@ -28564,14 +30298,6 @@ export namespace Prisma {
     update?: ConsentUpdateWithWhereUniqueWithoutClinicInput | ConsentUpdateWithWhereUniqueWithoutClinicInput[]
     updateMany?: ConsentUpdateManyWithWhereWithoutClinicInput | ConsentUpdateManyWithWhereWithoutClinicInput[]
     deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type SubscriptionUncheckedUpdateManyWithoutClinicNestedInput = {
@@ -28670,6 +30396,20 @@ export namespace Prisma {
     update?: InvoicePrefillsUpdateWithWhereUniqueWithoutClinicInput | InvoicePrefillsUpdateWithWhereUniqueWithoutClinicInput[]
     updateMany?: InvoicePrefillsUpdateManyWithWhereWithoutClinicInput | InvoicePrefillsUpdateManyWithWhereWithoutClinicInput[]
     deleteMany?: InvoicePrefillsScalarWhereInput | InvoicePrefillsScalarWhereInput[]
+  }
+
+  export type EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput = {
+    create?: XOR<EPrescriptionPrefillsCreateWithoutClinicInput, EPrescriptionPrefillsUncheckedCreateWithoutClinicInput> | EPrescriptionPrefillsCreateWithoutClinicInput[] | EPrescriptionPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: EPrescriptionPrefillsCreateOrConnectWithoutClinicInput | EPrescriptionPrefillsCreateOrConnectWithoutClinicInput[]
+    upsert?: EPrescriptionPrefillsUpsertWithWhereUniqueWithoutClinicInput | EPrescriptionPrefillsUpsertWithWhereUniqueWithoutClinicInput[]
+    createMany?: EPrescriptionPrefillsCreateManyClinicInputEnvelope
+    set?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    disconnect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    delete?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    connect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+    update?: EPrescriptionPrefillsUpdateWithWhereUniqueWithoutClinicInput | EPrescriptionPrefillsUpdateWithWhereUniqueWithoutClinicInput[]
+    updateMany?: EPrescriptionPrefillsUpdateManyWithWhereWithoutClinicInput | EPrescriptionPrefillsUpdateManyWithWhereWithoutClinicInput[]
+    deleteMany?: EPrescriptionPrefillsScalarWhereInput | EPrescriptionPrefillsScalarWhereInput[]
   }
 
   export type ConsentUncheckedUpdateManyWithoutClinicNestedInput = {
@@ -29446,6 +31186,24 @@ export namespace Prisma {
     update?: XOR<XOR<AppointmentUpdateToOneWithWhereWithoutEPrescriptionInput, AppointmentUpdateWithoutEPrescriptionInput>, AppointmentUncheckedUpdateWithoutEPrescriptionInput>
   }
 
+  export type ClinicCreateNestedOneWithoutEPrescriptionPrefillsInput = {
+    create?: XOR<ClinicCreateWithoutEPrescriptionPrefillsInput, ClinicUncheckedCreateWithoutEPrescriptionPrefillsInput>
+    connectOrCreate?: ClinicCreateOrConnectWithoutEPrescriptionPrefillsInput
+    connect?: ClinicWhereUniqueInput
+  }
+
+  export type EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput = {
+    set?: $Enums.EPrescriptionPrefillField
+  }
+
+  export type ClinicUpdateOneRequiredWithoutEPrescriptionPrefillsNestedInput = {
+    create?: XOR<ClinicCreateWithoutEPrescriptionPrefillsInput, ClinicUncheckedCreateWithoutEPrescriptionPrefillsInput>
+    connectOrCreate?: ClinicCreateOrConnectWithoutEPrescriptionPrefillsInput
+    upsert?: ClinicUpsertWithoutEPrescriptionPrefillsInput
+    connect?: ClinicWhereUniqueInput
+    update?: XOR<XOR<ClinicUpdateToOneWithWhereWithoutEPrescriptionPrefillsInput, ClinicUpdateWithoutEPrescriptionPrefillsInput>, ClinicUncheckedUpdateWithoutEPrescriptionPrefillsInput>
+  }
+
   export type AppointmentCreateNestedManyWithoutDoctorInput = {
     create?: XOR<AppointmentCreateWithoutDoctorInput, AppointmentUncheckedCreateWithoutDoctorInput> | AppointmentCreateWithoutDoctorInput[] | AppointmentUncheckedCreateWithoutDoctorInput[]
     connectOrCreate?: AppointmentCreateOrConnectWithoutDoctorInput | AppointmentCreateOrConnectWithoutDoctorInput[]
@@ -30066,6 +31824,23 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel = never> = {
+    equals?: $Enums.EPrescriptionPrefillField | EnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    in?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    not?: NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel> | $Enums.EPrescriptionPrefillField
+  }
+
+  export type NestedEnumEPrescriptionPrefillFieldWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EPrescriptionPrefillField | EnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    in?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EPrescriptionPrefillField[] | ListEnumEPrescriptionPrefillFieldFieldRefInput<$PrismaModel>
+    not?: NestedEnumEPrescriptionPrefillFieldWithAggregatesFilter<$PrismaModel> | $Enums.EPrescriptionPrefillField
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel>
+    _max?: NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel>
+  }
+
   export type NestedEnumSubscriptionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
@@ -30200,6 +31975,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Appointment?: AppointmentCreateNestedManyWithoutPatientInput
@@ -30218,6 +31995,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
@@ -30243,6 +32022,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Patient: PatientCreateNestedOneWithoutAppointmentInput
@@ -30264,6 +32045,8 @@ export namespace Prisma {
     isWalkIn?: boolean
     patientId: number
     doctorId?: number | null
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -30376,6 +32159,31 @@ export namespace Prisma {
 
   export type InvoicePrefillsCreateManyClinicInputEnvelope = {
     data: InvoicePrefillsCreateManyClinicInput | InvoicePrefillsCreateManyClinicInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EPrescriptionPrefillsCreateWithoutClinicInput = {
+    value: string
+    field: $Enums.EPrescriptionPrefillField
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EPrescriptionPrefillsUncheckedCreateWithoutClinicInput = {
+    id?: number
+    value: string
+    field: $Enums.EPrescriptionPrefillField
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EPrescriptionPrefillsCreateOrConnectWithoutClinicInput = {
+    where: EPrescriptionPrefillsWhereUniqueInput
+    create: XOR<EPrescriptionPrefillsCreateWithoutClinicInput, EPrescriptionPrefillsUncheckedCreateWithoutClinicInput>
+  }
+
+  export type EPrescriptionPrefillsCreateManyClinicInputEnvelope = {
+    data: EPrescriptionPrefillsCreateManyClinicInput | EPrescriptionPrefillsCreateManyClinicInput[]
     skipDuplicates?: boolean
   }
 
@@ -30514,6 +32322,8 @@ export namespace Prisma {
     age?: IntNullableFilter<"Patient"> | number | null
     bloodGroup?: EnumBloodGroupNullableFilter<"Patient"> | $Enums.BloodGroup | null
     treatmentsLeft?: IntNullableFilter<"Patient"> | number | null
+    feedbackWhatsAppSentCount?: IntFilter<"Patient"> | number
+    isDeleted?: BoolFilter<"Patient"> | boolean
     clinicId?: IntFilter<"Patient"> | number
     createdAt?: DateTimeFilter<"Patient"> | Date | string
     updatedAt?: DateTimeFilter<"Patient"> | Date | string
@@ -30550,6 +32360,8 @@ export namespace Prisma {
     patientId?: IntFilter<"Appointment"> | number
     doctorId?: IntNullableFilter<"Appointment"> | number | null
     clinicId?: IntFilter<"Appointment"> | number
+    bookingWhatsAppSentAt?: DateTimeNullableFilter<"Appointment"> | Date | string | null
+    followUpWhatsAppSentAt?: DateTimeNullableFilter<"Appointment"> | Date | string | null
     createdAt?: DateTimeFilter<"Appointment"> | Date | string
     createdById?: IntFilter<"Appointment"> | number
     updatedAt?: DateTimeFilter<"Appointment"> | Date | string
@@ -30648,6 +32460,34 @@ export namespace Prisma {
     clinicId?: IntFilter<"InvoicePrefills"> | number
   }
 
+  export type EPrescriptionPrefillsUpsertWithWhereUniqueWithoutClinicInput = {
+    where: EPrescriptionPrefillsWhereUniqueInput
+    update: XOR<EPrescriptionPrefillsUpdateWithoutClinicInput, EPrescriptionPrefillsUncheckedUpdateWithoutClinicInput>
+    create: XOR<EPrescriptionPrefillsCreateWithoutClinicInput, EPrescriptionPrefillsUncheckedCreateWithoutClinicInput>
+  }
+
+  export type EPrescriptionPrefillsUpdateWithWhereUniqueWithoutClinicInput = {
+    where: EPrescriptionPrefillsWhereUniqueInput
+    data: XOR<EPrescriptionPrefillsUpdateWithoutClinicInput, EPrescriptionPrefillsUncheckedUpdateWithoutClinicInput>
+  }
+
+  export type EPrescriptionPrefillsUpdateManyWithWhereWithoutClinicInput = {
+    where: EPrescriptionPrefillsScalarWhereInput
+    data: XOR<EPrescriptionPrefillsUpdateManyMutationInput, EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicInput>
+  }
+
+  export type EPrescriptionPrefillsScalarWhereInput = {
+    AND?: EPrescriptionPrefillsScalarWhereInput | EPrescriptionPrefillsScalarWhereInput[]
+    OR?: EPrescriptionPrefillsScalarWhereInput[]
+    NOT?: EPrescriptionPrefillsScalarWhereInput | EPrescriptionPrefillsScalarWhereInput[]
+    id?: IntFilter<"EPrescriptionPrefills"> | number
+    value?: StringFilter<"EPrescriptionPrefills"> | string
+    field?: EnumEPrescriptionPrefillFieldFilter<"EPrescriptionPrefills"> | $Enums.EPrescriptionPrefillField
+    clinicId?: IntFilter<"EPrescriptionPrefills"> | number
+    createdAt?: DateTimeFilter<"EPrescriptionPrefills"> | Date | string
+    updatedAt?: DateTimeFilter<"EPrescriptionPrefills"> | Date | string
+  }
+
   export type ConsentUpsertWithWhereUniqueWithoutClinicInput = {
     where: ConsentWhereUniqueInput
     update: XOR<ConsentUpdateWithoutClinicInput, ConsentUncheckedUpdateWithoutClinicInput>
@@ -30691,6 +32531,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -30699,6 +32541,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -30713,6 +32556,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -30721,6 +32566,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -30803,6 +32649,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Patient: PatientCreateNestedOneWithoutAppointmentInput
@@ -30825,6 +32673,8 @@ export namespace Prisma {
     patientId: number
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Invoice?: InvoiceUncheckedCreateNestedOneWithoutAppointmentInput
@@ -30931,6 +32781,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -30939,6 +32791,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -30953,6 +32806,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -30961,6 +32816,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -31159,6 +33015,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -31167,6 +33025,7 @@ export namespace Prisma {
     Appointment?: AppointmentCreateNestedManyWithoutClinicInput
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -31181,6 +33040,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -31189,6 +33050,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -31268,6 +33130,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -31276,6 +33140,7 @@ export namespace Prisma {
     Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -31290,6 +33155,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -31298,6 +33165,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -31311,6 +33179,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -31319,6 +33189,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -31333,6 +33204,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -31341,6 +33214,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -31357,6 +33231,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Doctor?: DoctorCreateNestedOneWithoutAppointmentInput
@@ -31378,6 +33254,8 @@ export namespace Prisma {
     isWalkIn?: boolean
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -31470,6 +33348,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -31478,6 +33358,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -31492,6 +33373,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -31500,6 +33383,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -31569,6 +33453,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -31587,6 +33473,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31643,6 +33531,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -31651,6 +33541,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -31665,6 +33556,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -31673,6 +33566,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -31829,6 +33723,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -31847,6 +33743,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31915,6 +33813,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -31923,6 +33823,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -31937,6 +33838,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -31945,6 +33848,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -32103,6 +34007,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -32121,6 +34027,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32187,6 +34095,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -32196,6 +34106,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutConsentInput = {
@@ -32209,6 +34120,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -32218,6 +34131,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutConsentInput = {
@@ -32246,6 +34160,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -32264,6 +34180,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32342,6 +34260,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -32351,6 +34271,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutConsentInput = {
@@ -32364,6 +34285,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -32373,6 +34296,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type InvoiceCreateWithoutInvoiceItemsInput = {
@@ -32447,6 +34371,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -32455,6 +34381,7 @@ export namespace Prisma {
     Appointment?: AppointmentCreateNestedManyWithoutClinicInput
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -32469,6 +34396,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -32477,6 +34406,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -32506,6 +34436,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -32514,6 +34446,7 @@ export namespace Prisma {
     Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -32528,6 +34461,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -32536,6 +34471,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -32570,6 +34506,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Patient: PatientCreateNestedOneWithoutAppointmentInput
@@ -32592,6 +34530,8 @@ export namespace Prisma {
     patientId: number
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -32694,6 +34634,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Patient?: PatientUpdateOneRequiredWithoutAppointmentNestedInput
@@ -32716,6 +34658,8 @@ export namespace Prisma {
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32781,6 +34725,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Patient: PatientCreateNestedOneWithoutAppointmentInput
@@ -32803,6 +34749,8 @@ export namespace Prisma {
     patientId: number
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -32834,6 +34782,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Patient?: PatientUpdateOneRequiredWithoutAppointmentNestedInput
@@ -32856,6 +34806,8 @@ export namespace Prisma {
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32871,6 +34823,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Patient: PatientCreateNestedOneWithoutAppointmentInput
@@ -32893,6 +34847,8 @@ export namespace Prisma {
     patientId: number
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -32924,6 +34880,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Patient?: PatientUpdateOneRequiredWithoutAppointmentNestedInput
@@ -32946,11 +34904,127 @@ export namespace Prisma {
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Invoice?: InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
     AppointmentDocument?: AppointmentDocumentUncheckedUpdateManyWithoutAppointmentNestedInput
+  }
+
+  export type ClinicCreateWithoutEPrescriptionPrefillsInput = {
+    email: string
+    createdOn?: Date | string
+    name: string
+    address?: string | null
+    phone?: string | null
+    workHours?: string | null
+    logo?: string | null
+    brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
+    User?: UserCreateNestedManyWithoutClinicInput
+    Patient?: PatientCreateNestedManyWithoutClinicInput
+    Appointment?: AppointmentCreateNestedManyWithoutClinicInput
+    Doctor?: DoctorCreateNestedManyWithoutClinicInput
+    Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
+    InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
+  }
+
+  export type ClinicUncheckedCreateWithoutEPrescriptionPrefillsInput = {
+    id?: number
+    email: string
+    createdOn?: Date | string
+    name: string
+    address?: string | null
+    phone?: string | null
+    workHours?: string | null
+    logo?: string | null
+    brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
+    User?: UserUncheckedCreateNestedManyWithoutClinicInput
+    Patient?: PatientUncheckedCreateNestedManyWithoutClinicInput
+    Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
+    Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
+    Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
+    InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
+  }
+
+  export type ClinicCreateOrConnectWithoutEPrescriptionPrefillsInput = {
+    where: ClinicWhereUniqueInput
+    create: XOR<ClinicCreateWithoutEPrescriptionPrefillsInput, ClinicUncheckedCreateWithoutEPrescriptionPrefillsInput>
+  }
+
+  export type ClinicUpsertWithoutEPrescriptionPrefillsInput = {
+    update: XOR<ClinicUpdateWithoutEPrescriptionPrefillsInput, ClinicUncheckedUpdateWithoutEPrescriptionPrefillsInput>
+    create: XOR<ClinicCreateWithoutEPrescriptionPrefillsInput, ClinicUncheckedCreateWithoutEPrescriptionPrefillsInput>
+    where?: ClinicWhereInput
+  }
+
+  export type ClinicUpdateToOneWithWhereWithoutEPrescriptionPrefillsInput = {
+    where?: ClinicWhereInput
+    data: XOR<ClinicUpdateWithoutEPrescriptionPrefillsInput, ClinicUncheckedUpdateWithoutEPrescriptionPrefillsInput>
+  }
+
+  export type ClinicUpdateWithoutEPrescriptionPrefillsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    workHours?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
+    User?: UserUpdateManyWithoutClinicNestedInput
+    Patient?: PatientUpdateManyWithoutClinicNestedInput
+    Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
+    Doctor?: DoctorUpdateManyWithoutClinicNestedInput
+    Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
+    InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
+  }
+
+  export type ClinicUncheckedUpdateWithoutEPrescriptionPrefillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    workHours?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
+    User?: UserUncheckedUpdateManyWithoutClinicNestedInput
+    Patient?: PatientUncheckedUpdateManyWithoutClinicNestedInput
+    Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
+    Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
+    Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
+    InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type AppointmentCreateWithoutDoctorInput = {
@@ -32961,6 +35035,8 @@ export namespace Prisma {
     status?: $Enums.AppointmentStatus
     notes?: string | null
     isWalkIn?: boolean
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Patient: PatientCreateNestedOneWithoutAppointmentInput
@@ -32982,6 +35058,8 @@ export namespace Prisma {
     isWalkIn?: boolean
     patientId: number
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -33054,6 +35132,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
@@ -33062,6 +35142,7 @@ export namespace Prisma {
     Appointment?: AppointmentCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -33076,6 +35157,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
@@ -33084,6 +35167,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -33197,6 +35281,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
@@ -33205,6 +35291,7 @@ export namespace Prisma {
     Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -33219,6 +35306,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
@@ -33227,6 +35316,7 @@ export namespace Prisma {
     Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -33256,6 +35346,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Clinic: ClinicCreateNestedOneWithoutPatientInput
@@ -33274,6 +35366,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     clinicId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33341,6 +35435,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Clinic?: ClinicUpdateOneRequiredWithoutPatientNestedInput
@@ -33359,6 +35455,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     clinicId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33473,6 +35571,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     User?: UserCreateNestedManyWithoutClinicInput
@@ -33481,6 +35581,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -33495,6 +35596,8 @@ export namespace Prisma {
     logo?: string | null
     brandColor?: string | null
     ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     User?: UserUncheckedCreateNestedManyWithoutClinicInput
@@ -33503,6 +35606,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -33597,6 +35701,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateManyWithoutClinicNestedInput
@@ -33605,6 +35711,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -33619,6 +35726,8 @@ export namespace Prisma {
     logo?: NullableStringFieldUpdateOperationsInput | string | null
     brandColor?: NullableStringFieldUpdateOperationsInput | string | null
     ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUncheckedUpdateManyWithoutClinicNestedInput
@@ -33627,6 +35736,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -33816,6 +35926,8 @@ export namespace Prisma {
     age?: number | null
     bloodGroup?: $Enums.BloodGroup | null
     treatmentsLeft?: number | null
+    feedbackWhatsAppSentCount?: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -33831,6 +35943,8 @@ export namespace Prisma {
     isWalkIn?: boolean
     patientId: number
     doctorId?: number | null
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -33867,6 +35981,14 @@ export namespace Prisma {
     id?: number
     name: string
     amount: number
+  }
+
+  export type EPrescriptionPrefillsCreateManyClinicInput = {
+    id?: number
+    value: string
+    field: $Enums.EPrescriptionPrefillField
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ConsentCreateManyClinicInput = {
@@ -33992,6 +36114,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUpdateManyWithoutPatientNestedInput
@@ -34010,6 +36134,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Appointment?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
@@ -34028,6 +36154,8 @@ export namespace Prisma {
     age?: NullableIntFieldUpdateOperationsInput | number | null
     bloodGroup?: NullableEnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup | null
     treatmentsLeft?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackWhatsAppSentCount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -34040,6 +36168,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Patient?: PatientUpdateOneRequiredWithoutAppointmentNestedInput
@@ -34061,6 +36191,8 @@ export namespace Prisma {
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34080,6 +36212,8 @@ export namespace Prisma {
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34185,6 +36319,29 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
   }
 
+  export type EPrescriptionPrefillsUpdateWithoutClinicInput = {
+    value?: StringFieldUpdateOperationsInput | string
+    field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EPrescriptionPrefillsUncheckedUpdateWithoutClinicInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+    field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    value?: StringFieldUpdateOperationsInput | string
+    field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ConsentUpdateWithoutClinicInput = {
     dateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     Treatment?: StringFieldUpdateOperationsInput | string
@@ -34235,6 +36392,8 @@ export namespace Prisma {
     patientId: number
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -34271,6 +36430,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Patient?: PatientUpdateOneRequiredWithoutAppointmentNestedInput
@@ -34293,6 +36454,8 @@ export namespace Prisma {
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Invoice?: InvoiceUncheckedUpdateOneWithoutAppointmentNestedInput
@@ -34312,6 +36475,8 @@ export namespace Prisma {
     patientId?: IntFieldUpdateOperationsInput | number
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -34399,6 +36564,8 @@ export namespace Prisma {
     isWalkIn?: boolean
     doctorId?: number | null
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -34429,6 +36596,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Doctor?: DoctorUpdateOneWithoutAppointmentNestedInput
@@ -34450,6 +36619,8 @@ export namespace Prisma {
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34469,6 +36640,8 @@ export namespace Prisma {
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     doctorId?: NullableIntFieldUpdateOperationsInput | number | null
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34605,6 +36778,8 @@ export namespace Prisma {
     isWalkIn?: boolean
     patientId: number
     clinicId: number
+    bookingWhatsAppSentAt?: Date | string | null
+    followUpWhatsAppSentAt?: Date | string | null
     createdAt?: Date | string
     createdById: number
     updatedAt?: Date | string
@@ -34622,6 +36797,8 @@ export namespace Prisma {
     status?: EnumAppointmentStatusFieldUpdateOperationsInput | $Enums.AppointmentStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Patient?: PatientUpdateOneRequiredWithoutAppointmentNestedInput
@@ -34643,6 +36820,8 @@ export namespace Prisma {
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34662,6 +36841,8 @@ export namespace Prisma {
     isWalkIn?: BoolFieldUpdateOperationsInput | boolean
     patientId?: IntFieldUpdateOperationsInput | number
     clinicId?: IntFieldUpdateOperationsInput | number
+    bookingWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    followUpWhatsAppSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdById?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
