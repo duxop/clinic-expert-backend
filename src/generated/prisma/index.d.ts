@@ -74,6 +74,11 @@ export type EPrescription = $Result.DefaultSelection<Prisma.$EPrescriptionPayloa
  */
 export type EPrescriptionPrefills = $Result.DefaultSelection<Prisma.$EPrescriptionPrefillsPayload>
 /**
+ * Model TreatmentPrefills
+ * 
+ */
+export type TreatmentPrefills = $Result.DefaultSelection<Prisma.$TreatmentPrefillsPayload>
+/**
  * Model Doctor
  * 
  */
@@ -491,6 +496,16 @@ export class PrismaClient<
     * ```
     */
   get ePrescriptionPrefills(): Prisma.EPrescriptionPrefillsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.treatmentPrefills`: Exposes CRUD operations for the **TreatmentPrefills** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TreatmentPrefills
+    * const treatmentPrefills = await prisma.treatmentPrefills.findMany()
+    * ```
+    */
+  get treatmentPrefills(): Prisma.TreatmentPrefillsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.doctor`: Exposes CRUD operations for the **Doctor** model.
@@ -1010,6 +1025,7 @@ export namespace Prisma {
     AppointmentDocument: 'AppointmentDocument',
     EPrescription: 'EPrescription',
     EPrescriptionPrefills: 'EPrescriptionPrefills',
+    TreatmentPrefills: 'TreatmentPrefills',
     Doctor: 'Doctor',
     PatientDoctor: 'PatientDoctor',
     SubscriptionPlan: 'SubscriptionPlan',
@@ -1031,7 +1047,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "clinic" | "user" | "receptionist" | "patient" | "appointment" | "consent" | "invoiceItems" | "invoicePrefills" | "invoice" | "appointmentDocument" | "ePrescription" | "ePrescriptionPrefills" | "doctor" | "patientDoctor" | "subscriptionPlan" | "subscription" | "payment" | "verificationOTP"
+      modelProps: "clinic" | "user" | "receptionist" | "patient" | "appointment" | "consent" | "invoiceItems" | "invoicePrefills" | "invoice" | "appointmentDocument" | "ePrescription" | "ePrescriptionPrefills" | "treatmentPrefills" | "doctor" | "patientDoctor" | "subscriptionPlan" | "subscription" | "payment" | "verificationOTP"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1923,6 +1939,80 @@ export namespace Prisma {
           }
         }
       }
+      TreatmentPrefills: {
+        payload: Prisma.$TreatmentPrefillsPayload<ExtArgs>
+        fields: Prisma.TreatmentPrefillsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TreatmentPrefillsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TreatmentPrefillsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>
+          }
+          findFirst: {
+            args: Prisma.TreatmentPrefillsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TreatmentPrefillsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>
+          }
+          findMany: {
+            args: Prisma.TreatmentPrefillsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>[]
+          }
+          create: {
+            args: Prisma.TreatmentPrefillsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>
+          }
+          createMany: {
+            args: Prisma.TreatmentPrefillsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TreatmentPrefillsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>[]
+          }
+          delete: {
+            args: Prisma.TreatmentPrefillsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>
+          }
+          update: {
+            args: Prisma.TreatmentPrefillsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>
+          }
+          deleteMany: {
+            args: Prisma.TreatmentPrefillsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TreatmentPrefillsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TreatmentPrefillsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>[]
+          }
+          upsert: {
+            args: Prisma.TreatmentPrefillsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TreatmentPrefillsPayload>
+          }
+          aggregate: {
+            args: Prisma.TreatmentPrefillsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTreatmentPrefills>
+          }
+          groupBy: {
+            args: Prisma.TreatmentPrefillsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TreatmentPrefillsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TreatmentPrefillsCountArgs<ExtArgs>
+            result: $Utils.Optional<TreatmentPrefillsCountAggregateOutputType> | number
+          }
+        }
+      }
       Doctor: {
         payload: Prisma.$DoctorPayload<ExtArgs>
         fields: Prisma.DoctorFieldRefs
@@ -2502,6 +2592,7 @@ export namespace Prisma {
     appointmentDocument?: AppointmentDocumentOmit
     ePrescription?: EPrescriptionOmit
     ePrescriptionPrefills?: EPrescriptionPrefillsOmit
+    treatmentPrefills?: TreatmentPrefillsOmit
     doctor?: DoctorOmit
     patientDoctor?: PatientDoctorOmit
     subscriptionPlan?: SubscriptionPlanOmit
@@ -2596,6 +2687,7 @@ export namespace Prisma {
     Receptionist: number
     InvoicePrefills: number
     EPrescriptionPrefills: number
+    TreatmentPrefills: number
     Consent: number
   }
 
@@ -2608,6 +2700,7 @@ export namespace Prisma {
     Receptionist?: boolean | ClinicCountOutputTypeCountReceptionistArgs
     InvoicePrefills?: boolean | ClinicCountOutputTypeCountInvoicePrefillsArgs
     EPrescriptionPrefills?: boolean | ClinicCountOutputTypeCountEPrescriptionPrefillsArgs
+    TreatmentPrefills?: boolean | ClinicCountOutputTypeCountTreatmentPrefillsArgs
     Consent?: boolean | ClinicCountOutputTypeCountConsentArgs
   }
 
@@ -2676,6 +2769,13 @@ export namespace Prisma {
    */
   export type ClinicCountOutputTypeCountEPrescriptionPrefillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EPrescriptionPrefillsWhereInput
+  }
+
+  /**
+   * ClinicCountOutputType without action
+   */
+  export type ClinicCountOutputTypeCountTreatmentPrefillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TreatmentPrefillsWhereInput
   }
 
   /**
@@ -3234,6 +3334,7 @@ export namespace Prisma {
     Receptionist?: boolean | Clinic$ReceptionistArgs<ExtArgs>
     InvoicePrefills?: boolean | Clinic$InvoicePrefillsArgs<ExtArgs>
     EPrescriptionPrefills?: boolean | Clinic$EPrescriptionPrefillsArgs<ExtArgs>
+    TreatmentPrefills?: boolean | Clinic$TreatmentPrefillsArgs<ExtArgs>
     Consent?: boolean | Clinic$ConsentArgs<ExtArgs>
     _count?: boolean | ClinicCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["clinic"]>
@@ -3299,6 +3400,7 @@ export namespace Prisma {
     Receptionist?: boolean | Clinic$ReceptionistArgs<ExtArgs>
     InvoicePrefills?: boolean | Clinic$InvoicePrefillsArgs<ExtArgs>
     EPrescriptionPrefills?: boolean | Clinic$EPrescriptionPrefillsArgs<ExtArgs>
+    TreatmentPrefills?: boolean | Clinic$TreatmentPrefillsArgs<ExtArgs>
     Consent?: boolean | Clinic$ConsentArgs<ExtArgs>
     _count?: boolean | ClinicCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3316,6 +3418,7 @@ export namespace Prisma {
       Receptionist: Prisma.$ReceptionistPayload<ExtArgs>[]
       InvoicePrefills: Prisma.$InvoicePrefillsPayload<ExtArgs>[]
       EPrescriptionPrefills: Prisma.$EPrescriptionPrefillsPayload<ExtArgs>[]
+      TreatmentPrefills: Prisma.$TreatmentPrefillsPayload<ExtArgs>[]
       Consent: Prisma.$ConsentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3735,6 +3838,7 @@ export namespace Prisma {
     Receptionist<T extends Clinic$ReceptionistArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$ReceptionistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReceptionistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     InvoicePrefills<T extends Clinic$InvoicePrefillsArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$InvoicePrefillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     EPrescriptionPrefills<T extends Clinic$EPrescriptionPrefillsArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$EPrescriptionPrefillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EPrescriptionPrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    TreatmentPrefills<T extends Clinic$TreatmentPrefillsArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$TreatmentPrefillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Consent<T extends Clinic$ConsentArgs<ExtArgs> = {}>(args?: Subset<T, Clinic$ConsentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4361,6 +4465,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EPrescriptionPrefillsScalarFieldEnum | EPrescriptionPrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * Clinic.TreatmentPrefills
+   */
+  export type Clinic$TreatmentPrefillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    where?: TreatmentPrefillsWhereInput
+    orderBy?: TreatmentPrefillsOrderByWithRelationInput | TreatmentPrefillsOrderByWithRelationInput[]
+    cursor?: TreatmentPrefillsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TreatmentPrefillsScalarFieldEnum | TreatmentPrefillsScalarFieldEnum[]
   }
 
   /**
@@ -17685,6 +17813,1107 @@ export namespace Prisma {
 
 
   /**
+   * Model TreatmentPrefills
+   */
+
+  export type AggregateTreatmentPrefills = {
+    _count: TreatmentPrefillsCountAggregateOutputType | null
+    _avg: TreatmentPrefillsAvgAggregateOutputType | null
+    _sum: TreatmentPrefillsSumAggregateOutputType | null
+    _min: TreatmentPrefillsMinAggregateOutputType | null
+    _max: TreatmentPrefillsMaxAggregateOutputType | null
+  }
+
+  export type TreatmentPrefillsAvgAggregateOutputType = {
+    id: number | null
+    clinicId: number | null
+  }
+
+  export type TreatmentPrefillsSumAggregateOutputType = {
+    id: number | null
+    clinicId: number | null
+  }
+
+  export type TreatmentPrefillsMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    clinicId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TreatmentPrefillsMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    clinicId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TreatmentPrefillsCountAggregateOutputType = {
+    id: number
+    name: number
+    clinicId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TreatmentPrefillsAvgAggregateInputType = {
+    id?: true
+    clinicId?: true
+  }
+
+  export type TreatmentPrefillsSumAggregateInputType = {
+    id?: true
+    clinicId?: true
+  }
+
+  export type TreatmentPrefillsMinAggregateInputType = {
+    id?: true
+    name?: true
+    clinicId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TreatmentPrefillsMaxAggregateInputType = {
+    id?: true
+    name?: true
+    clinicId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TreatmentPrefillsCountAggregateInputType = {
+    id?: true
+    name?: true
+    clinicId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TreatmentPrefillsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TreatmentPrefills to aggregate.
+     */
+    where?: TreatmentPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TreatmentPrefills to fetch.
+     */
+    orderBy?: TreatmentPrefillsOrderByWithRelationInput | TreatmentPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TreatmentPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TreatmentPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TreatmentPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TreatmentPrefills
+    **/
+    _count?: true | TreatmentPrefillsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TreatmentPrefillsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TreatmentPrefillsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TreatmentPrefillsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TreatmentPrefillsMaxAggregateInputType
+  }
+
+  export type GetTreatmentPrefillsAggregateType<T extends TreatmentPrefillsAggregateArgs> = {
+        [P in keyof T & keyof AggregateTreatmentPrefills]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTreatmentPrefills[P]>
+      : GetScalarType<T[P], AggregateTreatmentPrefills[P]>
+  }
+
+
+
+
+  export type TreatmentPrefillsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TreatmentPrefillsWhereInput
+    orderBy?: TreatmentPrefillsOrderByWithAggregationInput | TreatmentPrefillsOrderByWithAggregationInput[]
+    by: TreatmentPrefillsScalarFieldEnum[] | TreatmentPrefillsScalarFieldEnum
+    having?: TreatmentPrefillsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TreatmentPrefillsCountAggregateInputType | true
+    _avg?: TreatmentPrefillsAvgAggregateInputType
+    _sum?: TreatmentPrefillsSumAggregateInputType
+    _min?: TreatmentPrefillsMinAggregateInputType
+    _max?: TreatmentPrefillsMaxAggregateInputType
+  }
+
+  export type TreatmentPrefillsGroupByOutputType = {
+    id: number
+    name: string
+    clinicId: number
+    createdAt: Date
+    updatedAt: Date
+    _count: TreatmentPrefillsCountAggregateOutputType | null
+    _avg: TreatmentPrefillsAvgAggregateOutputType | null
+    _sum: TreatmentPrefillsSumAggregateOutputType | null
+    _min: TreatmentPrefillsMinAggregateOutputType | null
+    _max: TreatmentPrefillsMaxAggregateOutputType | null
+  }
+
+  type GetTreatmentPrefillsGroupByPayload<T extends TreatmentPrefillsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TreatmentPrefillsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TreatmentPrefillsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TreatmentPrefillsGroupByOutputType[P]>
+            : GetScalarType<T[P], TreatmentPrefillsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TreatmentPrefillsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["treatmentPrefills"]>
+
+  export type TreatmentPrefillsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["treatmentPrefills"]>
+
+  export type TreatmentPrefillsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["treatmentPrefills"]>
+
+  export type TreatmentPrefillsSelectScalar = {
+    id?: boolean
+    name?: boolean
+    clinicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TreatmentPrefillsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "clinicId" | "createdAt" | "updatedAt", ExtArgs["result"]["treatmentPrefills"]>
+  export type TreatmentPrefillsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+  export type TreatmentPrefillsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+  export type TreatmentPrefillsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Clinic?: boolean | ClinicDefaultArgs<ExtArgs>
+  }
+
+  export type $TreatmentPrefillsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TreatmentPrefills"
+    objects: {
+      Clinic: Prisma.$ClinicPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      clinicId: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["treatmentPrefills"]>
+    composites: {}
+  }
+
+  type TreatmentPrefillsGetPayload<S extends boolean | null | undefined | TreatmentPrefillsDefaultArgs> = $Result.GetResult<Prisma.$TreatmentPrefillsPayload, S>
+
+  type TreatmentPrefillsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TreatmentPrefillsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TreatmentPrefillsCountAggregateInputType | true
+    }
+
+  export interface TreatmentPrefillsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TreatmentPrefills'], meta: { name: 'TreatmentPrefills' } }
+    /**
+     * Find zero or one TreatmentPrefills that matches the filter.
+     * @param {TreatmentPrefillsFindUniqueArgs} args - Arguments to find a TreatmentPrefills
+     * @example
+     * // Get one TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TreatmentPrefillsFindUniqueArgs>(args: SelectSubset<T, TreatmentPrefillsFindUniqueArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TreatmentPrefills that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TreatmentPrefillsFindUniqueOrThrowArgs} args - Arguments to find a TreatmentPrefills
+     * @example
+     * // Get one TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TreatmentPrefillsFindUniqueOrThrowArgs>(args: SelectSubset<T, TreatmentPrefillsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TreatmentPrefills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TreatmentPrefillsFindFirstArgs} args - Arguments to find a TreatmentPrefills
+     * @example
+     * // Get one TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TreatmentPrefillsFindFirstArgs>(args?: SelectSubset<T, TreatmentPrefillsFindFirstArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TreatmentPrefills that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TreatmentPrefillsFindFirstOrThrowArgs} args - Arguments to find a TreatmentPrefills
+     * @example
+     * // Get one TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TreatmentPrefillsFindFirstOrThrowArgs>(args?: SelectSubset<T, TreatmentPrefillsFindFirstOrThrowArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TreatmentPrefills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TreatmentPrefillsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.findMany()
+     * 
+     * // Get first 10 TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const treatmentPrefillsWithIdOnly = await prisma.treatmentPrefills.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TreatmentPrefillsFindManyArgs>(args?: SelectSubset<T, TreatmentPrefillsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TreatmentPrefills.
+     * @param {TreatmentPrefillsCreateArgs} args - Arguments to create a TreatmentPrefills.
+     * @example
+     * // Create one TreatmentPrefills
+     * const TreatmentPrefills = await prisma.treatmentPrefills.create({
+     *   data: {
+     *     // ... data to create a TreatmentPrefills
+     *   }
+     * })
+     * 
+     */
+    create<T extends TreatmentPrefillsCreateArgs>(args: SelectSubset<T, TreatmentPrefillsCreateArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TreatmentPrefills.
+     * @param {TreatmentPrefillsCreateManyArgs} args - Arguments to create many TreatmentPrefills.
+     * @example
+     * // Create many TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TreatmentPrefillsCreateManyArgs>(args?: SelectSubset<T, TreatmentPrefillsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TreatmentPrefills and returns the data saved in the database.
+     * @param {TreatmentPrefillsCreateManyAndReturnArgs} args - Arguments to create many TreatmentPrefills.
+     * @example
+     * // Create many TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TreatmentPrefills and only return the `id`
+     * const treatmentPrefillsWithIdOnly = await prisma.treatmentPrefills.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TreatmentPrefillsCreateManyAndReturnArgs>(args?: SelectSubset<T, TreatmentPrefillsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TreatmentPrefills.
+     * @param {TreatmentPrefillsDeleteArgs} args - Arguments to delete one TreatmentPrefills.
+     * @example
+     * // Delete one TreatmentPrefills
+     * const TreatmentPrefills = await prisma.treatmentPrefills.delete({
+     *   where: {
+     *     // ... filter to delete one TreatmentPrefills
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TreatmentPrefillsDeleteArgs>(args: SelectSubset<T, TreatmentPrefillsDeleteArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TreatmentPrefills.
+     * @param {TreatmentPrefillsUpdateArgs} args - Arguments to update one TreatmentPrefills.
+     * @example
+     * // Update one TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TreatmentPrefillsUpdateArgs>(args: SelectSubset<T, TreatmentPrefillsUpdateArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TreatmentPrefills.
+     * @param {TreatmentPrefillsDeleteManyArgs} args - Arguments to filter TreatmentPrefills to delete.
+     * @example
+     * // Delete a few TreatmentPrefills
+     * const { count } = await prisma.treatmentPrefills.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TreatmentPrefillsDeleteManyArgs>(args?: SelectSubset<T, TreatmentPrefillsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TreatmentPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TreatmentPrefillsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TreatmentPrefillsUpdateManyArgs>(args: SelectSubset<T, TreatmentPrefillsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TreatmentPrefills and returns the data updated in the database.
+     * @param {TreatmentPrefillsUpdateManyAndReturnArgs} args - Arguments to update many TreatmentPrefills.
+     * @example
+     * // Update many TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TreatmentPrefills and only return the `id`
+     * const treatmentPrefillsWithIdOnly = await prisma.treatmentPrefills.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TreatmentPrefillsUpdateManyAndReturnArgs>(args: SelectSubset<T, TreatmentPrefillsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TreatmentPrefills.
+     * @param {TreatmentPrefillsUpsertArgs} args - Arguments to update or create a TreatmentPrefills.
+     * @example
+     * // Update or create a TreatmentPrefills
+     * const treatmentPrefills = await prisma.treatmentPrefills.upsert({
+     *   create: {
+     *     // ... data to create a TreatmentPrefills
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TreatmentPrefills we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TreatmentPrefillsUpsertArgs>(args: SelectSubset<T, TreatmentPrefillsUpsertArgs<ExtArgs>>): Prisma__TreatmentPrefillsClient<$Result.GetResult<Prisma.$TreatmentPrefillsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TreatmentPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TreatmentPrefillsCountArgs} args - Arguments to filter TreatmentPrefills to count.
+     * @example
+     * // Count the number of TreatmentPrefills
+     * const count = await prisma.treatmentPrefills.count({
+     *   where: {
+     *     // ... the filter for the TreatmentPrefills we want to count
+     *   }
+     * })
+    **/
+    count<T extends TreatmentPrefillsCountArgs>(
+      args?: Subset<T, TreatmentPrefillsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TreatmentPrefillsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TreatmentPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TreatmentPrefillsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TreatmentPrefillsAggregateArgs>(args: Subset<T, TreatmentPrefillsAggregateArgs>): Prisma.PrismaPromise<GetTreatmentPrefillsAggregateType<T>>
+
+    /**
+     * Group by TreatmentPrefills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TreatmentPrefillsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TreatmentPrefillsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TreatmentPrefillsGroupByArgs['orderBy'] }
+        : { orderBy?: TreatmentPrefillsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TreatmentPrefillsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTreatmentPrefillsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TreatmentPrefills model
+   */
+  readonly fields: TreatmentPrefillsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TreatmentPrefills.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TreatmentPrefillsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Clinic<T extends ClinicDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClinicDefaultArgs<ExtArgs>>): Prisma__ClinicClient<$Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TreatmentPrefills model
+   */
+  interface TreatmentPrefillsFieldRefs {
+    readonly id: FieldRef<"TreatmentPrefills", 'Int'>
+    readonly name: FieldRef<"TreatmentPrefills", 'String'>
+    readonly clinicId: FieldRef<"TreatmentPrefills", 'Int'>
+    readonly createdAt: FieldRef<"TreatmentPrefills", 'DateTime'>
+    readonly updatedAt: FieldRef<"TreatmentPrefills", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TreatmentPrefills findUnique
+   */
+  export type TreatmentPrefillsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which TreatmentPrefills to fetch.
+     */
+    where: TreatmentPrefillsWhereUniqueInput
+  }
+
+  /**
+   * TreatmentPrefills findUniqueOrThrow
+   */
+  export type TreatmentPrefillsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which TreatmentPrefills to fetch.
+     */
+    where: TreatmentPrefillsWhereUniqueInput
+  }
+
+  /**
+   * TreatmentPrefills findFirst
+   */
+  export type TreatmentPrefillsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which TreatmentPrefills to fetch.
+     */
+    where?: TreatmentPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TreatmentPrefills to fetch.
+     */
+    orderBy?: TreatmentPrefillsOrderByWithRelationInput | TreatmentPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TreatmentPrefills.
+     */
+    cursor?: TreatmentPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TreatmentPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TreatmentPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TreatmentPrefills.
+     */
+    distinct?: TreatmentPrefillsScalarFieldEnum | TreatmentPrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * TreatmentPrefills findFirstOrThrow
+   */
+  export type TreatmentPrefillsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which TreatmentPrefills to fetch.
+     */
+    where?: TreatmentPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TreatmentPrefills to fetch.
+     */
+    orderBy?: TreatmentPrefillsOrderByWithRelationInput | TreatmentPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TreatmentPrefills.
+     */
+    cursor?: TreatmentPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TreatmentPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TreatmentPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TreatmentPrefills.
+     */
+    distinct?: TreatmentPrefillsScalarFieldEnum | TreatmentPrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * TreatmentPrefills findMany
+   */
+  export type TreatmentPrefillsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter, which TreatmentPrefills to fetch.
+     */
+    where?: TreatmentPrefillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TreatmentPrefills to fetch.
+     */
+    orderBy?: TreatmentPrefillsOrderByWithRelationInput | TreatmentPrefillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TreatmentPrefills.
+     */
+    cursor?: TreatmentPrefillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TreatmentPrefills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TreatmentPrefills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TreatmentPrefills.
+     */
+    distinct?: TreatmentPrefillsScalarFieldEnum | TreatmentPrefillsScalarFieldEnum[]
+  }
+
+  /**
+   * TreatmentPrefills create
+   */
+  export type TreatmentPrefillsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TreatmentPrefills.
+     */
+    data: XOR<TreatmentPrefillsCreateInput, TreatmentPrefillsUncheckedCreateInput>
+  }
+
+  /**
+   * TreatmentPrefills createMany
+   */
+  export type TreatmentPrefillsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TreatmentPrefills.
+     */
+    data: TreatmentPrefillsCreateManyInput | TreatmentPrefillsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TreatmentPrefills createManyAndReturn
+   */
+  export type TreatmentPrefillsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * The data used to create many TreatmentPrefills.
+     */
+    data: TreatmentPrefillsCreateManyInput | TreatmentPrefillsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TreatmentPrefills update
+   */
+  export type TreatmentPrefillsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TreatmentPrefills.
+     */
+    data: XOR<TreatmentPrefillsUpdateInput, TreatmentPrefillsUncheckedUpdateInput>
+    /**
+     * Choose, which TreatmentPrefills to update.
+     */
+    where: TreatmentPrefillsWhereUniqueInput
+  }
+
+  /**
+   * TreatmentPrefills updateMany
+   */
+  export type TreatmentPrefillsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TreatmentPrefills.
+     */
+    data: XOR<TreatmentPrefillsUpdateManyMutationInput, TreatmentPrefillsUncheckedUpdateManyInput>
+    /**
+     * Filter which TreatmentPrefills to update
+     */
+    where?: TreatmentPrefillsWhereInput
+    /**
+     * Limit how many TreatmentPrefills to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TreatmentPrefills updateManyAndReturn
+   */
+  export type TreatmentPrefillsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * The data used to update TreatmentPrefills.
+     */
+    data: XOR<TreatmentPrefillsUpdateManyMutationInput, TreatmentPrefillsUncheckedUpdateManyInput>
+    /**
+     * Filter which TreatmentPrefills to update
+     */
+    where?: TreatmentPrefillsWhereInput
+    /**
+     * Limit how many TreatmentPrefills to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TreatmentPrefills upsert
+   */
+  export type TreatmentPrefillsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TreatmentPrefills to update in case it exists.
+     */
+    where: TreatmentPrefillsWhereUniqueInput
+    /**
+     * In case the TreatmentPrefills found by the `where` argument doesn't exist, create a new TreatmentPrefills with this data.
+     */
+    create: XOR<TreatmentPrefillsCreateInput, TreatmentPrefillsUncheckedCreateInput>
+    /**
+     * In case the TreatmentPrefills was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TreatmentPrefillsUpdateInput, TreatmentPrefillsUncheckedUpdateInput>
+  }
+
+  /**
+   * TreatmentPrefills delete
+   */
+  export type TreatmentPrefillsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+    /**
+     * Filter which TreatmentPrefills to delete.
+     */
+    where: TreatmentPrefillsWhereUniqueInput
+  }
+
+  /**
+   * TreatmentPrefills deleteMany
+   */
+  export type TreatmentPrefillsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TreatmentPrefills to delete
+     */
+    where?: TreatmentPrefillsWhereInput
+    /**
+     * Limit how many TreatmentPrefills to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TreatmentPrefills without action
+   */
+  export type TreatmentPrefillsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TreatmentPrefills
+     */
+    select?: TreatmentPrefillsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TreatmentPrefills
+     */
+    omit?: TreatmentPrefillsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TreatmentPrefillsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Doctor
    */
 
@@ -24945,6 +26174,17 @@ export namespace Prisma {
   export type EPrescriptionPrefillsScalarFieldEnum = (typeof EPrescriptionPrefillsScalarFieldEnum)[keyof typeof EPrescriptionPrefillsScalarFieldEnum]
 
 
+  export const TreatmentPrefillsScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    clinicId: 'clinicId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TreatmentPrefillsScalarFieldEnum = (typeof TreatmentPrefillsScalarFieldEnum)[keyof typeof TreatmentPrefillsScalarFieldEnum]
+
+
   export const DoctorScalarFieldEnum: {
     id: 'id',
     firstName: 'firstName',
@@ -25285,6 +26525,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistListRelationFilter
     InvoicePrefills?: InvoicePrefillsListRelationFilter
     EPrescriptionPrefills?: EPrescriptionPrefillsListRelationFilter
+    TreatmentPrefills?: TreatmentPrefillsListRelationFilter
     Consent?: ConsentListRelationFilter
   }
 
@@ -25311,6 +26552,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistOrderByRelationAggregateInput
     InvoicePrefills?: InvoicePrefillsOrderByRelationAggregateInput
     EPrescriptionPrefills?: EPrescriptionPrefillsOrderByRelationAggregateInput
+    TreatmentPrefills?: TreatmentPrefillsOrderByRelationAggregateInput
     Consent?: ConsentOrderByRelationAggregateInput
   }
 
@@ -25340,6 +26582,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistListRelationFilter
     InvoicePrefills?: InvoicePrefillsListRelationFilter
     EPrescriptionPrefills?: EPrescriptionPrefillsListRelationFilter
+    TreatmentPrefills?: TreatmentPrefillsListRelationFilter
     Consent?: ConsentListRelationFilter
   }, "id" | "email">
 
@@ -26335,6 +27578,64 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"EPrescriptionPrefills"> | Date | string
   }
 
+  export type TreatmentPrefillsWhereInput = {
+    AND?: TreatmentPrefillsWhereInput | TreatmentPrefillsWhereInput[]
+    OR?: TreatmentPrefillsWhereInput[]
+    NOT?: TreatmentPrefillsWhereInput | TreatmentPrefillsWhereInput[]
+    id?: IntFilter<"TreatmentPrefills"> | number
+    name?: StringFilter<"TreatmentPrefills"> | string
+    clinicId?: IntFilter<"TreatmentPrefills"> | number
+    createdAt?: DateTimeFilter<"TreatmentPrefills"> | Date | string
+    updatedAt?: DateTimeFilter<"TreatmentPrefills"> | Date | string
+    Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
+  }
+
+  export type TreatmentPrefillsOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    Clinic?: ClinicOrderByWithRelationInput
+  }
+
+  export type TreatmentPrefillsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    clinicId_name?: TreatmentPrefillsClinicIdNameCompoundUniqueInput
+    AND?: TreatmentPrefillsWhereInput | TreatmentPrefillsWhereInput[]
+    OR?: TreatmentPrefillsWhereInput[]
+    NOT?: TreatmentPrefillsWhereInput | TreatmentPrefillsWhereInput[]
+    name?: StringFilter<"TreatmentPrefills"> | string
+    clinicId?: IntFilter<"TreatmentPrefills"> | number
+    createdAt?: DateTimeFilter<"TreatmentPrefills"> | Date | string
+    updatedAt?: DateTimeFilter<"TreatmentPrefills"> | Date | string
+    Clinic?: XOR<ClinicScalarRelationFilter, ClinicWhereInput>
+  }, "id" | "clinicId_name">
+
+  export type TreatmentPrefillsOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TreatmentPrefillsCountOrderByAggregateInput
+    _avg?: TreatmentPrefillsAvgOrderByAggregateInput
+    _max?: TreatmentPrefillsMaxOrderByAggregateInput
+    _min?: TreatmentPrefillsMinOrderByAggregateInput
+    _sum?: TreatmentPrefillsSumOrderByAggregateInput
+  }
+
+  export type TreatmentPrefillsScalarWhereWithAggregatesInput = {
+    AND?: TreatmentPrefillsScalarWhereWithAggregatesInput | TreatmentPrefillsScalarWhereWithAggregatesInput[]
+    OR?: TreatmentPrefillsScalarWhereWithAggregatesInput[]
+    NOT?: TreatmentPrefillsScalarWhereWithAggregatesInput | TreatmentPrefillsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TreatmentPrefills"> | number
+    name?: StringWithAggregatesFilter<"TreatmentPrefills"> | string
+    clinicId?: IntWithAggregatesFilter<"TreatmentPrefills"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"TreatmentPrefills"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TreatmentPrefills"> | Date | string
+  }
+
   export type DoctorWhereInput = {
     AND?: DoctorWhereInput | DoctorWhereInput[]
     OR?: DoctorWhereInput[]
@@ -26850,6 +28151,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -26876,6 +28178,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -26901,6 +28204,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -26927,6 +28231,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -27964,6 +29269,58 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TreatmentPrefillsCreateInput = {
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Clinic: ClinicCreateNestedOneWithoutTreatmentPrefillsInput
+  }
+
+  export type TreatmentPrefillsUncheckedCreateInput = {
+    id?: number
+    name: string
+    clinicId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TreatmentPrefillsUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Clinic?: ClinicUpdateOneRequiredWithoutTreatmentPrefillsNestedInput
+  }
+
+  export type TreatmentPrefillsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    clinicId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TreatmentPrefillsCreateManyInput = {
+    id?: number
+    name: string
+    clinicId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TreatmentPrefillsUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TreatmentPrefillsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    clinicId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type DoctorCreateInput = {
     firstName?: string | null
     lastName?: string | null
@@ -28584,6 +29941,12 @@ export namespace Prisma {
     none?: EPrescriptionPrefillsWhereInput
   }
 
+  export type TreatmentPrefillsListRelationFilter = {
+    every?: TreatmentPrefillsWhereInput
+    some?: TreatmentPrefillsWhereInput
+    none?: TreatmentPrefillsWhereInput
+  }
+
   export type ConsentListRelationFilter = {
     every?: ConsentWhereInput
     some?: ConsentWhereInput
@@ -28624,6 +29987,10 @@ export namespace Prisma {
   }
 
   export type EPrescriptionPrefillsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TreatmentPrefillsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29658,6 +31025,45 @@ export namespace Prisma {
     _max?: NestedEnumEPrescriptionPrefillFieldFilter<$PrismaModel>
   }
 
+  export type TreatmentPrefillsClinicIdNameCompoundUniqueInput = {
+    clinicId: number
+    name: string
+  }
+
+  export type TreatmentPrefillsCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TreatmentPrefillsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    clinicId?: SortOrder
+  }
+
+  export type TreatmentPrefillsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TreatmentPrefillsMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clinicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TreatmentPrefillsSumOrderByAggregateInput = {
+    id?: SortOrder
+    clinicId?: SortOrder
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -30084,6 +31490,13 @@ export namespace Prisma {
     connect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
   }
 
+  export type TreatmentPrefillsCreateNestedManyWithoutClinicInput = {
+    create?: XOR<TreatmentPrefillsCreateWithoutClinicInput, TreatmentPrefillsUncheckedCreateWithoutClinicInput> | TreatmentPrefillsCreateWithoutClinicInput[] | TreatmentPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: TreatmentPrefillsCreateOrConnectWithoutClinicInput | TreatmentPrefillsCreateOrConnectWithoutClinicInput[]
+    createMany?: TreatmentPrefillsCreateManyClinicInputEnvelope
+    connect?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+  }
+
   export type ConsentCreateNestedManyWithoutClinicInput = {
     create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
     connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
@@ -30145,6 +31558,13 @@ export namespace Prisma {
     connectOrCreate?: EPrescriptionPrefillsCreateOrConnectWithoutClinicInput | EPrescriptionPrefillsCreateOrConnectWithoutClinicInput[]
     createMany?: EPrescriptionPrefillsCreateManyClinicInputEnvelope
     connect?: EPrescriptionPrefillsWhereUniqueInput | EPrescriptionPrefillsWhereUniqueInput[]
+  }
+
+  export type TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput = {
+    create?: XOR<TreatmentPrefillsCreateWithoutClinicInput, TreatmentPrefillsUncheckedCreateWithoutClinicInput> | TreatmentPrefillsCreateWithoutClinicInput[] | TreatmentPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: TreatmentPrefillsCreateOrConnectWithoutClinicInput | TreatmentPrefillsCreateOrConnectWithoutClinicInput[]
+    createMany?: TreatmentPrefillsCreateManyClinicInputEnvelope
+    connect?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
   }
 
   export type ConsentUncheckedCreateNestedManyWithoutClinicInput = {
@@ -30286,6 +31706,20 @@ export namespace Prisma {
     deleteMany?: EPrescriptionPrefillsScalarWhereInput | EPrescriptionPrefillsScalarWhereInput[]
   }
 
+  export type TreatmentPrefillsUpdateManyWithoutClinicNestedInput = {
+    create?: XOR<TreatmentPrefillsCreateWithoutClinicInput, TreatmentPrefillsUncheckedCreateWithoutClinicInput> | TreatmentPrefillsCreateWithoutClinicInput[] | TreatmentPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: TreatmentPrefillsCreateOrConnectWithoutClinicInput | TreatmentPrefillsCreateOrConnectWithoutClinicInput[]
+    upsert?: TreatmentPrefillsUpsertWithWhereUniqueWithoutClinicInput | TreatmentPrefillsUpsertWithWhereUniqueWithoutClinicInput[]
+    createMany?: TreatmentPrefillsCreateManyClinicInputEnvelope
+    set?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    disconnect?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    delete?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    connect?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    update?: TreatmentPrefillsUpdateWithWhereUniqueWithoutClinicInput | TreatmentPrefillsUpdateWithWhereUniqueWithoutClinicInput[]
+    updateMany?: TreatmentPrefillsUpdateManyWithWhereWithoutClinicInput | TreatmentPrefillsUpdateManyWithWhereWithoutClinicInput[]
+    deleteMany?: TreatmentPrefillsScalarWhereInput | TreatmentPrefillsScalarWhereInput[]
+  }
+
   export type ConsentUpdateManyWithoutClinicNestedInput = {
     create?: XOR<ConsentCreateWithoutClinicInput, ConsentUncheckedCreateWithoutClinicInput> | ConsentCreateWithoutClinicInput[] | ConsentUncheckedCreateWithoutClinicInput[]
     connectOrCreate?: ConsentCreateOrConnectWithoutClinicInput | ConsentCreateOrConnectWithoutClinicInput[]
@@ -30410,6 +31844,20 @@ export namespace Prisma {
     update?: EPrescriptionPrefillsUpdateWithWhereUniqueWithoutClinicInput | EPrescriptionPrefillsUpdateWithWhereUniqueWithoutClinicInput[]
     updateMany?: EPrescriptionPrefillsUpdateManyWithWhereWithoutClinicInput | EPrescriptionPrefillsUpdateManyWithWhereWithoutClinicInput[]
     deleteMany?: EPrescriptionPrefillsScalarWhereInput | EPrescriptionPrefillsScalarWhereInput[]
+  }
+
+  export type TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput = {
+    create?: XOR<TreatmentPrefillsCreateWithoutClinicInput, TreatmentPrefillsUncheckedCreateWithoutClinicInput> | TreatmentPrefillsCreateWithoutClinicInput[] | TreatmentPrefillsUncheckedCreateWithoutClinicInput[]
+    connectOrCreate?: TreatmentPrefillsCreateOrConnectWithoutClinicInput | TreatmentPrefillsCreateOrConnectWithoutClinicInput[]
+    upsert?: TreatmentPrefillsUpsertWithWhereUniqueWithoutClinicInput | TreatmentPrefillsUpsertWithWhereUniqueWithoutClinicInput[]
+    createMany?: TreatmentPrefillsCreateManyClinicInputEnvelope
+    set?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    disconnect?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    delete?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    connect?: TreatmentPrefillsWhereUniqueInput | TreatmentPrefillsWhereUniqueInput[]
+    update?: TreatmentPrefillsUpdateWithWhereUniqueWithoutClinicInput | TreatmentPrefillsUpdateWithWhereUniqueWithoutClinicInput[]
+    updateMany?: TreatmentPrefillsUpdateManyWithWhereWithoutClinicInput | TreatmentPrefillsUpdateManyWithWhereWithoutClinicInput[]
+    deleteMany?: TreatmentPrefillsScalarWhereInput | TreatmentPrefillsScalarWhereInput[]
   }
 
   export type ConsentUncheckedUpdateManyWithoutClinicNestedInput = {
@@ -31202,6 +32650,20 @@ export namespace Prisma {
     upsert?: ClinicUpsertWithoutEPrescriptionPrefillsInput
     connect?: ClinicWhereUniqueInput
     update?: XOR<XOR<ClinicUpdateToOneWithWhereWithoutEPrescriptionPrefillsInput, ClinicUpdateWithoutEPrescriptionPrefillsInput>, ClinicUncheckedUpdateWithoutEPrescriptionPrefillsInput>
+  }
+
+  export type ClinicCreateNestedOneWithoutTreatmentPrefillsInput = {
+    create?: XOR<ClinicCreateWithoutTreatmentPrefillsInput, ClinicUncheckedCreateWithoutTreatmentPrefillsInput>
+    connectOrCreate?: ClinicCreateOrConnectWithoutTreatmentPrefillsInput
+    connect?: ClinicWhereUniqueInput
+  }
+
+  export type ClinicUpdateOneRequiredWithoutTreatmentPrefillsNestedInput = {
+    create?: XOR<ClinicCreateWithoutTreatmentPrefillsInput, ClinicUncheckedCreateWithoutTreatmentPrefillsInput>
+    connectOrCreate?: ClinicCreateOrConnectWithoutTreatmentPrefillsInput
+    upsert?: ClinicUpsertWithoutTreatmentPrefillsInput
+    connect?: ClinicWhereUniqueInput
+    update?: XOR<XOR<ClinicUpdateToOneWithWhereWithoutTreatmentPrefillsInput, ClinicUpdateWithoutTreatmentPrefillsInput>, ClinicUncheckedUpdateWithoutTreatmentPrefillsInput>
   }
 
   export type AppointmentCreateNestedManyWithoutDoctorInput = {
@@ -32187,6 +33649,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TreatmentPrefillsCreateWithoutClinicInput = {
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TreatmentPrefillsUncheckedCreateWithoutClinicInput = {
+    id?: number
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TreatmentPrefillsCreateOrConnectWithoutClinicInput = {
+    where: TreatmentPrefillsWhereUniqueInput
+    create: XOR<TreatmentPrefillsCreateWithoutClinicInput, TreatmentPrefillsUncheckedCreateWithoutClinicInput>
+  }
+
+  export type TreatmentPrefillsCreateManyClinicInputEnvelope = {
+    data: TreatmentPrefillsCreateManyClinicInput | TreatmentPrefillsCreateManyClinicInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConsentCreateWithoutClinicInput = {
     dateTime: Date | string
     Treatment: string
@@ -32488,6 +33973,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"EPrescriptionPrefills"> | Date | string
   }
 
+  export type TreatmentPrefillsUpsertWithWhereUniqueWithoutClinicInput = {
+    where: TreatmentPrefillsWhereUniqueInput
+    update: XOR<TreatmentPrefillsUpdateWithoutClinicInput, TreatmentPrefillsUncheckedUpdateWithoutClinicInput>
+    create: XOR<TreatmentPrefillsCreateWithoutClinicInput, TreatmentPrefillsUncheckedCreateWithoutClinicInput>
+  }
+
+  export type TreatmentPrefillsUpdateWithWhereUniqueWithoutClinicInput = {
+    where: TreatmentPrefillsWhereUniqueInput
+    data: XOR<TreatmentPrefillsUpdateWithoutClinicInput, TreatmentPrefillsUncheckedUpdateWithoutClinicInput>
+  }
+
+  export type TreatmentPrefillsUpdateManyWithWhereWithoutClinicInput = {
+    where: TreatmentPrefillsScalarWhereInput
+    data: XOR<TreatmentPrefillsUpdateManyMutationInput, TreatmentPrefillsUncheckedUpdateManyWithoutClinicInput>
+  }
+
+  export type TreatmentPrefillsScalarWhereInput = {
+    AND?: TreatmentPrefillsScalarWhereInput | TreatmentPrefillsScalarWhereInput[]
+    OR?: TreatmentPrefillsScalarWhereInput[]
+    NOT?: TreatmentPrefillsScalarWhereInput | TreatmentPrefillsScalarWhereInput[]
+    id?: IntFilter<"TreatmentPrefills"> | number
+    name?: StringFilter<"TreatmentPrefills"> | string
+    clinicId?: IntFilter<"TreatmentPrefills"> | number
+    createdAt?: DateTimeFilter<"TreatmentPrefills"> | Date | string
+    updatedAt?: DateTimeFilter<"TreatmentPrefills"> | Date | string
+  }
+
   export type ConsentUpsertWithWhereUniqueWithoutClinicInput = {
     where: ConsentWhereUniqueInput
     update: XOR<ConsentUpdateWithoutClinicInput, ConsentUncheckedUpdateWithoutClinicInput>
@@ -32542,6 +34054,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -32567,6 +34080,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -32792,6 +34306,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -32817,6 +34332,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -33026,6 +34542,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -33051,6 +34568,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -33141,6 +34659,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -33166,6 +34685,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -33190,6 +34710,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -33215,6 +34736,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -33359,6 +34881,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -33384,6 +34907,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -33542,6 +35066,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -33567,6 +35092,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -33824,6 +35350,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -33849,6 +35376,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -34107,6 +35635,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicUncheckedCreateWithoutConsentInput = {
@@ -34132,6 +35661,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
   }
 
   export type ClinicCreateOrConnectWithoutConsentInput = {
@@ -34272,6 +35802,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
   }
 
   export type ClinicUncheckedUpdateWithoutConsentInput = {
@@ -34297,6 +35828,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
   }
 
   export type InvoiceCreateWithoutInvoiceItemsInput = {
@@ -34382,6 +35914,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -34407,6 +35940,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -34447,6 +35981,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -34472,6 +36007,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -34934,6 +36470,7 @@ export namespace Prisma {
     Doctor?: DoctorCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -34959,6 +36496,7 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -34999,6 +36537,7 @@ export namespace Prisma {
     Doctor?: DoctorUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -35024,6 +36563,125 @@ export namespace Prisma {
     Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
+  }
+
+  export type ClinicCreateWithoutTreatmentPrefillsInput = {
+    email: string
+    createdOn?: Date | string
+    name: string
+    address?: string | null
+    phone?: string | null
+    workHours?: string | null
+    logo?: string | null
+    brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Subscription?: SubscriptionCreateNestedManyWithoutClinicInput
+    User?: UserCreateNestedManyWithoutClinicInput
+    Patient?: PatientCreateNestedManyWithoutClinicInput
+    Appointment?: AppointmentCreateNestedManyWithoutClinicInput
+    Doctor?: DoctorCreateNestedManyWithoutClinicInput
+    Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
+    InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    Consent?: ConsentCreateNestedManyWithoutClinicInput
+  }
+
+  export type ClinicUncheckedCreateWithoutTreatmentPrefillsInput = {
+    id?: number
+    email: string
+    createdOn?: Date | string
+    name: string
+    address?: string | null
+    phone?: string | null
+    workHours?: string | null
+    logo?: string | null
+    brandColor?: string | null
+    ConsentTermsAndConditions?: string | null
+    messagesLeft?: number
+    feedbackLink?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Subscription?: SubscriptionUncheckedCreateNestedManyWithoutClinicInput
+    User?: UserUncheckedCreateNestedManyWithoutClinicInput
+    Patient?: PatientUncheckedCreateNestedManyWithoutClinicInput
+    Appointment?: AppointmentUncheckedCreateNestedManyWithoutClinicInput
+    Doctor?: DoctorUncheckedCreateNestedManyWithoutClinicInput
+    Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
+    InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
+  }
+
+  export type ClinicCreateOrConnectWithoutTreatmentPrefillsInput = {
+    where: ClinicWhereUniqueInput
+    create: XOR<ClinicCreateWithoutTreatmentPrefillsInput, ClinicUncheckedCreateWithoutTreatmentPrefillsInput>
+  }
+
+  export type ClinicUpsertWithoutTreatmentPrefillsInput = {
+    update: XOR<ClinicUpdateWithoutTreatmentPrefillsInput, ClinicUncheckedUpdateWithoutTreatmentPrefillsInput>
+    create: XOR<ClinicCreateWithoutTreatmentPrefillsInput, ClinicUncheckedCreateWithoutTreatmentPrefillsInput>
+    where?: ClinicWhereInput
+  }
+
+  export type ClinicUpdateToOneWithWhereWithoutTreatmentPrefillsInput = {
+    where?: ClinicWhereInput
+    data: XOR<ClinicUpdateWithoutTreatmentPrefillsInput, ClinicUncheckedUpdateWithoutTreatmentPrefillsInput>
+  }
+
+  export type ClinicUpdateWithoutTreatmentPrefillsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    workHours?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Subscription?: SubscriptionUpdateManyWithoutClinicNestedInput
+    User?: UserUpdateManyWithoutClinicNestedInput
+    Patient?: PatientUpdateManyWithoutClinicNestedInput
+    Appointment?: AppointmentUpdateManyWithoutClinicNestedInput
+    Doctor?: DoctorUpdateManyWithoutClinicNestedInput
+    Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
+    InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    Consent?: ConsentUpdateManyWithoutClinicNestedInput
+  }
+
+  export type ClinicUncheckedUpdateWithoutTreatmentPrefillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    createdOn?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    workHours?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    brandColor?: NullableStringFieldUpdateOperationsInput | string | null
+    ConsentTermsAndConditions?: NullableStringFieldUpdateOperationsInput | string | null
+    messagesLeft?: IntFieldUpdateOperationsInput | number
+    feedbackLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Subscription?: SubscriptionUncheckedUpdateManyWithoutClinicNestedInput
+    User?: UserUncheckedUpdateManyWithoutClinicNestedInput
+    Patient?: PatientUncheckedUpdateManyWithoutClinicNestedInput
+    Appointment?: AppointmentUncheckedUpdateManyWithoutClinicNestedInput
+    Doctor?: DoctorUncheckedUpdateManyWithoutClinicNestedInput
+    Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
+    InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -35143,6 +36801,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -35168,6 +36827,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -35292,6 +36952,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -35317,6 +36978,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -35582,6 +37244,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsCreateNestedManyWithoutClinicInput
     Consent?: ConsentCreateNestedManyWithoutClinicInput
   }
 
@@ -35607,6 +37270,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedCreateNestedManyWithoutClinicInput
     InvoicePrefills?: InvoicePrefillsUncheckedCreateNestedManyWithoutClinicInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedCreateNestedManyWithoutClinicInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedCreateNestedManyWithoutClinicInput
     Consent?: ConsentUncheckedCreateNestedManyWithoutClinicInput
   }
 
@@ -35712,6 +37376,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUpdateManyWithoutClinicNestedInput
   }
 
@@ -35737,6 +37402,7 @@ export namespace Prisma {
     Receptionist?: ReceptionistUncheckedUpdateManyWithoutClinicNestedInput
     InvoicePrefills?: InvoicePrefillsUncheckedUpdateManyWithoutClinicNestedInput
     EPrescriptionPrefills?: EPrescriptionPrefillsUncheckedUpdateManyWithoutClinicNestedInput
+    TreatmentPrefills?: TreatmentPrefillsUncheckedUpdateManyWithoutClinicNestedInput
     Consent?: ConsentUncheckedUpdateManyWithoutClinicNestedInput
   }
 
@@ -35987,6 +37653,13 @@ export namespace Prisma {
     id?: number
     value: string
     field: $Enums.EPrescriptionPrefillField
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TreatmentPrefillsCreateManyClinicInput = {
+    id?: number
+    name: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36338,6 +38011,26 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     value?: StringFieldUpdateOperationsInput | string
     field?: EnumEPrescriptionPrefillFieldFieldUpdateOperationsInput | $Enums.EPrescriptionPrefillField
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TreatmentPrefillsUpdateWithoutClinicInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TreatmentPrefillsUncheckedUpdateWithoutClinicInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TreatmentPrefillsUncheckedUpdateManyWithoutClinicInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

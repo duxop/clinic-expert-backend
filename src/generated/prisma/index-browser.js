@@ -278,6 +278,14 @@ exports.Prisma.EPrescriptionPrefillsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TreatmentPrefillsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  clinicId: 'clinicId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.DoctorScalarFieldEnum = {
   id: 'id',
   firstName: 'firstName',
@@ -446,6 +454,7 @@ exports.Prisma.ModelName = {
   AppointmentDocument: 'AppointmentDocument',
   EPrescription: 'EPrescription',
   EPrescriptionPrefills: 'EPrescriptionPrefills',
+  TreatmentPrefills: 'TreatmentPrefills',
   Doctor: 'Doctor',
   PatientDoctor: 'PatientDoctor',
   SubscriptionPlan: 'SubscriptionPlan',

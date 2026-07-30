@@ -23,9 +23,9 @@ const savePrescription = async (req, res) => {
 
     // Validate prescription items structure
     for (const item of prescriptionItems) {
-      if (!item.medication || !item.dosage || !item.instruction) {
+      if (!item.medication || !item.dosage) {
         return res.status(400).json({
-          error: "Each prescription item must have medication, dosage, and instruction",
+          error: "Each prescription item must have medication and dosage",
         });
       }
     }

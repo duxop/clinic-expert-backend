@@ -29,6 +29,7 @@ model Clinic {
   Receptionist       Receptionist[]
   InvoicePrefills    InvoicePrefills[]
   EPrescriptionPrefills EPrescriptionPrefills[]
+  TreatmentPrefills  TreatmentPrefills[]
   Consent        Consent[]
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
@@ -244,6 +245,18 @@ model EPrescriptionPrefills {
 
   @@unique([clinicId, field, value])
   @@index([clinicId, field])
+}
+
+model TreatmentPrefills {
+  id        Int      @id @default(autoincrement())
+  name      String
+  clinicId  Int
+  Clinic    Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([clinicId, name])
+  @@index([clinicId])
 }
 
 model Doctor {
