@@ -4,7 +4,6 @@ const updateClinicDetails = async (req, res) => {
   try {
     const clinicId = req.userData.clinicId;
     const {
-      email,
       name,
       address,
       phone,
@@ -15,7 +14,6 @@ const updateClinicDetails = async (req, res) => {
     } = req.body;
     // Build update data object with only provided fields
     const updateData = {};
-    if (email !== undefined) updateData.email = email;
     if (name !== undefined) updateData.name = name;
     if (address !== undefined) updateData.address = address;
     if (phone !== undefined) updateData.phone = phone;
@@ -31,17 +29,6 @@ const updateClinicDetails = async (req, res) => {
 
     if (!existingClinic) {
       return res.status(404).json({ error: "Clinic not found" });
-    }
-
-    // If email is being updated, check if it's already taken by another clinic
-    if (email && email !== existingClinic.email) {
-      const emailExists = await prisma.Clinic.findUnique({
-        where: { email },
-      });
-
-      if (emailExists) {
-        return res.status(409).json({ error: "Email already exists" });
-      }
     }
 
     // Update clinic details
