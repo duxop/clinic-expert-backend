@@ -42,8 +42,8 @@ const razorpayWebhook = async (req, res) => {
       planId = parseInt(planId);
       monthly = monthly === "1";
 
-      return await prisma
-        .$transaction(async (prisma) => {
+      try {
+        await prisma.$transaction(async (prisma) => {
           const currentSubscription = await prisma.Subscription.findFirst({
             where: {
               clinicId,
@@ -120,21 +120,24 @@ const razorpayWebhook = async (req, res) => {
 
           console.log("subscription", subscription);
           console.log("payment", payment);
-        })
-        .then(() => {
-          if (body.event === "payment.captured")
-            return res.status(200).json({ message: "Webhook verified" });
-        })
-        .catch((err) => {
-          console.error(err);
-          if (err.message === "Payment already captured") {
-            return res.status(200).json({ message: err.message });
-          } else if (err.message === "Plan not found") {
-            return res.status(404).json({ error: err.message });
-          } else {
-            return res.status(500).json({ error: "Internal server error" });
-          }
         });
+      } catch (err) {
+        console.error(err);
+        if (err.message === "Payment already captured") {
+          // A retried subscription.charged still falls through to sync
+          // paymentRemaining below, so only payment.captured stops here.
+          if (body.event === "payment.captured")
+            return res.status(200).json({ message: err.message });
+        } else if (err.message === "Plan not found") {
+          return res.status(404).json({ error: err.message });
+        } else {
+          return res.status(500).json({ error: "Internal server error" });
+        }
+      }
+
+      // subscription.charged continues to the block below, which responds.
+      if (body.event === "payment.captured")
+        return res.status(200).json({ message: "Webhook verified" });
     }
 
     if (
