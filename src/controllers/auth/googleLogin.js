@@ -2,6 +2,7 @@ const { OAuth2Client } = require("google-auth-library");
 const { prisma } = require("../../config/database");
 const jwt = require("jsonwebtoken");
 const { verifyEmail } = require("../../utils/dataValidator");
+const getTrialEndDate = require("../../utils/getTrialEndDate");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -67,9 +68,7 @@ const googleLogin = async (req, res) => {
                 planId: plan.id,
                 status: "ACTIVE",
                 startDate: new Date(),
-                endDate: new Date(
-                  new Date().setDate(new Date().getDate() + 30),
-                ),
+                endDate: getTrialEndDate(),
                 updatedAt: new Date(),
               },
             },

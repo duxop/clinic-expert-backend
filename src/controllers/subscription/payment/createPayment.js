@@ -73,7 +73,7 @@ const createPayment = async (req, res) => {
       : plan.razorPaySubscriptionPlanYearlyId;
 
     const now = Math.floor(Date.now() / 1000);
-    const daysBeforeExpiry = 7;
+    const daysBeforeExpiry = 2;
 
     let startAt = now;
 
