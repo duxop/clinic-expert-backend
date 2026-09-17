@@ -1,4 +1,5 @@
 const { prisma } = require("../../config/database");
+const getTrialEndDate = require("../../utils/getTrialEndDate");
 
 const verifyEmailOTP = async (req, res) => {
   try {
@@ -67,7 +68,7 @@ const verifyEmailOTP = async (req, res) => {
               planId: plan.id,
               status: "ACTIVE",
               startDate: new Date(),
-              endDate: new Date(new Date().setDate(new Date().getDate() + 30)),
+              endDate: getTrialEndDate(),
               updatedAt: new Date(),
             },
           },
