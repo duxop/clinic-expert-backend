@@ -22,13 +22,6 @@ const createPayment = async (req, res) => {
 
   if (plan.id !== 1) return res.status(401).json({ error: "Plan not active" });
 
-  // Basic is sold as a one-time payment or a monthly subscription only.
-  if (autopay && !monthly) {
-    return res
-      .status(400)
-      .json({ error: "Autopay is only available as a monthly subscription" });
-  }
-
   let currentSubscription;
   try {
     currentSubscription = await prisma.Subscription.findFirst({
@@ -75,7 +68,9 @@ const createPayment = async (req, res) => {
       });
     }
 
-    const subscriptionPlan = plan.razorPaySubscriptionPlanMonthlyId;
+    const subscriptionPlan = monthly
+      ? plan.razorPaySubscriptionPlanMonthlyId
+      : plan.razorPaySubscriptionPlanYearlyId;
 
     const now = Math.floor(Date.now() / 1000);
     const daysBeforeExpiry = 2;
@@ -108,14 +103,14 @@ const createPayment = async (req, res) => {
     const subscription = await razorpayInstance.subscriptions.create({
       plan_id: subscriptionPlan,
       customer_notify: 1,
-      total_count: 24,
+      total_count: monthly ? 24 : 5,
       start_at: startAt,
       notes: {
         clinicId: userData.Clinic.id,
         name: userData.Clinic.name,
         planId: plan.id,
         planName: plan.name,
-        monthly: true,
+        monthly,
         autopay: true,
       },
     });
